@@ -45,10 +45,10 @@ async function startServer() {
   // Admin Login Route
   app.post('/api/login', (req, res) => {
     const { email, password } = req.body;
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@luxuryp.com';
+    const adminEmail = (process.env.ADMIN_EMAIL || 'admin@luxuryp.com').toLowerCase();
     const adminPasswordHash = process.env.ADMIN_PASSWORD_HASH;
 
-    if (email === adminEmail) {
+    if (email && email.toLowerCase() === adminEmail) {
       if (!adminPasswordHash) {
         console.warn('ADMIN_PASSWORD_HASH is not set!');
         return res.status(401).json({ success: false, error: 'Server misconfiguration.' });
@@ -61,7 +61,7 @@ async function startServer() {
       }
     }
 
-    return res.status(401).json({ success: false, error: 'Unauthorized' });
+    return res.status(401).json({ success: false, error: 'Unauthorized credentials.' });
   });
 
   // Get All Images
@@ -108,13 +108,13 @@ async function startServer() {
 
   // Update Image Classification (Tags)
   app.patch('/api/images/classify', async (req, res) => {
-    const { publicId, category } = req.body; // category should be Winter, Autumn, Spring, or Summer
-    if (!publicId || !category) return res.status(400).json({ error: 'Public ID and category are required' });
+    const { publicId, tag } = req.body; // tag should be Traditional, Modern, or Themed
+    if (!publicId || !tag) return res.status(400).json({ error: 'Public ID and tag are required' });
 
     try {
       // Use Admin API to update tags. This replaces existing tags with the new category.
       const result = await cloudinary.api.update(publicId, {
-        tags: [category]
+        tags: [tag]
       });
 
       res.json({ message: 'Classification updated', result });

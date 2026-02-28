@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Search, Heart } from 'lucide-react';
 
 interface CloudinaryImage {
   publicId: string;
@@ -11,28 +11,23 @@ interface CloudinaryImage {
 interface CollectionItem {
   id: string;
   title: string;
-  subtitle: string;
   image: string;
+  tagline?: string;
 }
 
 export default function Collections() {
   const [collections, setCollections] = useState<CollectionItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState('ALL WORKS');
 
-  const seasons = [
-    { id: 'winter', title: 'Winter', subtitle: 'Frost & Elegance' },
-    { id: 'autumn', title: 'Autumn', subtitle: 'Saffron Spirits' },
-    { id: 'spring', title: 'Spring', subtitle: 'Floral Awakening' },
-    { id: 'summer', title: 'Summer', subtitle: 'Golden Solstice' },
+  const categories = ['ALL SEASONS', 'HIGH SUMMER', 'PRE-FALL', 'RESORT', 'BRIDAL'];
+
+  const collectionTypes = [
+    { id: 'traditional', title: 'TRADITIONAL' },
+    { id: 'modern', title: 'MODERN' },
+    { id: 'themed', title: 'THEMED' },
   ];
 
-  // Default placeholders for when no image exists for a season
-  const placeholders: Record<string, string> = {
-    winter: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=800',
-    autumn: 'https://images.unsplash.com/photo-1507680434567-5739c8a21e6c?auto=format&fit=crop&q=80&w=800',
-    spring: 'https://images.unsplash.com/photo-1490481651871-ab68ec25d43d?auto=format&fit=crop&q=80&w=800',
-    summer: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80&w=800',
-  };
 
   useEffect(() => {
     const fetchAndGroupImages = async () => {
@@ -41,15 +36,14 @@ export default function Collections() {
         if (response.ok) {
           const allImages: CloudinaryImage[] = await response.json();
 
-          const dynamicCollections = seasons.map(season => {
-            // Find the first image that has this season's tag
-            const seasonImage = allImages.find(img =>
-              img.tags.some(tag => tag.toLowerCase() === season.id.toLowerCase())
+          const dynamicCollections = collectionTypes.map(type => {
+            const typeImage = allImages.find(img =>
+              img.tags.some(tag => tag.toLowerCase() === type.id)
             );
 
             return {
-              ...season,
-              image: seasonImage ? seasonImage.url : placeholders[season.id]
+              ...type,
+              image: typeImage ? typeImage.url : null
             };
           });
 
@@ -75,38 +69,97 @@ export default function Collections() {
 
   return (
     <div className="min-h-screen bg-luxury-black text-white pt-32 pb-20">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-24">
-          <h4 className="text-luxury-gold text-xs tracking-[0.3em] uppercase font-medium mb-6">Seasonal Masterpieces</h4>
-          <h1 className="font-serif text-5xl md:text-7xl italic text-white mb-8">Our Collections</h1>
-          <div className="w-24 h-px bg-luxury-gold mx-auto"></div>
-        </div>
+      {/* Header Section */}
+      <div className="max-w-7xl mx-auto px-6 text-center mb-24">
+        <h4 className="text-luxury-gold text-xs tracking-[0.4em] uppercase font-semibold mb-6 animate-luxury-fade">The Archives</h4>
+        <h1 className="font-serif text-5xl md:text-7xl uppercase tracking-[0.1em] mb-8 animate-luxury-fade [animation-delay:200ms]">Editorial Collections</h1>
+        <p className="text-luxury-muted text-sm max-w-2xl mx-auto font-light leading-relaxed animate-luxury-fade [animation-delay:400ms]">
+          Explore the defining moments of Catherine Nixon. Each collection represents a unique chapter in our journey of redefining modern luxury through silhouette, texture, and emotion.
+        </p>
+        <div className="w-24 h-px bg-luxury-gold mx-auto mt-12 animate-luxury-fade [animation-delay:600ms]"></div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-20">
-          {collections.map((collection) => (
+      {/* Featured Big Section (L'Hiver Éternel style) */}
+      <div className="relative aspect-[21/9] overflow-hidden group luxury-border bg-luxury-dark/30">
+        {collections.find(c => c.id === 'traditional')?.image ? (
+          <img
+            src={collections.find(c => c.id === 'traditional')?.image}
+            alt="Traditional Collection"
+            className="w-full h-full object-cover opacity-60 transition-transform duration-[2s] group-hover:scale-105"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-r from-luxury-dark via-luxury-black to-luxury-gold/5 flex items-center justify-center">
+            <span className="text-luxury-gold/10 font-serif text-2xl tracking-[1em] uppercase">Archive Series</span>
+          </div>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-r from-luxury-black/80 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 flex flex-col justify-center p-12 lg:p-20">
+          <span className="bg-luxury-gold/20 backdrop-blur-md text-luxury-gold text-[8px] tracking-[0.4em] uppercase font-bold py-1 px-3 w-fit mb-6 border border-luxury-gold/30">
+            Latest Arrival
+          </span>
+          <h2 className="font-serif text-5xl lg:text-7xl mb-4 italic tracking-tight">Héritage</h2>
+          <p className="text-luxury-muted text-xs tracking-[0.3em] font-light uppercase">Traditional / Haute Couture</p>
+          <Link to="/collections/traditional" className="mt-12 w-fit border-b border-white pb-2 text-[10px] tracking-[0.4em] uppercase font-bold hover:text-luxury-gold hover:border-luxury-gold transition-all duration-300">
+            Discover
+          </Link>
+        </div>
+      </div>
+
+      {/* Filter Navigation */}
+      <div className="max-w-7xl mx-auto px-6 mb-20 flex flex-wrap justify-center gap-x-12 gap-y-6">
+        {['ALL WORKS', 'TRADITIONAL', 'MODERN', 'THEMED'].map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setActiveCategory(cat)}
+            className={`text-[10px] tracking-[0.4em] font-bold uppercase transition-all duration-300 relative py-2 ${activeCategory === cat ? 'text-luxury-gold' : 'text-luxury-muted hover:text-white'
+              }`}
+          >
+            {cat}
+            <span className={`absolute bottom-0 left-0 w-full h-px bg-luxury-gold transition-transform duration-500 origin-left ${activeCategory === cat ? 'scale-x-100' : 'scale-x-0'
+              }`}></span>
+          </button>
+        ))}
+      </div>
+
+      {/* Season Grid (Overlay Style) */}
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        {collections
+          .filter(collection =>
+            activeCategory === 'ALL WORKS' ||
+            collection.title === activeCategory
+          )
+          .map((collection) => (
             <Link
               key={collection.id}
               to={`/collections/${collection.id}`}
-              className="group block text-center"
+              className="relative aspect-square overflow-hidden group luxury-border bg-luxury-dark/50"
             >
-              <div className="relative aspect-[3/4] overflow-hidden mb-8 bg-luxury-dark">
+              {collection.image ? (
                 <img
                   src={collection.image}
                   alt={collection.title}
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                  className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110 opacity-70 group-hover:opacity-90 grayscale-[20%] group-hover:grayscale-0"
                 />
-                <div className="absolute inset-0 bg-luxury-black/0 group-hover:bg-luxury-black/20 transition-colors duration-500"></div>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-luxury-dark/80 via-luxury-black to-luxury-gray">
+                  <span className="text-luxury-gold/5 font-serif text-3xl tracking-[1em] uppercase -rotate-45">Editorial</span>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-700"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <h3 className="font-serif text-4xl lg:text-6xl tracking-[0.1em] text-white opacity-90 transition-all duration-700 group-hover:scale-95 group-hover:tracking-[0.2em]">
+                  {collection.title}
+                </h3>
               </div>
-              <h3 className="font-serif text-2xl uppercase tracking-widest text-white mb-3">
-                {collection.title}
-              </h3>
-              <p className="text-luxury-gold italic font-serif text-lg">
-                {collection.subtitle}
-              </p>
+              {/* Corner details */}
+              <div className="absolute bottom-10 left-10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 transform translate-y-4 group-hover:translate-y-0">
+                <span className="text-[10px] tracking-[0.4em] uppercase font-bold border-b border-luxury-gold pb-1 italic">
+                  Explore Series
+                </span>
+              </div>
             </Link>
           ))}
-        </div>
       </div>
-    </div>
+    </div >
   );
 }

@@ -1,38 +1,66 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   
-  --color-luxury-black: #121212;
-  --color-luxury-gold: #D4AF37;
-  --color-luxury-dark: #1A1A1A;
-  --color-luxury-gray: #2A2A2A;
-  --color-luxury-text: #EAEAEA;
-  --color-luxury-muted: #A0A0A0;
+  --color-luxury-black: #1A1915;
+  --color-luxury-gold: #CAA65F;
+  --color-luxury-dark: #12110E;
+  --color-luxury-gray: #2A2824;
+  --color-luxury-text: #EAE8E4;
+  --color-luxury-muted: #8E8A82;
 }
 
 body {
   background-color: var(--color-luxury-black);
   color: var(--color-luxury-text);
   font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
 }
 
-/* Custom scrollbar for luxury feel */
+.luxury-border {
+  border: 1px solid rgba(202, 166, 95, 0.2);
+}
+
+.luxury-glass {
+  background: rgba(26, 25, 21, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.text-gold-glow {
+  text-shadow: 0 0 20px rgba(202, 166, 95, 0.3);
+}
+
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-luxury-black);
+  background: var(--color-luxury-dark);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--color-luxury-gray);
+  border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-luxury-gold);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-luxury-fade {
+  animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

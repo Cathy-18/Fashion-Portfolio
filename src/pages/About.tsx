@@ -1,126 +1,194 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight, Triangle, Square, Layers } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { MapPin, Trophy, Loader2 } from 'lucide-react';
+
+interface CloudinaryImage {
+  publicId: string;
+  url: string;
+  tags: string[];
+}
 
 export default function About() {
+  const experiences = [
+    {
+      period: '2019 – Present',
+      role: 'Creative Director',
+      company: 'CN, Paris',
+      description: 'Leading all creative direction, from runway collections to brand identity.'
+    },
+    {
+      period: '2015 – 2019',
+      role: 'Senior Designer',
+      company: 'Givenchy, Paris',
+      description: 'Specialized in Haute Couture embellishments and evening wear silhouettes.'
+    }
+  ];
+
+  const education = [
+    {
+      degree: 'MA Fashion Design',
+      year: '2014',
+      school: 'Central Saint Martins, London'
+    },
+    {
+      degree: 'BA Fine Arts',
+      year: '2011',
+      school: 'Universität der Künste, Berlin'
+    }
+  ];
+
+  const [portrait, setPortrait] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPortrait = async () => {
+      try {
+        const response = await fetch('/api/images');
+        if (response.ok) {
+          const allImages: CloudinaryImage[] = await response.json();
+          const portraitAsset = allImages.find(img =>
+            img.tags.some(tag => tag.toLowerCase() === 'portrait')
+          );
+          if (portraitAsset) setPortrait(portraitAsset.url);
+        }
+      } catch (error) {
+        console.error('Error fetching portrait:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchPortrait();
+  }, []);
+
   return (
     <div className="min-h-screen bg-luxury-black text-white pt-32 pb-20">
-      {/* Hero Section */}
-      <section className="px-6 max-w-7xl mx-auto mb-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          <div className="order-2 lg:order-1">
-            <h4 className="text-luxury-gold text-xs tracking-[0.3em] uppercase font-medium mb-6">The Visionary</h4>
-            <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl mb-6 tracking-tight text-white">
-              Eleanor
-              <br />
-              <span className="italic text-luxury-muted font-light">Vance</span>
-            </h1>
-            <div className="w-24 h-px bg-luxury-gold mb-12"></div>
-            <p className="text-luxury-muted text-lg md:text-xl tracking-wide mb-8 max-w-xl font-light leading-relaxed italic">
-              "Fashion is not merely about clothing; it is about constructing a narrative for the body. My work explores the delicate tension between structural rigidity and fluid grace."
-            </p>
-            <p className="text-luxury-muted text-base leading-relaxed mb-8 max-w-xl font-light">
-              Born in Milan and educated in the ateliers of Paris, Eleanor Vance has spent over a decade redefining the boundaries of modern luxury. Her approach combines architectural precision with the softness of natural fibers.
-            </p>
-            <p className="text-luxury-muted text-base leading-relaxed mb-12 max-w-xl font-light">
-              Known for her uncompromising attention to detail, every collection is a chapter in an ongoing story of empowerment and elegance.
-            </p>
-            <div className="h-12 opacity-70 invert bg-luxury-gray w-48"></div>
-          </div>
-          <div className="order-1 lg:order-2">
-            <div className="aspect-[3/4] overflow-hidden bg-luxury-gray p-2 border border-white/5 relative">
-              <div className="absolute inset-0 bg-gradient-to-t from-luxury-black/60 to-transparent"></div>
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Main Bio Section */}
+        <section className="luxury-border p-1 md:p-12 mb-32 bg-luxury-dark/30">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            <div className="relative aspect-[3/4] luxury-border overflow-hidden bg-luxury-dark/50">
+              {isLoading ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <Loader2 className="w-8 h-8 text-luxury-gold animate-spin opacity-20" />
+                </div>
+              ) : portrait ? (
+                <img
+                  src={portrait}
+                  alt="Catherine Nixon"
+                  className="w-full h-full object-cover grayscale opacity-90 transition-transform duration-[2s] hover:scale-105"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-luxury-dark to-luxury-black">
+                  <span className="text-luxury-gold/10 font-serif text-6xl tracking-[1em] uppercase -rotate-90 whitespace-nowrap">CN</span>
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Core Values */}
-      <section className="py-32 px-6 bg-luxury-dark border-y border-white/5">
-        <div className="max-w-7xl mx-auto text-center mb-24">
-          <h4 className="text-luxury-gold text-xs tracking-[0.3em] uppercase font-medium mb-6">Core Values</h4>
-          <h2 className="font-serif text-5xl md:text-6xl italic text-white mb-8">The Philosophy of Form</h2>
-          <p className="text-luxury-muted text-lg max-w-2xl mx-auto font-light">
-            Rooted in the belief that true luxury lies in the subtraction of the unnecessary.
-          </p>
-        </div>
-
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Value 1 */}
-          <div className="p-12 border border-white/10 text-center hover:border-luxury-gold transition-colors duration-500 group">
-            <div className="w-16 h-16 mx-auto mb-8 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500">
-              <Triangle className="w-8 h-8 fill-current" />
-            </div>
-            <h3 className="font-serif text-2xl mb-4 text-white">Symmetry</h3>
-            <p className="text-luxury-muted text-sm leading-relaxed font-light">
-              Finding perfect balance in every seam. We believe that proportion is the foundation of beauty.
-            </p>
-          </div>
-
-          {/* Value 2 */}
-          <div className="p-12 border border-white/10 text-center hover:border-luxury-gold transition-colors duration-500 group">
-            <div className="w-16 h-16 mx-auto mb-8 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500">
-              <Square className="w-8 h-8 fill-current" />
-            </div>
-            <h3 className="font-serif text-2xl mb-4 text-white">Minimalism</h3>
-            <p className="text-luxury-muted text-sm leading-relaxed font-light">
-              The ultimate sophistication. Stripping away the noise to reveal the essence of the wearer.
-            </p>
-          </div>
-
-          {/* Value 3 */}
-          <div className="p-12 border border-white/10 text-center hover:border-luxury-gold transition-colors duration-500 group">
-            <div className="w-16 h-16 mx-auto mb-8 flex items-center justify-center text-luxury-gold group-hover:scale-110 transition-transform duration-500">
-              <Layers className="w-8 h-8 fill-current" />
-            </div>
-            <h3 className="font-serif text-2xl mb-4 text-white">Texture</h3>
-            <p className="text-luxury-muted text-sm leading-relaxed font-light">
-              Tactile experiences in silk, wool, and leather. The fabric must speak as loudly as the design.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* The Atelier */}
-      <section className="py-32 px-6 max-w-7xl mx-auto">
-        <div className="relative aspect-[21/9] overflow-hidden group bg-luxury-gray">
-          <div className="absolute inset-0 flex items-center justify-center p-12">
-            <div className="bg-luxury-black/80 backdrop-blur-sm p-16 text-center border border-white/10 max-w-2xl">
-              <h2 className="font-serif text-5xl md:text-6xl italic text-white mb-6">The Atelier</h2>
-              <p className="text-luxury-muted text-lg leading-relaxed mb-10 font-light">
-                Every garment is conceptualized and crafted in our private studio, ensuring that the human touch remains at the heart of our process.
+            <div className="pt-8">
+              <h1 className="font-serif text-6xl lg:text-8xl leading-none mb-6 uppercase tracking-tight">
+                Catherine
+                <br />
+                Nixon
+              </h1>
+              <p className="text-luxury-gold italic text-base tracking-widest mb-8">
+                Visionary Couturier & Creative Director
               </p>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-4 text-luxury-gold text-xs tracking-[0.2em] uppercase font-medium border-b border-luxury-gold pb-2 hover:text-white transition-colors"
-              >
-                Visit the Studio <ArrowRight className="w-4 h-4" />
-              </Link>
+              <div className="flex items-center gap-3 text-luxury-muted text-[10px] tracking-[0.3em] uppercase mb-16 underline decoration-luxury-gold/30 underline-offset-8">
+                <MapPin className="w-3 h-3 text-luxury-gold" /> Paris Based
+              </div>
+
+              <div className="max-w-md">
+                <h3 className="font-serif text-2xl uppercase mb-8 border-b border-white/5 pb-4 tracking-widest italic">Biography</h3>
+                <p className="text-luxury-muted font-light leading-relaxed text-base italic">
+                  Catherine Nixon is a contemporary fashion illustrator who transforms garments into visual poetry. Her work navigates the dialogue between architectural precision and flowing movement, revealing the quiet power within modern femininity. Through deliberate line, texture, and shadow, she presents fashion not merely as clothing, but as atmosphere — refined, evocative, and distinctly modern.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Stats */}
-      <section className="py-20 px-6 border-t border-white/10">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-12 text-center divide-x divide-white/10">
-          <div>
-            <p className="font-serif text-5xl md:text-6xl text-white mb-4 italic">15</p>
-            <p className="text-luxury-gold text-xs tracking-[0.2em] uppercase font-medium">Years Active</p>
+        {/* Philosophy Section */}
+        <section className="mb-48 border-t border-white/5 pt-20">
+          <div className="flex items-center gap-6 mb-16">
+            <div className="w-12 h-px bg-luxury-gold"></div>
+            <h2 className="font-serif text-sm tracking-[0.4em] uppercase font-bold text-white">Design Philosophy</h2>
+            <div className="flex-1 h-px bg-white/5"></div>
           </div>
-          <div>
-            <p className="font-serif text-5xl md:text-6xl text-white mb-4 italic">42</p>
-            <p className="text-luxury-gold text-xs tracking-[0.2em] uppercase font-medium">Collections</p>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+            <h3 className="font-serif text-3xl md:text-4xl italic leading-snug">
+              "Fashion is not merely about clothing the body, but about architecting the soul's outer shell."
+            </h3>
+            <p className="text-luxury-muted font-light leading-relaxed tracking-wide">
+              My philosophy is rooted in the concept of 'Soft Brutalism.' I seek to merge industrial textures with organic silhouettes. Every seam is intentional, every fabric choice a dialogue between the wearer and their environment. We reject the ephemeral nature of trends in favor of timeless, constructed pieces that endure.
+            </p>
           </div>
+        </section>
+
+        {/* Experience & Education Section */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-32 mb-48">
           <div>
-            <p className="font-serif text-5xl md:text-6xl text-white mb-4 italic">08</p>
-            <p className="text-luxury-gold text-xs tracking-[0.2em] uppercase font-medium">Awards Won</p>
+            <div className="flex items-center gap-6 mb-16">
+              <h2 className="font-serif text-sm tracking-[0.4em] uppercase font-bold text-white">Experience</h2>
+              <div className="flex-1 h-px bg-white/5"></div>
+            </div>
+            <div className="space-y-16">
+              {experiences.map((exp, i) => (
+                <div key={i} className="relative pl-10">
+                  <div className="absolute left-0 top-0 w-3 h-3 rounded-full border border-luxury-gold">
+                    <div className="absolute inset-1 rounded-full bg-luxury-gold/20"></div>
+                  </div>
+                  <p className="text-luxury-gold text-[10px] tracking-[0.2em] font-bold uppercase mb-3">{exp.period}</p>
+                  <h4 className="font-serif text-xl tracking-wider text-white mb-2">{exp.role}</h4>
+                  <p className="text-luxury-muted text-xs tracking-widest uppercase mb-4">{exp.company}</p>
+                  <p className="text-luxury-muted font-light text-sm leading-relaxed italic">{exp.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
+
           <div>
-            <p className="font-serif text-5xl md:text-6xl text-white mb-4 italic">12</p>
-            <p className="text-luxury-gold text-xs tracking-[0.2em] uppercase font-medium">Global Boutiques</p>
+            <div className="flex items-center gap-6 mb-16">
+              <h2 className="font-serif text-sm tracking-[0.4em] uppercase font-bold text-white">Education</h2>
+              <div className="flex-1 h-px bg-white/5"></div>
+            </div>
+            <div className="space-y-16">
+              {education.map((edu, i) => (
+                <div key={i} className="flex justify-between items-start border-b border-white/5 pb-10">
+                  <div>
+                    <h4 className="font-serif text-xl tracking-wider text-white mb-2 italic">{edu.degree}</h4>
+                    <p className="text-luxury-muted text-xs tracking-[0.2em] uppercase font-light italic">{edu.school}</p>
+                  </div>
+                  <span className="text-luxury-muted text-[10px] tracking-[0.2em] font-bold pt-2">{edu.year}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-20 p-8 border border-luxury-gold/20 bg-luxury-dark/20 relative overflow-hidden group">
+              <h4 className="text-luxury-gold text-xs tracking-[0.3em] uppercase font-bold mb-6 flex items-center gap-3">
+                <Trophy className="w-4 h-4" /> Awards
+              </h4>
+              <ul className="space-y-4">
+                <li className="flex items-center gap-4 text-xs tracking-widest text-luxury-muted italic font-light">
+                  <span className="w-4 h-4 flex items-center justify-center text-luxury-gold text-[8px] font-bold border border-luxury-gold">🏆</span>
+                  LVMH Prize Finalist (2020)
+                </li>
+                <li className="flex items-center gap-4 text-xs tracking-widest text-luxury-muted italic font-light">
+                  <span className="w-4 h-4 flex items-center justify-center text-luxury-gold text-[8px] font-bold border border-luxury-gold">🏆</span>
+                  ANDAM Fashion Award (2022)
+                </li>
+              </ul>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-luxury-gold/5 blur-3xl -mr-16 -mt-16 group-hover:bg-luxury-gold/10 transition-colors"></div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        {/* Final Quote */}
+        <section className="text-center py-20 border-t border-white/5">
+          <h2 className="font-serif text-4xl lg:text-5xl italic text-luxury-muted/40 mb-8 lowercase tracking-tighter">
+            "Elegance is refusal."
+          </h2>
+          <p className="text-luxury-gold text-[10px] tracking-[0.5em] uppercase font-bold">Coco Chanel</p>
+        </section>
+      </div>
     </div>
   );
 }
