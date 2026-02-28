@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Loader2, Check } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 interface CloudinaryImage {
   publicId: string;
@@ -32,33 +32,6 @@ export default function Home() {
       subtitle: 'Conceptual Series',
       image: null,
     },
-  ];
-
-  const bespokeServices = [
-    {
-      name: 'Consultation',
-      price: '$250',
-      unit: '/ session',
-      features: ['Personal Style Assessment', 'Complete Wardrobe Edit', 'Color Analysis'],
-      cta: 'Book Now',
-      highlight: false
-    },
-    {
-      name: 'Bespoke',
-      price: '$2,500+',
-      unit: '/ garment',
-      features: ['Custom Design Sketching', 'Premium Fabric Sourcing', '3 Private Fittings', 'Hand-finished Details'],
-      cta: 'Inquire',
-      highlight: true
-    },
-    {
-      name: 'Bridal',
-      price: '$5,000+',
-      unit: '/ gown',
-      features: ['Full Design Consultation', 'Muslin Toile Fitting', 'Unlimited Alterations', 'Veil Coordination'],
-      cta: 'Inquire',
-      highlight: false
-    }
   ];
 
   useEffect(() => {
@@ -96,133 +69,131 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-luxury-black text-white">
-      {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-luxury-black">
-          {heroImage ? (
-            <img
-              src={heroImage}
-              alt="Hero background"
-              className="w-full h-full object-cover opacity-60"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-luxury-dark via-luxury-black to-luxury-gold/5 opacity-40"></div>
-          )}
-          <div className="absolute inset-0 bg-gradient-to-b from-luxury-black/30 via-transparent to-luxury-black"></div>
-        </div>
+    <div className="min-h-screen bg-cream text-ink">
+      {/* Hero Section - 60/40 split */}
+      <section className="relative min-h-[85vh] flex items-center">
+        <div className="max-w-7xl mx-auto w-full px-6 py-20 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+          {/* Left column - text (60%) */}
+          <div className="flex-1 lg:flex-[6] max-w-2xl">
+            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-tight text-ink mb-8">
+              Catherine Nixon
+            </h1>
+            <p className="text-ink/80 text-base md:text-lg leading-relaxed mb-10 max-w-lg">
+              Defining modern luxury through meticulous craftsmanship and sustainable innovation. Every stitch tells a story of elegance and architectural fluidity.
+            </p>
+            <Link
+              to="/collections"
+              className="inline-block px-10 py-3 bg-beige border border-beige-dark rounded-full text-ink text-xs tracking-[0.3em] uppercase font-semibold hover:bg-beige-dark transition-colors"
+            >
+              View Collections
+            </Link>
+          </div>
 
-        <div className="relative z-10 text-center px-6 max-w-6xl mx-auto flex flex-col items-center">
-          <h2 className="text-luxury-gold text-xs tracking-[0.4em] uppercase font-semibold mb-6 animate-luxury-fade">
-            Luxury Prêt-à-Porter
-          </h2>
-          <h1 className="font-serif text-6xl md:text-8xl lg:text-[10rem] mb-12 tracking-tight text-white leading-none uppercase animate-luxury-fade [animation-delay:200ms]">
-            Catherine
-            <br />
-            <span className="italic">Nixon</span>
-          </h1>
-          <Link
-            to="/collections"
-            className="group relative inline-flex items-center justify-center px-12 py-4 border border-luxury-gold text-white text-[10px] tracking-[0.4em] uppercase font-bold overflow-hidden transition-all duration-700 animate-luxury-fade [animation-delay:400ms]"
-          >
-            <span className="absolute inset-0 w-full h-full bg-luxury-gold -translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-out"></span>
-            <span className="relative z-10 group-hover:text-luxury-black">View Collections</span>
-          </Link>
+          {/* Right column - hero image (40%) */}
+          <div className="flex-1 lg:flex-[4] w-full max-w-xl">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-sm shadow-sm bg-beige">
+              {heroImage ? (
+                <img
+                  src={heroImage}
+                  alt="Hero"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-beige to-beige-dark">
+                  <span className="text-ink/20 font-serif text-4xl tracking-[0.5em] uppercase">CN</span>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Latest Editorial Section */}
-      <section className="py-32 px-6 max-w-7xl mx-auto">
-        <div className="max-w-3xl mb-24">
-          <h4 className="text-luxury-gold text-xs tracking-[0.4em] uppercase font-semibold mb-8">Latest Editorial</h4>
-          <h2 className="font-serif text-5xl md:text-6xl leading-[1.1] mb-12 italic">
-            Exploring the boundaries of <span className="text-luxury-muted font-normal not-italic">modern silhouette</span> and timeless elegance.
-          </h2>
-          <Link to="/collections" className="group flex items-center gap-4 text-white text-[10px] tracking-[0.3em] uppercase font-bold hover:text-luxury-gold transition-colors">
-            View Lookbook <ArrowRight className="w-4 h-4 transform group-hover:translate-x-2 transition-transform" />
-          </Link>
-        </div>
-
-        {isLoading ? (
-          <div className="flex justify-center py-24">
-            <Loader2 className="w-10 h-10 text-luxury-gold animate-spin opacity-20" />
+      {/* Selected Works */}
+      <section className="py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-ink text-sm tracking-[0.3em] uppercase font-semibold mb-2">
+              Selected Works
+            </h2>
+            <p className="text-ink/60 text-xs tracking-[0.2em] uppercase">
+              Latest Editorial
+            </p>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-            {featuredCollections.map((collection, index) => (
-              <Link
-                key={collection.id}
-                to={`/collections/${collection.id}`}
-                className={`group relative ${index === 1 ? 'md:scale-110 md:z-10' : ''}`}
-              >
-                <div className="relative aspect-[3/4] overflow-hidden bg-luxury-dark/50 mb-6 border border-white/5 group-hover:border-luxury-gold/30 transition-colors">
-                  {collection.image ? (
-                    <img
-                      src={collection.image}
-                      alt={collection.title}
-                      className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-luxury-dark to-luxury-black">
-                      <span className="text-luxury-gold/20 font-serif text-3xl tracking-[1em] uppercase -rotate-12">CN</span>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700"></div>
-                  <div className="absolute bottom-4 right-4 text-white opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-4 group-hover:translate-x-0 duration-500">
-                    <ArrowRight className="w-6 h-6 rotate-[-45deg]" />
+
+          {isLoading ? (
+            <div className="flex justify-center py-24">
+              <Loader2 className="w-10 h-10 text-ink/40 animate-spin" />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+              {featuredCollections.map((collection) => (
+                <Link
+                  key={collection.id}
+                  to={`/collections/${collection.id}`}
+                  className="group"
+                >
+                  <div className="relative aspect-square overflow-hidden bg-beige rounded-sm mb-4 group-hover:opacity-95 transition-opacity">
+                    {collection.image ? (
+                      <img
+                        src={collection.image}
+                        alt={collection.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-beige to-beige-dark">
+                        <span className="text-ink/20 font-serif text-3xl tracking-[0.5em] uppercase">CN</span>
+                      </div>
+                    )}
                   </div>
-                </div>
-                <div>
-                  <h3 className="font-serif text-2xl tracking-widest text-white mb-2 group-hover:text-luxury-gold transition-colors italic">
+                  <h3 className="text-ink font-serif text-lg font-semibold mb-1">
                     {collection.title}
                   </h3>
-                  <p className="text-luxury-muted text-[10px] tracking-[0.3em] uppercase group-hover:text-white transition-colors">
+                  <p className="text-ink/60 text-xs tracking-[0.2em] uppercase">
                     {collection.subtitle}
                   </p>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
+          )}
+
+          <div className="text-center mt-12">
+            <Link
+              to="/collections"
+              className="text-ink text-xs tracking-[0.3em] uppercase font-medium border-b border-ink/30 hover:border-ink transition-colors"
+            >
+              View Complete Archive
+            </Link>
           </div>
-        )}
+        </div>
       </section>
 
-      {/* The Atelier Bespoke Section */}
-      <section className="py-32 px-6 bg-luxury-dark/50">
+      {/* Quote Section */}
+      <section className="py-24 px-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <blockquote className="font-serif text-2xl md:text-3xl lg:text-4xl italic text-ink leading-relaxed mb-6">
+            An artist captures the time in which he lives. All the great fashion illustrators did this.
+          </blockquote>
+          <cite className="text-ink/70 text-sm tracking-[0.2em] not-italic">
+            — David Downton
+          </cite>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-24">
-            <h4 className="text-luxury-gold text-xs tracking-[0.4em] uppercase font-semibold mb-6">The Atelier</h4>
-            <h2 className="font-serif text-5xl md:text-6xl uppercase tracking-widest leading-none">Bespoke Services</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {bespokeServices.map((service) => (
-              <div
-                key={service.name}
-                className={`flex flex-col p-10 border border-white/5 bg-luxury-black/40 relative group ${service.highlight ? 'ring-1 ring-luxury-gold/50 scale-105 z-10' : ''
-                  }`}
-              >
-                {service.highlight && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-luxury-gold text-luxury-black px-4 py-1 text-[10px] font-bold uppercase tracking-widest">
-                    Most Popular
-                  </span>
-                )}
-                <h3 className="font-serif text-3xl mb-8 tracking-wide italic">{service.name}</h3>
-                <div className="mb-10">
-                  <span className="text-5xl font-light text-luxury-gold">{service.price}</span>
-                  <span className="text-luxury-muted text-xs lowercase ml-2 italic">{service.unit}</span>
-                </div>
-
-                <ul className="space-y-4 mb-12 flex-1">
-                  {service.features.map(feature => (
-                    <li key={feature} className="flex items-center gap-3 text-sm text-luxury-muted font-light tracking-wide">
-                      <Check className="w-4 h-4 text-luxury-gold" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-              </div>
-            ))}
+          <div className="bg-beige rounded-sm p-12 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10">
+            <div className="flex-1 max-w-xl flex items-center">
+              <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink">
+                Let&apos;s Create Something Beautiful
+              </h2>
+            </div>
+            <Link
+              to="/contact"
+              className="shrink-0 px-10 py-3 bg-beige-dark border border-ink/10 rounded-full text-ink text-xs tracking-[0.3em] uppercase font-semibold hover:bg-ink/10 transition-colors"
+            >
+              Get in Touch
+            </Link>
           </div>
         </div>
       </section>

@@ -1,15 +1,6 @@
-import { useState } from 'react';
-import { Mail, Instagram, Twitter, Globe, ChevronDown } from 'lucide-react';
+import { ChevronDown, ArrowRight } from 'lucide-react';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-
   const subjects = [
     'General Inquiry',
     'Custom Commission',
@@ -18,118 +9,134 @@ export default function Contact() {
   ];
 
   return (
-    <div className="min-h-screen bg-luxury-black text-white pt-32 pb-20">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-start mb-32">
-          {/* Left Column: Info */}
-          <div className="animate-luxury-fade">
-            <h4 className="text-luxury-gold text-xs tracking-[0.4em] uppercase font-bold mb-6 italic">Get in Touch</h4>
-            <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl mb-12 tracking-tight leading-[0.9]">
-              Contact &
-              <br />
-              <span className="italic">Inquiries</span>
-            </h1>
-            <div className="w-16 h-px bg-luxury-gold mb-12"></div>
+    <div className="min-h-screen bg-off-white text-ink pt-24 pb-20">
+      <div className="max-w-2xl mx-auto px-6">
+        {/* Inquiries Section */}
+        <section className="text-center mb-16">
+          <h1 className="font-serif text-4xl md:text-5xl font-bold text-ink mb-6">
+            Inquiries
+          </h1>
+          <p className="text-ink/70 font-serif text-base md:text-lg leading-relaxed">
+            For commissions, collaborations, or just to say hello. Please fill out the form below and I&apos;ll get back to you shortly.
+          </p>
+        </section>
 
-            <p className="text-luxury-muted text-base leading-relaxed mb-16 max-w-sm font-light italic">
-              For custom commissions or general questions, please reach out to our atelier. We endeavor to respond to all inquiries within 24 hours.
-            </p>
-
-            <div className="space-y-16">
-              <div>
-                <h4 className="text-white text-[10px] tracking-[0.4em] uppercase font-bold mb-6">Atelier</h4>
-                <p className="text-luxury-muted text-sm tracking-widest leading-relaxed">
-                  152 Rue de Rivoli
-                  <br />
-                  75001 Paris, France
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-white text-[10px] tracking-[0.4em] uppercase font-bold mb-6">Direct</h4>
-                <ul className="text-luxury-muted text-sm tracking-widest space-y-3">
-                  <li className="hover:text-luxury-gold transition-colors">
-                    <a href="mailto:info@catherinenixon.com">info@catherinenixon.com</a>
-                  </li>
-                  <li>+33 1 23 45 67 89</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Form */}
-          <div className="animate-luxury-fade [animation-delay:200ms]">
-            <form className="space-y-12">
-              <div className="grid grid-cols-2 gap-8">
-                <div className="space-y-4">
-                  <label className="text-[10px] tracking-[0.3em] uppercase font-bold text-luxury-muted block">First Name</label>
-                  <input
-                    type="text"
-                    className="w-full bg-transparent border-b border-white/10 py-2 text-sm tracking-widest outline-none focus:border-luxury-gold transition-colors"
-                  />
-                </div>
-                <div className="space-y-4">
-                  <label className="text-[10px] tracking-[0.3em] uppercase font-bold text-luxury-muted block">Last Name</label>
-                  <input
-                    type="text"
-                    className="w-full bg-transparent border-b border-white/10 py-2 text-sm tracking-widest outline-none focus:border-luxury-gold transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <label className="text-[10px] tracking-[0.3em] uppercase font-bold text-luxury-muted block">Email Address</label>
+        {/* Contact Form */}
+        <section className="bg-beige/80 border border-ink/10 rounded-sm p-8 md:p-12 mb-24">
+          <form className="space-y-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <label className="text-ink/70 text-[10px] tracking-[0.2em] uppercase font-semibold block">
+                  First Name
+                </label>
                 <input
-                  type="email"
-                  className="w-full bg-transparent border-b border-white/10 py-2 text-sm tracking-widest outline-none focus:border-luxury-gold transition-colors"
+                  type="text"
+                  placeholder="Jane"
+                  className="w-full bg-transparent border border-ink/20 rounded px-4 py-3 text-ink placeholder:text-ink/40 text-sm outline-none focus:border-ink/50 transition-colors"
                 />
               </div>
-
-              <div className="space-y-4">
-                <label className="text-[10px] tracking-[0.3em] uppercase font-bold text-luxury-muted block">Subject</label>
-                <div className="relative group">
-                  <select className="w-full bg-transparent border-b border-white/10 py-2 text-sm tracking-widest outline-none focus:border-luxury-gold appearance-none cursor-pointer">
-                    <option value="" className="bg-luxury-black">Select Inquiry Type</option>
-                    {subjects.map(s => <option key={s} value={s} className="bg-luxury-black">{s}</option>)}
-                  </select>
-                  <ChevronDown className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 text-luxury-muted group-focus-within:text-luxury-gold pointer-events-none" />
-                </div>
+              <div className="space-y-3">
+                <label className="text-ink/70 text-[10px] tracking-[0.2em] uppercase font-semibold block">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Doe"
+                  className="w-full bg-transparent border border-ink/20 rounded px-4 py-3 text-ink placeholder:text-ink/40 text-sm outline-none focus:border-ink/50 transition-colors"
+                />
               </div>
+            </div>
 
-              <div className="space-y-4">
-                <label className="text-[10px] tracking-[0.3em] uppercase font-bold text-luxury-muted block">Message</label>
-                <textarea
-                  rows={6}
-                  className="w-full bg-transparent border-b border-white/10 py-2 text-sm tracking-widest outline-none focus:border-luxury-gold transition-colors resize-none"
-                ></textarea>
+            <div className="space-y-3">
+              <label className="text-ink/70 text-[10px] tracking-[0.2em] uppercase font-semibold block">
+                Email Address
+              </label>
+              <input
+                type="email"
+                placeholder="jane@example.com"
+                className="w-full bg-transparent border border-ink/20 rounded px-4 py-3 text-ink placeholder:text-ink/40 text-sm outline-none focus:border-ink/50 transition-colors"
+              />
+            </div>
+
+            <div className="space-y-3">
+              <label className="text-ink/70 text-[10px] tracking-[0.2em] uppercase font-semibold block">
+                Subject
+              </label>
+              <div className="relative">
+                <select
+                  className="w-full bg-transparent border border-ink/20 rounded px-4 py-3 text-ink text-sm appearance-none cursor-pointer outline-none focus:border-ink/50 transition-colors"
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Select a subject...
+                  </option>
+                  {subjects.map(s => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink/50 pointer-events-none" />
               </div>
+            </div>
 
+            <div className="space-y-3">
+              <label className="text-ink/70 text-[10px] tracking-[0.2em] uppercase font-semibold block">
+                Message
+              </label>
+              <textarea
+                rows={6}
+                placeholder="Tell me about your project..."
+                className="w-full bg-transparent border border-ink/20 rounded px-4 py-3 text-ink placeholder:text-ink/40 text-sm outline-none focus:border-ink/50 transition-colors resize-none"
+              />
+            </div>
+
+            <div className="flex justify-end">
               <button
                 type="submit"
-                className="w-full py-5 bg-luxury-gold text-luxury-black text-[10px] tracking-[0.4em] font-bold uppercase hover:bg-white transition-all duration-500 shadow-lg shadow-luxury-gold/10"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-beige border border-ink/10 rounded text-ink text-xs tracking-[0.2em] uppercase font-semibold hover:bg-beige-dark transition-colors"
               >
-                Submit Inquiry
+                Send Message
+                <ArrowRight className="w-4 h-4" />
               </button>
-            </form>
+            </div>
+          </form>
+        </section>
+
+        {/* Footer - Direct Contact & Socials */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 py-12 border-t border-ink/10">
+          <div>
+            <h4 className="text-ink text-[10px] tracking-[0.2em] uppercase font-semibold mb-4">
+              Direct Contact
+            </h4>
+            <ul className="text-ink/70 text-sm space-y-2">
+              <li>
+                <a href="mailto:info@catherinenixon.com" className="hover:text-ink transition-colors">
+                  info@catherinenixon.com
+                </a>
+              </li>
+              <li>+33 1 23 45 67 89</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-ink text-[10px] tracking-[0.2em] uppercase font-semibold mb-4">
+              Socials
+            </h4>
+            <ul className="text-ink/70 text-sm space-y-2">
+              <li>
+                <a href="#" className="hover:text-ink transition-colors tracking-wider">INSTAGRAM</a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-ink transition-colors tracking-wider">PINTEREST</a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-ink transition-colors tracking-wider">BEHANCE</a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Footer Socials (As per design) */}
-        <div className="pt-20 border-t border-white/5 flex gap-10 justify-center text-luxury-muted/50">
-          <a href="#" className="hover:text-luxury-gold transition-colors">
-            <Instagram className="w-5 h-5" />
-          </a>
-          <a href="#" className="hover:text-luxury-gold transition-colors">
-            <Globe className="w-5 h-5" />
-          </a>
-          <a href="mailto:atelier@catherinenixon.com" className="hover:text-luxury-gold transition-colors">
-            <Mail className="w-5 h-5" />
-          </a>
-        </div>
-
-        <div className="text-center mt-8">
-          <p className="text-[10px] tracking-[0.4em] uppercase text-luxury-muted/30 font-light">
-            &copy; 2024 Catherine Nixon. All Rights Reserved.
+        <div className="text-center pt-8">
+          <p className="text-ink/50 text-[10px] tracking-[0.2em] uppercase">
+            &copy; {new Date().getFullYear()} Catherine Nixon. All rights reserved.
           </p>
         </div>
       </div>

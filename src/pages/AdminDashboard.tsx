@@ -1,333 +1,475 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-    Plus, Trash2, Tag, Loader2, CheckCircle2, XCircle,
-    LayoutDashboard, FolderKanban, BarChart3, Settings as SettingsIcon,
-    LogOut, Upload, Search, Filter, Eye, EyeOff, Edit3, Grid, Layers,
-    ChevronLeft, ChevronRight, MoreHorizontal
+  Plus, Trash2, Loader2, CheckCircle2, XCircle,
+  Home, FolderOpen, MessageCircle, BarChart3, Settings,
+  LogOut, Upload, Edit3, MoreHorizontal, Palette, Eye, Mail,
+  ChevronRight
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
 
 interface CloudinaryImage {
-    publicId: string;
-    url: string;
-    tags: string[];
-    createdAt: string;
+  publicId: string;
+  url: string;
+  tags: string[];
+  createdAt: string;
 }
 
 export default function AdminDashboard() {
-    const { user, logout } = useAuth();
-    const navigate = useNavigate();
-    const [images, setImages] = useState<CloudinaryImage[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isUploading, setIsUploading] = useState(false);
-    const [uploadMessage, setUploadMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
-    const [activeTab, setActiveTab] = useState('Current Works');
+  const { user, logout } = useAuth();
+  const [images, setImages] = useState<CloudinaryImage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadMessage, setUploadMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [activeTab, setActiveTab] = useState('Overview');
+  const [showAllImages, setShowAllImages] = useState(false);
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
-    const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => setOpenMenuId(null);
+    if (openMenuId) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [openMenuId]);
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  const fetchImages = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/images');
+      if (response.ok) {
+        const data = await response.json();
+        setImages(data);
+      }
+    } catch (error) {
+      console.error('Error fetching images:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        setUploadMessage({ type: 'success', text: 'Masterpiece uploaded successfully.' });
         fetchImages();
-    }, []);
+      } else {
+        setUploadMessage({ type: 'error', text: 'Upload failed. Please try again.' });
+      }
+    } catch (error) {
+      setUploadMessage({ type: 'error', text: 'An unexpected error occurred.' });
+    } finally {
+      setIsUploading(false);
+      setTimeout(() => setUploadMessage(null), 3000);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
 
-    const fetchImages = async () => {
-        setIsLoading(true);
-        try {
-            const response = await fetch('/api/images');
-            if (response.ok) {
-                const data = await response.json();
-                setImages(data);
-            }
-        } catch (error) {
-            console.error('Error fetching images:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+  const handleDelete = async (publicId: string) => {
+    if (!confirm('Are you certain you wish to remove this piece from the archives?')) return;
 
-    const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
+    try {
+      const response = await fetch('/api/images', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ publicId }),
+      });
 
-        setIsUploading(true);
-        const formData = new FormData();
-        formData.append('image', file);
+      if (response.ok) {
+        setImages(images.filter((img) => img.publicId !== publicId));
+      }
+    } catch (error) {
+      console.error('Delete error:', error);
+    }
+  };
 
-        try {
-            const response = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData,
-            });
+  const handleClassify = async (publicId: string, tag: string) => {
+    try {
+      const response = await fetch('/api/images/classify', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ publicId, tag }),
+      });
 
-            if (response.ok) {
-                setUploadMessage({ type: 'success', text: 'Masterpiece uploaded successfully.' });
-                fetchImages();
-            } else {
-                setUploadMessage({ type: 'error', text: 'Upload failed. Please try again.' });
-            }
-        } catch (error) {
-            setUploadMessage({ type: 'error', text: 'An unexpected error occurred.' });
-        } finally {
-            setIsUploading(false);
-            setTimeout(() => setUploadMessage(null), 3000);
-            if (fileInputRef.current) fileInputRef.current.value = '';
-        }
-    };
+      if (response.ok) {
+        fetchImages();
+      }
+    } catch (error) {
+      console.error('Classification error:', error);
+    }
+  };
 
-    const handleDelete = async (publicId: string) => {
-        if (!confirm('Are you certain you wish to remove this piece from the archives?')) return;
+  if (!user) return null;
 
-        try {
-            const response = await fetch('/api/images', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ publicId }),
-            });
+  const publishedCount = images.filter((img) => img.tags.length > 0).length;
+  const draftCount = images.filter((img) => img.tags.length === 0).length;
+  const displayName = user.email ? user.email.split('@')[0] : 'Admin';
+  const formattedName = displayName.charAt(0).toUpperCase() + displayName.slice(1) + '.';
 
-            if (response.ok) {
-                setImages(images.filter(img => img.publicId !== publicId));
-            }
-        } catch (error) {
-            console.error('Delete error:', error);
-        }
-    };
+  const sidebarItems = [
+    { id: 'Overview', name: 'Overview', icon: Home },
+    { id: 'Portfolio', name: 'Portfolio', icon: FolderOpen },
+    { id: 'Messages', name: 'Messages', icon: MessageCircle, badge: 3 },
+    { id: 'Analytics', name: 'Analytics', icon: BarChart3 },
+    { id: 'Settings', name: 'Settings', icon: Settings },
+  ];
 
-    const handleClassify = async (publicId: string, tag: string) => {
-        try {
-            const response = await fetch('/api/images/classify', {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ publicId, tag }),
-            });
-
-            if (response.ok) {
-                fetchImages();
-            }
-        } catch (error) {
-            console.error('Classification error:', error);
-        }
-    };
-
-    if (!user) return null;
-
-    const stats = [
-        { label: 'Total Items', value: images.length, icon: Grid, color: 'text-luxury-gold' },
-        { label: 'Published', value: images.filter(img => img.tags.length > 0).length, icon: Eye, color: 'text-green-500' },
-        { label: 'Drafts', value: images.filter(img => img.tags.length === 0).length, icon: Edit3, color: 'text-orange-500' },
-        { label: 'Hidden', value: 0, icon: EyeOff, color: 'text-red-500' },
-    ];
-
-    const sidebarItems = [
-        { name: 'Dashboard', icon: LayoutDashboard },
-        { name: 'Current Works', icon: FolderKanban },
-        { name: 'Manage Collections', icon: Layers },
-        { name: 'Analytics', icon: BarChart3 },
-        { name: 'Settings', icon: SettingsIcon },
-    ];
-
+  const statusBadge = (img: CloudinaryImage) => {
+    const hasTags = img.tags.length > 0;
+    const status = hasTags ? 'PUBLISHED' : 'DRAFT';
+    const bgClass = hasTags ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800';
     return (
-        <div className="min-h-screen bg-[#12110E] text-white flex">
-            {/* Sidebar */}
-            <aside className="w-72 bg-luxury-dark border-r border-white/5 flex flex-col p-8 fixed h-full">
-                <div className="flex items-center gap-4 mb-16 px-2">
-                    <div className="w-10 h-10 rounded-full bg-luxury-gold flex items-center justify-center font-serif text-luxury-black font-bold text-xl">
-                        CN
-                    </div>
-                    <div>
-                        <p className="font-serif text-lg tracking-wider">Admin Panel</p>
-                        <p className="text-[10px] text-luxury-gold tracking-[0.2em] uppercase font-bold">Luxury Portfolio</p>
-                    </div>
-                </div>
-
-                <nav className="flex-1 space-y-2">
-                    {sidebarItems.map((item) => (
-                        <button
-                            key={item.name}
-                            onClick={() => setActiveTab(item.name)}
-                            className={`w-full flex items-center gap-4 px-4 py-4 text-xs tracking-[0.2em] font-bold uppercase transition-all duration-300 rounded-lg group ${activeTab === item.name
-                                ? 'bg-luxury-gold/10 text-luxury-gold shadow-lg shadow-luxury-gold/5 border border-luxury-gold/20'
-                                : 'text-luxury-muted hover:text-white hover:bg-white/5'
-                                }`}
-                        >
-                            <item.icon className="w-4 h-4" />
-                            {item.name}
-                        </button>
-                    ))}
-                </nav>
-
-                <button
-                    onClick={logout}
-                    className="flex items-center gap-4 px-4 py-4 text-xs tracking-[0.2em] font-bold uppercase text-red-400 hover:text-red-300 transition-colors mt-auto border-t border-white/5 pt-8"
-                >
-                    <LogOut className="w-4 h-4" />
-                    Logout
-                </button>
-            </aside>
-
-            {/* Main Content */}
-            <main className="flex-1 ml-72 p-12">
-                <header className="flex justify-between items-end mb-12">
-                    <div>
-                        <h1 className="font-serif text-5xl mb-3">Current Works</h1>
-                        <p className="text-luxury-muted text-sm font-light">Manage your portfolio items and visibility status.</p>
-                    </div>
-
-                    <button
-                        onClick={() => fileInputRef.current?.click()}
-                        className="bg-luxury-gold text-luxury-black px-8 py-4 text-[10px] tracking-[0.3em] font-bold uppercase hover:bg-white transition-all flex items-center gap-3 shadow-xl shadow-luxury-gold/20"
-                    >
-                        <Plus className="w-4 h-4" /> Upload New Work
-                    </button>
-                    <input
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={handleUpload}
-                        className="hidden"
-                        accept="image/*"
-                    />
-                </header>
-
-                {/* Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-                    {stats.map((stat) => (
-                        <div key={stat.label} className="bg-luxury-dark/40 border border-white/5 p-6 rounded-xl flex items-center justify-between group hover:border-luxury-gold/30 transition-all">
-                            <div>
-                                <p className="text-[10px] text-luxury-muted tracking-[0.2em] uppercase font-bold mb-2">{stat.label}</p>
-                                <p className="text-3xl font-light">{stat.value}</p>
-                            </div>
-                            <div className={`p-3 rounded-lg bg-white/5 ${stat.color} group-hover:scale-110 transition-transform`}>
-                                <stat.icon className="w-5 h-5" />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Management Table Area */}
-                <div className="bg-luxury-dark/30 border border-white/5 rounded-2xl overflow-hidden backdrop-blur-md">
-                    {/* Table Header / Toolbar */}
-                    <div className="p-6 border-b border-white/5 flex justify-between items-center gap-6">
-                        <div className="relative flex-1 max-w-md">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-luxury-muted" />
-                            <input
-                                type="text"
-                                placeholder="Search works..."
-                                className="w-full bg-white/5 border border-white/10 rounded-lg py-3 pl-12 pr-4 text-sm outline-none focus:border-luxury-gold/50 transition-all font-light"
-                            />
-                        </div>
-                        <div className="flex gap-4">
-                            <button className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-xs tracking-widest text-luxury-muted hover:text-white transition-all">
-                                <Filter className="w-4 h-4" /> Sort by: Recent
-                            </button>
-                            <button className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-xs tracking-widest text-luxury-muted hover:text-white transition-all">
-                                View All
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Results Table */}
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead>
-                                <tr className="text-[10px] tracking-[0.2em] uppercase text-luxury-muted border-b border-white/5 text-left">
-                                    <th className="px-8 py-6 font-bold">Thumbnail</th>
-                                    <th className="px-8 py-6 font-bold">Title</th>
-                                    <th className="px-8 py-6 font-bold">Collection</th>
-                                    <th className="px-8 py-6 font-bold">Date Added</th>
-                                    <th className="px-8 py-6 font-bold">Status</th>
-                                    <th className="px-8 py-6 font-bold text-right">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-white/5">
-                                {isLoading ? (
-                                    <tr>
-                                        <td colSpan={6} className="py-20 text-center">
-                                            <Loader2 className="w-10 h-10 text-luxury-gold animate-spin mx-auto opacity-20" />
-                                        </td>
-                                    </tr>
-                                ) : images.length === 0 ? (
-                                    <tr>
-                                        <td colSpan={6} className="py-20 text-center text-luxury-muted italic font-light">
-                                            No works found in the archives.
-                                        </td>
-                                    </tr>
-                                ) : images.map((img) => (
-                                    <tr key={img.publicId} className="group hover:bg-white/[0.02] transition-colors">
-                                        <td className="px-8 py-4">
-                                            <div className="w-16 h-20 rounded-lg overflow-hidden border border-white/10 bg-luxury-dark">
-                                                <img src={img.url} alt="Work" className="w-full h-full object-cover" />
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-4">
-                                            <p className="text-sm font-medium text-white mb-1">Seasonal Piece</p>
-                                            <p className="text-[10px] text-luxury-muted tracking-widest font-light">Ref: #{img.publicId.slice(-8).toUpperCase()}</p>
-                                        </td>
-                                        <td className="px-8 py-4">
-                                            <div className="relative group/tag">
-                                                <select
-                                                    value={img.tags[0] || ""}
-                                                    onChange={(e) => handleClassify(img.publicId, e.target.value)}
-                                                    className="bg-luxury-gold/10 text-luxury-gold text-[10px] px-3 py-1.5 rounded-full border border-luxury-gold/30 outline-none uppercase tracking-widest font-bold cursor-pointer hover:bg-luxury-gold hover:text-luxury-black transition-all appearance-none pr-8"
-                                                >
-                                                    <option value="" className="bg-luxury-black">Not Assigned</option>
-                                                    <option value="traditional" className="bg-luxury-black">Traditional</option>
-                                                    <option value="modern" className="bg-luxury-black">Modern</option>
-                                                    <option value="themed" className="bg-luxury-black">Themed</option>
-                                                </select>
-                                                <Tag className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 pointer-events-none" />
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-4">
-                                            <p className="text-xs text-luxury-muted font-light">
-                                                {new Date(img.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                                            </p>
-                                        </td>
-                                        <td className="px-8 py-4">
-                                            <div className="flex items-center gap-2">
-                                                <div className={`w-1.5 h-1.5 rounded-full ${img.tags.length > 0 ? 'bg-green-500' : 'bg-orange-500 blur-[1px]'}`}></div>
-                                                <span className={`text-[10px] tracking-widest uppercase font-bold ${img.tags.length > 0 ? 'text-green-500' : 'text-orange-500'}`}>
-                                                    {img.tags.length > 0 ? 'Visible' : 'Draft'}
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td className="px-8 py-4 text-right">
-                                            <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button className="p-2 hover:bg-white/10 rounded-lg text-luxury-muted hover:text-white transition-all">
-                                                    <Edit3 className="w-4 h-4" />
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDelete(img.publicId)}
-                                                    className="p-2 hover:bg-red-500/10 rounded-lg text-luxury-muted hover:text-red-500 transition-all font-light"
-                                                >
-                                                    <Trash2 className="w-4 h-4" />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-
-                    {/* Table Footer / Pagination */}
-                    <div className="p-6 border-t border-white/5 flex justify-between items-center text-luxury-muted">
-                        <p className="text-[10px] tracking-widest uppercase">Showing 1 to {images.length} of {images.length} results</p>
-                        <div className="flex items-center gap-2">
-                            <button className="p-2 hover:bg-white/5 rounded transition-all"><ChevronLeft className="w-4 h-4" /></button>
-                            <span className="w-8 h-8 flex items-center justify-center bg-luxury-gold text-luxury-black text-xs font-bold rounded">1</span>
-                            <button className="p-2 hover:bg-white/5 rounded transition-all"><ChevronRight className="w-4 h-4" /></button>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Upload Status Notification */}
-                {uploadMessage && (
-                    <div className={`fixed bottom-8 right-8 px-6 py-4 rounded-xl border flex items-center gap-3 animate-luxury-fade shadow-2xl backdrop-blur-xl ${uploadMessage.type === 'success' ? 'bg-green-950/40 border-green-500/30 text-green-200' : 'bg-red-950/40 border-red-500/30 text-red-200'
-                        }`}>
-                        {uploadMessage.type === 'success' ? <CheckCircle2 className="w-5 h-5 text-green-500" /> : <XCircle className="w-5 h-5 text-red-500" />}
-                        <span className="text-xs tracking-widest font-bold uppercase">{uploadMessage.text}</span>
-                    </div>
-                )}
-            </main>
-        </div>
+      <span className={`px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider ${bgClass}`}>
+        {status}
+      </span>
     );
+  };
+
+  return (
+    <div className="min-h-screen bg-off-white text-ink flex">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white border-r border-ink/10 flex flex-col pt-24 px-6 pb-6 fixed top-20 h-[calc(100vh-5rem)]">
+        <div className="flex items-center gap-4 mb-12">
+          <div className="w-12 h-12 rounded-full bg-beige flex items-center justify-center font-serif text-ink font-bold text-lg">
+            CN
+          </div>
+          <div>
+            <p className="font-semibold text-ink">Admin Dashboard</p>
+            <p className="text-ink/60 text-sm">{formattedName}</p>
+          </div>
+        </div>
+
+        <nav className="flex-1 space-y-1">
+          {sidebarItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => setActiveTab(item.id)}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                activeTab === item.id
+                  ? 'bg-beige text-ink'
+                  : 'text-ink/70 hover:bg-ink/5 hover:text-ink'
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <item.icon className="w-4 h-4" />
+                {item.name}
+              </div>
+              {item.badge && (
+                <span className="bg-ink text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold">
+                  {item.badge}
+                </span>
+              )}
+            </button>
+          ))}
+        </nav>
+
+        <button
+          onClick={() => fileInputRef.current?.click()}
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-beige border border-ink/10 rounded-lg text-ink text-sm font-semibold hover:bg-beige-dark transition-colors mb-4"
+        >
+          <Plus className="w-4 h-4" />
+          New Project
+        </button>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleUpload}
+          className="hidden"
+          accept="image/*"
+        />
+
+        <button
+          onClick={logout}
+          className="flex items-center gap-3 px-4 py-3 text-ink/60 hover:text-red-600 text-sm font-medium transition-colors mt-auto pt-6 border-t border-ink/10"
+        >
+          <LogOut className="w-4 h-4" />
+          Logout
+        </button>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 ml-64 pt-24 px-8 pb-8">
+        {(activeTab === 'Overview' || activeTab === 'Portfolio') && (
+          <>
+        {/* Header */}
+        <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
+          <div>
+            <h1 className="text-2xl font-bold text-ink mb-1">
+              {activeTab === 'Overview' ? 'Dashboard Overview' : 'Portfolio'}
+            </h1>
+            <p className="text-ink/70 text-sm">
+              {activeTab === 'Overview'
+                ? `Welcome back, ${formattedName} Here is your recent activity summary.`
+                : 'Manage your portfolio items and collections.'}
+            </p>
+          </div>
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isUploading}
+            className="flex items-center gap-2 px-5 py-3 bg-beige border border-ink/10 rounded-lg text-ink text-xs font-semibold uppercase tracking-wider hover:bg-beige-dark transition-colors shrink-0 disabled:opacity-50"
+          >
+            {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
+            Quick Upload
+          </button>
+        </header>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          <div className="bg-white border border-ink/10 rounded-xl p-6 flex items-center justify-between shadow-sm">
+            <div>
+              <p className="text-ink/60 text-xs font-semibold uppercase tracking-wider mb-1">Total Artworks</p>
+              <p className="text-2xl font-bold text-ink">{images.length}</p>
+              <p className="text-green-600 text-xs font-medium mt-1 flex items-center gap-1">
+                <ChevronRight className="w-3 h-3 rotate-[270deg]" />
+                +{images.length > 0 ? Math.round((publishedCount / images.length) * 10) : 0}% this month
+              </p>
+            </div>
+            <div className="w-10 h-10 rounded-lg bg-beige/50 flex items-center justify-center">
+              <Palette className="w-5 h-5 text-ink/70" />
+            </div>
+          </div>
+          <div className="bg-white border border-ink/10 rounded-xl p-6 flex items-center justify-between shadow-sm">
+            <div>
+              <p className="text-ink/60 text-xs font-semibold uppercase tracking-wider mb-1">Published</p>
+              <p className="text-2xl font-bold text-ink">{publishedCount}</p>
+              <p className="text-green-600 text-xs font-medium mt-1 flex items-center gap-1">
+                <ChevronRight className="w-3 h-3 rotate-[270deg]" />
+                Live on site
+              </p>
+            </div>
+            <div className="w-10 h-10 rounded-lg bg-beige/50 flex items-center justify-center">
+              <Eye className="w-5 h-5 text-ink/70" />
+            </div>
+          </div>
+          <div className="bg-white border border-ink/10 rounded-xl p-6 flex items-center justify-between shadow-sm">
+            <div>
+              <p className="text-ink/60 text-xs font-semibold uppercase tracking-wider mb-1">Drafts</p>
+              <p className="text-2xl font-bold text-ink">{draftCount}</p>
+              <p className="text-ink/60 text-xs font-medium mt-1">Unassigned</p>
+            </div>
+            <div className="w-10 h-10 rounded-lg bg-beige/50 flex items-center justify-center">
+              <Mail className="w-5 h-5 text-ink/70" />
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Activity Table */}
+        <div className="bg-white border border-ink/10 rounded-xl shadow-sm overflow-hidden mb-10">
+          <div className="p-6 border-b border-ink/10 flex justify-between items-center">
+            <h2 className="font-semibold text-ink">Recent Activity</h2>
+            {images.length > 5 && (
+              <button
+                onClick={() => setShowAllImages(!showAllImages)}
+                className="text-ink/60 hover:text-ink text-xs font-medium transition-colors"
+              >
+                {showAllImages ? 'Show Less' : 'View All'}
+              </button>
+            )}
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="text-[10px] tracking-wider uppercase text-ink/60 font-semibold bg-ink/[0.02] text-left">
+                  <th className="px-6 py-4">Artwork Name</th>
+                  <th className="px-6 py-4">Date</th>
+                  <th className="px-6 py-4">Collection</th>
+                  <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-ink/5">
+                {isLoading ? (
+                  <tr>
+                    <td colSpan={5} className="py-16 text-center">
+                      <Loader2 className="w-8 h-8 text-ink/30 animate-spin mx-auto" />
+                    </td>
+                  </tr>
+                ) : images.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="py-16 text-center text-ink/50 text-sm">
+                      No works found in the archives.
+                    </td>
+                  </tr>
+                ) : (
+                  (showAllImages ? images : images.slice(0, 5)).map((img) => (
+                    <tr key={img.publicId} className="group hover:bg-ink/[0.02] transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-14 rounded-lg overflow-hidden border border-ink/10 bg-beige/50 shrink-0">
+                            <img
+                              src={img.url}
+                              alt="Work"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <p className="font-medium text-ink text-sm">
+                              Seasonal Piece
+                            </p>
+                            <p className="text-ink/50 text-xs">Ref: #{img.publicId.slice(-8).toUpperCase()}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-ink/70">
+                        {new Date(img.createdAt).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </td>
+                      <td className="px-6 py-4">
+                        <select
+                          value={img.tags[0] || ''}
+                          onChange={(e) => handleClassify(img.publicId, e.target.value)}
+                          className="bg-transparent border border-ink/20 rounded-lg px-3 py-1.5 text-xs text-ink outline-none focus:border-ink/40 cursor-pointer"
+                        >
+                          <option value="">Not Assigned</option>
+                          <option value="traditional">Traditional</option>
+                          <option value="modern">Modern</option>
+                          <option value="themed">Themed</option>
+                        </select>
+                      </td>
+                      <td className="px-6 py-4">{statusBadge(img)}</td>
+                      <td className="px-6 py-4 text-right">
+                        <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity relative">
+                          <button
+                            onClick={() => handleDelete(img.publicId)}
+                            className="p-2 hover:bg-red-50 rounded-lg text-ink/50 hover:text-red-600 transition-colors"
+                            title="Delete"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                          <div className="relative">
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setOpenMenuId(openMenuId === img.publicId ? null : img.publicId); }}
+                              className="p-2 hover:bg-ink/5 rounded-lg text-ink/50 hover:text-ink transition-colors"
+                              title="More actions"
+                            >
+                              <MoreHorizontal className="w-4 h-4" />
+                            </button>
+                            {openMenuId === img.publicId && (
+                              <div className="absolute right-0 top-full mt-1 py-1 bg-white border border-ink/10 rounded-lg shadow-lg z-50 min-w-[140px]">
+                                <Link
+                                  to={img.tags[0] ? `/collections/${img.tags[0]}` : '/collections'}
+                                  className="block px-4 py-2 text-sm text-ink hover:bg-ink/5"
+                                  onClick={() => setOpenMenuId(null)}
+                                >
+                                  View on site
+                                </Link>
+                                <button
+                                  onClick={(e) => { e.stopPropagation(); handleDelete(img.publicId); setOpenMenuId(null); }}
+                                  className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                                >
+                                  Delete
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Bottom Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white border border-ink/10 rounded-xl p-6 shadow-sm">
+            <h3 className="font-semibold text-ink mb-4 flex items-center gap-2">
+              <Edit3 className="w-4 h-4 text-ink/60" />
+              Upcoming Deadlines
+            </h3>
+            <p className="text-ink/60 text-sm">No upcoming deadlines.</p>
+          </div>
+          <div className="bg-white border border-ink/10 rounded-xl p-6 shadow-sm">
+            <h3 className="font-semibold text-ink mb-4">Editor&apos;s Note</h3>
+            <p className="text-ink/70 text-sm leading-relaxed">
+              Remember to focus on the texture details for the upcoming scarf collection. Tag new uploads to the appropriate collection for visibility on the site.
+            </p>
+          </div>
+        </div>
+          </>
+        )}
+
+        {activeTab === 'Messages' && (
+          <div className="space-y-8">
+            <header>
+              <h1 className="text-2xl font-bold text-ink mb-1">Messages</h1>
+              <p className="text-ink/70 text-sm">Inquiries and messages from visitors.</p>
+            </header>
+            <div className="bg-white border border-ink/10 rounded-xl p-16 text-center shadow-sm">
+              <MessageCircle className="w-16 h-16 text-ink/20 mx-auto mb-4" />
+              <p className="text-ink/60 text-sm">No messages yet.</p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'Analytics' && (
+          <div className="space-y-8">
+            <header>
+              <h1 className="text-2xl font-bold text-ink mb-1">Analytics</h1>
+              <p className="text-ink/70 text-sm">View traffic and engagement metrics.</p>
+            </header>
+            <div className="bg-white border border-ink/10 rounded-xl p-16 text-center shadow-sm">
+              <BarChart3 className="w-16 h-16 text-ink/20 mx-auto mb-4" />
+              <p className="text-ink/60 text-sm">Analytics coming soon.</p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'Settings' && (
+          <div className="space-y-8">
+            <header>
+              <h1 className="text-2xl font-bold text-ink mb-1">Settings</h1>
+              <p className="text-ink/70 text-sm">Manage your account and preferences.</p>
+            </header>
+            <div className="bg-white border border-ink/10 rounded-xl p-16 text-center shadow-sm">
+              <Settings className="w-16 h-16 text-ink/20 mx-auto mb-4" />
+              <p className="text-ink/60 text-sm">Settings coming soon.</p>
+            </div>
+          </div>
+        )}
+
+        {/* Upload Status Notification */}
+        {uploadMessage && (
+          <div
+            className={`fixed bottom-8 right-8 px-6 py-4 rounded-lg border flex items-center gap-3 shadow-lg ${
+              uploadMessage.type === 'success'
+                ? 'bg-green-50 border-green-200 text-green-800'
+                : 'bg-red-50 border-red-200 text-red-800'
+            }`}
+          >
+            {uploadMessage.type === 'success' ? (
+              <CheckCircle2 className="w-5 h-5 text-green-600" />
+            ) : (
+              <XCircle className="w-5 h-5 text-red-600" />
+            )}
+            <span className="text-sm font-medium">{uploadMessage.text}</span>
+          </div>
+        )}
+      </main>
+    </div>
+  );
 }

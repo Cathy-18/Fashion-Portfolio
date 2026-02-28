@@ -11,6 +11,12 @@
   --color-luxury-gray: #2A2824;
   --color-luxury-text: #EAE8E4;
   --color-luxury-muted: #8E8A82;
+  /* Light theme */
+  --color-cream: #F8F6F3;
+  --color-off-white: #FBFBF8;
+  --color-beige: #E8E4DC;
+  --color-beige-dark: #D8D4CC;
+  --color-ink: #2A2824;
 }
 
 body {

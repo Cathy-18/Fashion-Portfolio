@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MapPin, Trophy, Loader2 } from 'lucide-react';
+import { MapPin, Loader2, Pen, Eye, Book } from 'lucide-react';
 
 interface CloudinaryImage {
   publicId: string;
@@ -36,11 +36,18 @@ export default function About() {
     }
   ];
 
+  const awards = [
+    'LVMH Prize Finalist (2020)',
+    'ANDAM Fashion Award (2022)'
+  ];
+
+  const clientele = ['CN', 'Givenchy', 'Central Saint Martins', 'Universität der Künste'];
+
   const [portrait, setPortrait] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPortrait = async () => {
+    const fetchImages = async () => {
       try {
         const response = await fetch('/api/images');
         if (response.ok) {
@@ -51,142 +58,172 @@ export default function About() {
           if (portraitAsset) setPortrait(portraitAsset.url);
         }
       } catch (error) {
-        console.error('Error fetching portrait:', error);
+        console.error('Error fetching images:', error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchPortrait();
+    fetchImages();
   }, []);
 
+  const bioText = 'Catherine Nixon is a contemporary fashion illustrator who transforms garments into visual poetry. Her work navigates the dialogue between architectural precision and flowing movement, revealing the quiet power within modern femininity. Through deliberate line, texture, and shadow, she presents fashion not merely as clothing, but as atmosphere — refined, evocative, and distinctly modern.';
+
+  const philosophyQuote = "Fashion is not merely about clothing the body, but about architecting the soul's outer shell.";
+  const philosophyParagraph = "My philosophy is rooted in the concept of 'Soft Brutalism.' I seek to merge industrial textures with organic silhouettes. Every seam is intentional, every fabric choice a dialogue between the wearer and their environment. We reject the ephemeral nature of trends in favor of timeless, constructed pieces that endure.";
+
   return (
-    <div className="min-h-screen bg-luxury-black text-white pt-32 pb-20">
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Main Bio Section */}
-        <section className="luxury-border p-1 md:p-12 mb-32 bg-luxury-dark/30">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            <div className="relative aspect-[3/4] luxury-border overflow-hidden bg-luxury-dark/50">
-              {isLoading ? (
-                <div className="w-full h-full flex items-center justify-center">
-                  <Loader2 className="w-8 h-8 text-luxury-gold animate-spin opacity-20" />
-                </div>
-              ) : portrait ? (
-                <img
-                  src={portrait}
-                  alt="Catherine Nixon"
-                  className="w-full h-full object-cover grayscale opacity-90 transition-transform duration-[2s] hover:scale-105"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-luxury-dark to-luxury-black">
-                  <span className="text-luxury-gold/10 font-serif text-6xl tracking-[1em] uppercase -rotate-90 whitespace-nowrap">CN</span>
-                </div>
-              )}
-            </div>
-            <div className="pt-8">
-              <h1 className="font-serif text-6xl lg:text-8xl leading-none mb-6 uppercase tracking-tight">
-                Catherine
-                <br />
-                Nixon
-              </h1>
-              <p className="text-luxury-gold italic text-base tracking-widest mb-8">
-                Visionary Couturier & Creative Director
-              </p>
-              <div className="flex items-center gap-3 text-luxury-muted text-[10px] tracking-[0.3em] uppercase mb-16 underline decoration-luxury-gold/30 underline-offset-8">
-                <MapPin className="w-3 h-3 text-luxury-gold" /> Paris Based
+    <div className="min-h-screen bg-cream text-ink pt-24 pb-20">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Hero Section - Portrait left, content right */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
+          <div className="relative aspect-square max-w-xl overflow-hidden rounded-sm bg-beige shadow-sm">
+            {isLoading ? (
+              <div className="w-full h-full flex items-center justify-center">
+                <Loader2 className="w-10 h-10 text-ink/30 animate-spin" />
               </div>
-
-              <div className="max-w-md">
-                <h3 className="font-serif text-2xl uppercase mb-8 border-b border-white/5 pb-4 tracking-widest italic">Biography</h3>
-                <p className="text-luxury-muted font-light leading-relaxed text-base italic">
-                  Catherine Nixon is a contemporary fashion illustrator who transforms garments into visual poetry. Her work navigates the dialogue between architectural precision and flowing movement, revealing the quiet power within modern femininity. Through deliberate line, texture, and shadow, she presents fashion not merely as clothing, but as atmosphere — refined, evocative, and distinctly modern.
-                </p>
+            ) : portrait ? (
+              <img
+                src={portrait}
+                alt="Catherine Nixon"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-beige to-beige-dark">
+                <span className="text-ink/20 font-serif text-5xl tracking-[0.5em] uppercase">CN</span>
               </div>
+            )}
+          </div>
+          <div>
+            <p className="text-ink/60 text-xs tracking-[0.3em] uppercase font-medium mb-6">
+              About the Designer
+            </p>
+            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-none mb-6 uppercase tracking-tight">
+              Catherine
+              <br />
+              Nixon
+            </h1>
+            <p className="text-ink/70 italic text-base tracking-widest mb-8">
+              Visionary Couturier &amp; Creative Director
+            </p>
+            <div className="flex items-center gap-3 text-ink/60 text-[10px] tracking-[0.3em] uppercase mb-8">
+              <MapPin className="w-3 h-3" /> Paris Based
             </div>
-          </div>
-        </section>
-
-        {/* Philosophy Section */}
-        <section className="mb-48 border-t border-white/5 pt-20">
-          <div className="flex items-center gap-6 mb-16">
-            <div className="w-12 h-px bg-luxury-gold"></div>
-            <h2 className="font-serif text-sm tracking-[0.4em] uppercase font-bold text-white">Design Philosophy</h2>
-            <div className="flex-1 h-px bg-white/5"></div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-            <h3 className="font-serif text-3xl md:text-4xl italic leading-snug">
-              "Fashion is not merely about clothing the body, but about architecting the soul's outer shell."
-            </h3>
-            <p className="text-luxury-muted font-light leading-relaxed tracking-wide">
-              My philosophy is rooted in the concept of 'Soft Brutalism.' I seek to merge industrial textures with organic silhouettes. Every seam is intentional, every fabric choice a dialogue between the wearer and their environment. We reject the ephemeral nature of trends in favor of timeless, constructed pieces that endure.
+            <p className="text-ink/80 text-base md:text-lg leading-relaxed">
+              {bioText}
             </p>
           </div>
         </section>
 
-        {/* Experience & Education Section */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-32 mb-48">
-          <div>
-            <div className="flex items-center gap-6 mb-16">
-              <h2 className="font-serif text-sm tracking-[0.4em] uppercase font-bold text-white">Experience</h2>
-              <div className="flex-1 h-px bg-white/5"></div>
-            </div>
-            <div className="space-y-16">
-              {experiences.map((exp, i) => (
-                <div key={i} className="relative pl-10">
-                  <div className="absolute left-0 top-0 w-3 h-3 rounded-full border border-luxury-gold">
-                    <div className="absolute inset-1 rounded-full bg-luxury-gold/20"></div>
+        {/* Biography Section - Two columns */}
+        <section className="mb-24">
+          <h2 className="font-serif text-4xl md:text-5xl font-bold mb-16">Biography</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <div className="space-y-8">
+              <p className="text-ink/80 leading-relaxed">
+                {bioText}
+              </p>
+              <div className="space-y-12 pt-4">
+                {experiences.map((exp, i) => (
+                  <div key={i}>
+                    <p className="text-ink/60 text-[10px] tracking-[0.2em] font-semibold uppercase mb-2">{exp.period}</p>
+                    <h4 className="font-serif text-xl font-semibold mb-1">{exp.role}</h4>
+                    <p className="text-ink/60 text-xs tracking-wider uppercase mb-2">{exp.company}</p>
+                    <p className="text-ink/80 text-sm leading-relaxed italic">{exp.description}</p>
                   </div>
-                  <p className="text-luxury-gold text-[10px] tracking-[0.2em] font-bold uppercase mb-3">{exp.period}</p>
-                  <h4 className="font-serif text-xl tracking-wider text-white mb-2">{exp.role}</h4>
-                  <p className="text-luxury-muted text-xs tracking-widest uppercase mb-4">{exp.company}</p>
-                  <p className="text-luxury-muted font-light text-sm leading-relaxed italic">{exp.description}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-
-          <div>
-            <div className="flex items-center gap-6 mb-16">
-              <h2 className="font-serif text-sm tracking-[0.4em] uppercase font-bold text-white">Education</h2>
-              <div className="flex-1 h-px bg-white/5"></div>
-            </div>
-            <div className="space-y-16">
-              {education.map((edu, i) => (
-                <div key={i} className="flex justify-between items-start border-b border-white/5 pb-10">
-                  <div>
-                    <h4 className="font-serif text-xl tracking-wider text-white mb-2 italic">{edu.degree}</h4>
-                    <p className="text-luxury-muted text-xs tracking-[0.2em] uppercase font-light italic">{edu.school}</p>
+            <div className="space-y-8">
+              <div className="space-y-8 pt-4">
+                {education.map((edu, i) => (
+                  <div key={i} className="flex justify-between items-start border-b border-ink/10 pb-8">
+                    <div>
+                      <h4 className="font-serif text-xl font-semibold mb-1 italic">{edu.degree}</h4>
+                      <p className="text-ink/60 text-xs tracking-[0.2em] uppercase">{edu.school}</p>
+                    </div>
+                    <span className="text-ink/60 text-[10px] tracking-[0.2em] font-semibold">{edu.year}</span>
                   </div>
-                  <span className="text-luxury-muted text-[10px] tracking-[0.2em] font-bold pt-2">{edu.year}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-20 p-8 border border-luxury-gold/20 bg-luxury-dark/20 relative overflow-hidden group">
-              <h4 className="text-luxury-gold text-xs tracking-[0.3em] uppercase font-bold mb-6 flex items-center gap-3">
-                <Trophy className="w-4 h-4" /> Awards
-              </h4>
-              <ul className="space-y-4">
-                <li className="flex items-center gap-4 text-xs tracking-widest text-luxury-muted italic font-light">
-                  <span className="w-4 h-4 flex items-center justify-center text-luxury-gold text-[8px] font-bold border border-luxury-gold">🏆</span>
-                  LVMH Prize Finalist (2020)
-                </li>
-                <li className="flex items-center gap-4 text-xs tracking-widest text-luxury-muted italic font-light">
-                  <span className="w-4 h-4 flex items-center justify-center text-luxury-gold text-[8px] font-bold border border-luxury-gold">🏆</span>
-                  ANDAM Fashion Award (2022)
-                </li>
-              </ul>
-              <div className="absolute top-0 right-0 w-32 h-32 bg-luxury-gold/5 blur-3xl -mr-16 -mt-16 group-hover:bg-luxury-gold/10 transition-colors"></div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Final Quote */}
-        <section className="text-center py-20 border-t border-white/5">
-          <h2 className="font-serif text-4xl lg:text-5xl italic text-luxury-muted/40 mb-8 lowercase tracking-tighter">
-            "Elegance is refusal."
+        {/* Artistic Philosophy - Three boxes */}
+        <section className="mb-24">
+          <h2 className="text-ink/60 text-sm tracking-[0.3em] uppercase font-medium text-center mb-16">
+            Artistic Philosophy
           </h2>
-          <p className="text-luxury-gold text-[10px] tracking-[0.5em] uppercase font-bold">Coco Chanel</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-beige rounded-sm p-10 border border-beige-dark/50">
+              <Pen className="w-6 h-6 text-ink/40 mb-6" />
+              <h3 className="font-serif text-xl font-bold mb-4">The Medium</h3>
+              <p className="text-ink/80 text-sm leading-relaxed italic">
+                &quot;{philosophyQuote}&quot;
+              </p>
+            </div>
+            <div className="bg-beige rounded-sm p-10 border border-beige-dark/50">
+              <Eye className="w-6 h-6 text-ink/40 mb-6" />
+              <h3 className="font-serif text-xl font-bold mb-4">The Gaze</h3>
+              <p className="text-ink/80 text-sm leading-relaxed">
+                {philosophyParagraph}
+              </p>
+            </div>
+            <div className="bg-beige rounded-sm p-10 border border-beige-dark/50">
+              <Book className="w-6 h-6 text-ink/40 mb-6" />
+              <h3 className="font-serif text-xl font-bold mb-4">The Story</h3>
+              <ul className="space-y-3">
+                {awards.map((award, i) => (
+                  <li key={i} className="flex items-center gap-3 text-sm text-ink/80 italic">
+                    <span className="w-4 h-4 flex items-center justify-center text-[10px] font-bold border border-ink/30 rounded">★</span>
+                    {award}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* Stats Section - Derived from existing content */}
+        <section className="py-16 border-y border-ink/10 mb-24">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+            <div className="text-center md:text-left md:border-r md:border-ink/10 md:pr-12">
+              <p className="font-serif text-4xl font-bold text-ink">9+</p>
+              <p className="text-ink/60 text-[10px] tracking-[0.2em] uppercase mt-1">Years Active</p>
+            </div>
+            <div className="text-center md:text-left md:border-r md:border-ink/10 md:pr-12">
+              <p className="font-serif text-4xl font-bold text-ink">Paris</p>
+              <p className="text-ink/60 text-[10px] tracking-[0.2em] uppercase mt-1">Studio Location</p>
+            </div>
+            <div className="text-center md:text-left md:border-r md:border-ink/10 md:pr-12">
+              <p className="font-serif text-4xl font-bold text-ink">2</p>
+              <p className="text-ink/60 text-[10px] tracking-[0.2em] uppercase mt-1">Awards</p>
+            </div>
+            <div>
+              <p className="font-serif text-4xl font-bold text-ink">Digital</p>
+              <p className="text-ink/60 text-[10px] tracking-[0.2em] uppercase mt-1">&amp; Couture</p>
+            </div>
+          </div>
+        </section>
+
+        {/* Selected Clientele - From experiences & education */}
+        <section className="mb-24">
+          <h2 className="text-ink/60 text-xs tracking-[0.3em] uppercase font-medium text-center mb-12">
+            Selected Clientele
+          </h2>
+          <div className="flex flex-wrap justify-center gap-12 md:gap-20 text-ink/80 font-medium tracking-wider">
+            {clientele.map((client, i) => (
+              <span key={i} className="text-sm uppercase">{client}</span>
+            ))}
+          </div>
+        </section>
+
+        {/* Final Quote */}
+        <section className="text-center py-16 border-t border-ink/10">
+          <h2 className="font-serif text-3xl md:text-4xl italic text-ink/60 mb-6 lowercase tracking-tight">
+            &quot;Elegance is refusal.&quot;
+          </h2>
+          <p className="text-ink/60 text-[10px] tracking-[0.3em] uppercase font-semibold">Coco Chanel</p>
         </section>
       </div>
     </div>
