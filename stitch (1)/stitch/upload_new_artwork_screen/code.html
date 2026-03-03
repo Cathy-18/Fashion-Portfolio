@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Illustrator Admin - Upload Artwork</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#c99e1d", // Gold/Mustard tone from requirements
+              "primary-content": "#1b170e",
+              "background-light": "#f8f7f6", // Warm off-white
+              "background-dark": "#211d11", // Dark brownish charcoal
+              "surface-light": "#ffffff",
+              "surface-dark": "#2a261a",
+              "input-bg-light": "#f3f0e8", // Ivory/Beige
+              "input-bg-dark": "#363226", 
+              "border-light": "#e6e1d1",
+              "border-dark": "#4a4436",
+            },
+            fontFamily: {
+              display: ["Newsreader", "serif"],
+              sans: ["Newsreader", "serif"], // Using Newsreader for everything as per request for "editorial" feel
+            },
+            borderRadius: {
+              DEFAULT: "0px", // Sharp edges requested
+              lg: "0px",
+              xl: "0px",
+              full: "9999px",
+            },
+          },
+        },
+      }
+    </script>
+<style>
+      /* Custom scrollbar for a cleaner look */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #e6e1d1;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #c99e1d;
+      }
+      
+      .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 300,
+        'GRAD' 0,
+        'opsz' 24
+      }
+      
+      /* Editorial touches */
+      .editorial-input {
+        transition: all 0.2s ease;
+      }
+      .editorial-input:focus {
+        border-color: #c99e1d;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 1px #c99e1d;
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-primary-content dark:text-gray-100 font-display min-h-screen flex antialiased">
+<!-- Sidebar -->
+<aside class="w-64 bg-surface-light dark:bg-surface-dark border-r border-border-light dark:border-border-dark flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0">
+<div class="p-6 border-b border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-12 w-12 border border-border-light dark:border-border-dark" data-alt="Portrait of the artist" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA2NZ1Cmz7H4TRionptJcbbet2ywoWfIJOiRo2S2VC5gswgebxoXqriCY7P20D1uwSVKnTFVDW18uSB3yB1EcxT_GpYNYzP6NMAp_zgge8qVT-7wuZYUPiydhYKxFQYPW4nTHRGrXCxEEscZoFmBD131aM5dy-mCPjT9LD_6e7zBBOg7-W1E1lqW5Wi7qeKH69bJbwzm7zTkLlkqj6SqnKjOYCoa42zTLAv7LVXv3GgVyuB2ThSaqb2ZvgISch54hTcZhez0NkmaKDs");'></div>
+<div class="flex flex-col">
+<h1 class="text-primary-content dark:text-gray-100 text-lg font-medium leading-tight">Elena V.</h1>
+<p class="text-primary/80 dark:text-primary/70 text-sm italic">Portfolio Admin</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-primary-content/70 dark:text-gray-400 hover:text-primary-content dark:hover:text-gray-100 hover:bg-input-bg-light dark:hover:bg-input-bg-dark transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-content/50 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary">dashboard</span>
+<span class="text-base font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-input-bg-light dark:bg-input-bg-dark text-primary-content dark:text-gray-100 border-l-2 border-primary" href="#">
+<span class="material-symbols-outlined text-primary">image</span>
+<span class="text-base font-medium">Artworks</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-content/70 dark:text-gray-400 hover:text-primary-content dark:hover:text-gray-100 hover:bg-input-bg-light dark:hover:bg-input-bg-dark transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-content/50 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary">folder_open</span>
+<span class="text-base font-medium">Collections</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-content/70 dark:text-gray-400 hover:text-primary-content dark:hover:text-gray-100 hover:bg-input-bg-light dark:hover:bg-input-bg-dark transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-content/50 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary">bar_chart</span>
+<span class="text-base font-medium">Analytics</span>
+</a>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-4 py-3 text-primary-content/70 dark:text-gray-400 hover:text-primary-content dark:hover:text-gray-100 hover:bg-input-bg-light dark:hover:bg-input-bg-dark transition-colors group" href="#">
+<span class="material-symbols-outlined text-primary-content/50 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary">settings</span>
+<span class="text-base font-medium">Settings</span>
+</a>
+</div>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden relative">
+<!-- Header Mobile -->
+<header class="md:hidden flex items-center justify-between p-4 border-b border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark sticky top-0 z-10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">menu</span>
+<span class="font-bold text-lg">Illustrator Admin</span>
+</div>
+<div class="h-8 w-8 bg-center bg-cover rounded-full" data-alt="User avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAmyXbl6w8Z19bkz98TMoL8yvOqs67p7QEOrA6w0Qpu8he1R-QeqP0aqzupmLV7CtbuGDu79oYHMnP1b8SdXQVw92LCIlxVefo4PO5Nt7RwvG_w0H09ZqlpcmfkhbPZQEaQgIrpmGPLWPse5UhI5mH9GUe-HA52JteEZYlqsxaBjfNKecGOXvIN5rBXopnW1iHqGFr2PYn6w04E_YtU3bHTdEwhafgOh6WqSWLebwCNx6v3knDKOeoZHuTO4_NYD4zs6oZZjrEf23tD");'></div>
+</header>
+<!-- Content Scrollable Area -->
+<div class="flex-1 overflow-y-auto p-6 md:p-12 lg:px-24">
+<div class="max-w-6xl mx-auto w-full">
+<!-- Header Section -->
+<div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border-light dark:border-border-dark pb-6">
+<div class="space-y-2">
+<div class="flex items-center gap-2 text-primary-content/60 dark:text-gray-400 text-sm mb-1">
+<a class="hover:text-primary transition-colors" href="#">Artworks</a>
+<span>/</span>
+<span class="text-primary-content dark:text-gray-200">New Entry</span>
+</div>
+<h2 class="text-4xl md:text-5xl font-normal tracking-tight text-primary-content dark:text-gray-100 font-display">Upload New Work</h2>
+<p class="text-lg text-primary-content/60 dark:text-gray-400 font-light italic max-w-2xl">Curate your latest fashion illustration for the portfolio gallery.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-3 border border-border-dark/20 dark:border-border-light/20 text-primary-content dark:text-gray-200 hover:bg-black/5 dark:hover:bg-white/5 transition-colors text-sm uppercase tracking-wider font-medium">
+               Cancel
+             </button>
+</div>
+</div>
+<!-- Two Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Left Column: Image Upload -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<div class="bg-surface-light dark:bg-surface-dark p-6 md:p-8 h-full min-h-[500px] flex flex-col border border-border-light dark:border-border-dark">
+<h3 class="text-xl font-medium mb-6">Artwork File</h3>
+<div class="flex-1 border-2 border-dashed border-[#E8DCCB] dark:border-border-dark rounded bg-input-bg-light/30 dark:bg-input-bg-dark/30 hover:bg-input-bg-light dark:hover:bg-input-bg-dark transition-colors cursor-pointer group flex flex-col items-center justify-center p-8 text-center relative overflow-hidden">
+<input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" type="file"/>
+<div class="bg-white dark:bg-surface-dark p-4 rounded-full mb-4 shadow-sm group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-4xl text-primary">cloud_upload</span>
+</div>
+<p class="text-lg font-medium text-primary-content dark:text-gray-200 mb-2">Drag and drop image here</p>
+<p class="text-sm text-primary-content/60 dark:text-gray-400 mb-6 font-light">Supports JPG, PNG, WEBP up to 25MB</p>
+<button class="px-6 py-2 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark text-sm font-medium hover:border-primary transition-colors uppercase tracking-wide">
+                    Browse Files
+                  </button>
+</div>
+<div class="mt-6 p-4 bg-input-bg-light dark:bg-input-bg-dark border border-border-light dark:border-border-dark flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-xl mt-0.5">info</span>
+<div class="text-sm text-primary-content/70 dark:text-gray-400">
+<p class="font-medium text-primary-content dark:text-gray-200 mb-1">Image Guidelines</p>
+<p>For best results on retina displays, upload images with a width of at least 2400px. sRGB color profile recommended.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Details Form -->
+<div class="lg:col-span-7 flex flex-col gap-8">
+<div class="bg-surface-light dark:bg-surface-dark p-6 md:p-8 border border-border-light dark:border-border-dark">
+<h3 class="text-xl font-medium mb-6">Artwork Details</h3>
+<div class="space-y-6">
+<!-- Title -->
+<div class="space-y-2">
+<label class="text-sm font-medium uppercase tracking-wider text-primary-content/80 dark:text-gray-300" for="title">Title</label>
+<input class="w-full bg-input-bg-light dark:bg-input-bg-dark border-0 p-4 text-lg text-primary-content dark:text-gray-100 placeholder:text-primary-content/30 dark:placeholder:text-gray-600 focus:ring-1 focus:ring-primary editorial-input" id="title" placeholder="e.g. Autumn Silhouette No. 5" type="text"/>
+</div>
+<!-- Collection & Year Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-sm font-medium uppercase tracking-wider text-primary-content/80 dark:text-gray-300" for="collection">Collection</label>
+<div class="relative">
+<select class="w-full bg-input-bg-light dark:bg-input-bg-dark border-0 p-4 pr-10 text-base text-primary-content dark:text-gray-100 focus:ring-1 focus:ring-primary appearance-none editorial-input cursor-pointer" id="collection">
+<option disabled="" selected="" value="">Select collection...</option>
+<option value="traditional">Traditional Sketches</option>
+<option value="modern">Modern Digital</option>
+<option value="themed">Themed Series</option>
+<option value="editorial">Editorial Work</option>
+</select>
+<div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-primary-content/50 dark:text-gray-400">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-medium uppercase tracking-wider text-primary-content/80 dark:text-gray-300" for="year">Year Created</label>
+<input class="w-full bg-input-bg-light dark:bg-input-bg-dark border-0 p-4 text-base text-primary-content dark:text-gray-100 placeholder:text-primary-content/30 dark:placeholder:text-gray-600 focus:ring-1 focus:ring-primary editorial-input" id="year" placeholder="2023" type="text"/>
+</div>
+</div>
+<!-- Medium -->
+<div class="space-y-2">
+<label class="text-sm font-medium uppercase tracking-wider text-primary-content/80 dark:text-gray-300" for="medium">Medium</label>
+<input class="w-full bg-input-bg-light dark:bg-input-bg-dark border-0 p-4 text-base text-primary-content dark:text-gray-100 placeholder:text-primary-content/30 dark:placeholder:text-gray-600 focus:ring-1 focus:ring-primary editorial-input" id="medium" placeholder="e.g. Watercolor &amp; Ink on Paper" type="text"/>
+</div>
+<!-- Description -->
+<div class="space-y-2">
+<label class="text-sm font-medium uppercase tracking-wider text-primary-content/80 dark:text-gray-300" for="description">Description</label>
+<textarea class="w-full bg-input-bg-light dark:bg-input-bg-dark border-0 p-4 text-base text-primary-content dark:text-gray-100 placeholder:text-primary-content/30 dark:placeholder:text-gray-600 focus:ring-1 focus:ring-primary resize-none editorial-input" id="description" placeholder="Describe the inspiration, technique, or context of this piece..." rows="5"></textarea>
+<div class="flex justify-between text-xs text-primary-content/50 dark:text-gray-500 mt-1">
+<span>Markdown supported</span>
+<span>0/500 characters</span>
+</div>
+</div>
+<!-- Tags -->
+<div class="space-y-2">
+<label class="text-sm font-medium uppercase tracking-wider text-primary-content/80 dark:text-gray-300">Tags</label>
+<div class="flex flex-wrap gap-2 p-4 bg-input-bg-light dark:bg-input-bg-dark min-h-[60px] items-center">
+<span class="inline-flex items-center px-3 py-1 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark text-sm text-primary-content dark:text-gray-200">
+                      #fashion
+                      <button class="ml-2 hover:text-red-500"><span class="material-symbols-outlined text-[16px]">close</span></button>
+</span>
+<span class="inline-flex items-center px-3 py-1 bg-white dark:bg-surface-dark border border-border-light dark:border-border-dark text-sm text-primary-content dark:text-gray-200">
+                      #watercolor
+                      <button class="ml-2 hover:text-red-500"><span class="material-symbols-outlined text-[16px]">close</span></button>
+</span>
+<input class="bg-transparent border-none focus:ring-0 p-0 text-sm w-24 placeholder:text-primary-content/40 dark:placeholder:text-gray-500" placeholder="+ Add tag" type="text"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="flex-1 py-4 border border-[#a8a29e] dark:border-gray-600 text-primary-content dark:text-gray-200 bg-transparent hover:bg-black/5 dark:hover:bg-white/5 transition-all text-base uppercase tracking-widest font-bold">
+                Save as Draft
+              </button>
+<button class="flex-1 py-4 bg-[#d4c5a9] dark:bg-primary text-primary-content dark:text-white hover:bg-[#c9b99a] dark:hover:bg-primary/90 transition-all text-base uppercase tracking-widest font-bold shadow-sm">
+                Publish to Portfolio
+              </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

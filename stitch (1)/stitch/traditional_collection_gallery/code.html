@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Traditional Collection Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#14b83d",
+              "background-light": "#f6f8f6",
+              "background-dark": "#112115",
+              "neutral-sand": "#EAE7E2",
+              "neutral-taupe": "#8A847C",
+            },
+            fontFamily: {
+              "display": ["Newsreader", "serif"],
+              "sans": ["Noto Sans", "sans-serif"],
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        /* Custom scrollbar for refined feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #d1d5db;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #9ca3af;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased selection:bg-primary/20">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/10 px-8 py-6 sticky top-0 z-50 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-md">
+<div class="flex items-center gap-4">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_319)">
+<path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
+</g>
+<defs>
+<clippath id="clip0_6_319"><rect fill="white" height="48" width="48"></rect></clippath>
+</defs>
+</svg>
+</div>
+<h2 class="text-xl font-bold italic tracking-tight">Portfolio</h2>
+</div>
+<nav class="hidden md:flex flex-1 justify-center gap-12">
+<a class="text-sm font-medium hover:text-primary transition-colors duration-300" href="#">Work</a>
+<a class="text-sm font-medium hover:text-primary transition-colors duration-300" href="#">About</a>
+<a class="text-sm font-medium hover:text-primary transition-colors duration-300" href="#">Journal</a>
+<a class="text-sm font-medium hover:text-primary transition-colors duration-300" href="#">Contact</a>
+</nav>
+<div class="flex gap-3">
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-full bg-primary/10 hover:bg-primary/20 text-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</button>
+<button class="flex size-10 cursor-pointer items-center justify-center rounded-full bg-primary/10 hover:bg-primary/20 text-primary transition-colors duration-300 md:hidden">
+<span class="material-symbols-outlined text-[20px]">menu</span>
+</button>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center w-full">
+<div class="max-w-[1400px] w-full px-6 md:px-12 py-12 md:py-20">
+<!-- Hero Section -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-24">
+<div class="flex flex-col gap-6 max-w-2xl">
+<span class="text-primary font-sans text-xs font-bold uppercase tracking-widest">Collection 01</span>
+<h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-medium leading-[0.9] tracking-tight">
+                            Traditional <br/> <i class="font-light text-neutral-taupe">Works</i>
+</h1>
+</div>
+<div class="max-w-md pb-2 border-l-2 border-primary/20 pl-6">
+<p class="text-neutral-taupe text-lg leading-relaxed font-sans">
+                            A curated selection of tactile explorations. Pencil, charcoal, and watercolor illustrations that study the delicate interplay of form, texture, and light in fashion.
+                        </p>
+</div>
+</section>
+<!-- Gallery Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 gap-x-8">
+<!-- Item 1: Large Feature -->
+<div class="md:col-span-8 flex flex-col gap-4 group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg aspect-[4/3]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Watercolor painting of a woman in autumn coat" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBFtXOKqfNDTZNwDBTW_91UDFc5v1ObOQ0Q6S_ed2Dmyg1H1AD15Xc_nRlAr_iyD8tLxmzWPg-OKIKXsPALpsblFCJTyeN84uB4bIprHL1NrTr27CyuDBnoNcs8xfVwhzHVI3Pchb_lWeL04COFitcwWeXYxeafL17FiUGrK-Y0trmBDUmYpNvuqx9jEN5Jx8O_yIPE-JfV7Zsg1a3XdnvaLJtN-FnMT800J1q-Yw4vn_4MG9pm22qieM8oQeJyNCAG7nHSC3osehZo");'>
+</div>
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-300"></div>
+</div>
+<div class="flex justify-between items-baseline border-t border-primary/10 pt-3">
+<div>
+<h3 class="text-xl font-medium">Autumn Silhouette</h3>
+<p class="text-neutral-taupe text-sm font-sans mt-1">Watercolor on cold press</p>
+</div>
+<span class="text-primary/40 font-display italic">01</span>
+</div>
+</div>
+<!-- Item 2: Vertical Portrait -->
+<div class="md:col-span-4 flex flex-col gap-4 group cursor-pointer md:mt-24">
+<div class="relative overflow-hidden rounded-lg aspect-[3/4]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Charcoal portrait sketch of a model" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAkEXznlw7iJYy0t1SVAnFkw8D5LJk6wOEnStdNFUb9n2zd8FOb4siKDUUy-e--Z_22XLsO1I0Mh5uZMG8H8BVD4ogBtQoTMqS_OUUEio-fTWafm8SNvhtPzPVNKGCnT9UV2pC52gCGYD7mTEjxkCiA34Zf6haHIsTHPa6p1ksLvHjP-Hy84ryaDwhoat_lwMnAgPlYHgm5Q_xUwFge1BdK3LUlzoHft-d4kgQVBZnc5EdwZ6m1QfV4GigEm4tSSvFGv_wkb-gxWDte");'>
+</div>
+</div>
+<div class="flex justify-between items-baseline border-t border-primary/10 pt-3">
+<div>
+<h3 class="text-xl font-medium">Vintage Couture</h3>
+<p class="text-neutral-taupe text-sm font-sans mt-1">Graphite and charcoal</p>
+</div>
+<span class="text-primary/40 font-display italic">02</span>
+</div>
+</div>
+<!-- Item 3: Square Detail -->
+<div class="md:col-span-4 flex flex-col gap-4 group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg aspect-square">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Close up pencil sketch of fabric texture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBIa9eiIwpiwORhzH0K50LFNcvAFNPlxvzX-65_2KqNnRDRz5dt5-vF2J8pZg5PizbYaASCEWG_cikT2X4HyY45LibpWLFOlpuBaNCr7IQwJbL_gDAc4aPi4phP_Z6kSQyc7Yiw1KiK4OFHRz7e6u3wyO2q1cRIOVSha-mgBWUzUBtVAnfGZ7UBegMrYB13vMdpcBXzYq6SShyCAmtdVu4W7qGeZowsP_E13IuA3zijxg5QXKCQnocSlWZ4CdBXKYIsINQD5JaOjTUS");'>
+</div>
+</div>
+<div class="flex justify-between items-baseline border-t border-primary/10 pt-3">
+<div>
+<h3 class="text-xl font-medium">Sketchbook Study No. 4</h3>
+<p class="text-neutral-taupe text-sm font-sans mt-1">Pencil sketch</p>
+</div>
+<span class="text-primary/40 font-display italic">03</span>
+</div>
+</div>
+<!-- Item 4: Large Horizontal -->
+<div class="md:col-span-8 flex flex-col gap-4 group cursor-pointer md:pt-12">
+<div class="relative overflow-hidden rounded-lg aspect-[16/9]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Ink wash drawing of a Parisian street scene" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDwyEjmRvCfIQs3JLOpS2nepGBLKZ_dKdU1QhwXjNR2j8jXejAUtYKWgLuf11gwksusXe-BjPoFvX-C-qa4TQbpPNlCUGCek7Rp3guOE88eBYP0U6LR-rOzMYEVRB8CUA6tUVs9cpvuKyHps4eYawkejeoWflFpqyE2TmKjvYVgpWnZwX17jUrmjfCRzoxqxBPQ_vQhDq5mmJxfdD3j7VsPTQFMGZ98Qhth_JElmaaruvmHgHY_fMpyjF41HsBTzjG5dV2jap29KpJL");'>
+</div>
+</div>
+<div class="flex justify-between items-baseline border-t border-primary/10 pt-3">
+<div>
+<h3 class="text-xl font-medium">Parisian Morning</h3>
+<p class="text-neutral-taupe text-sm font-sans mt-1">Ink and wash</p>
+</div>
+<span class="text-primary/40 font-display italic">04</span>
+</div>
+</div>
+<!-- Item 5: Small Portrait -->
+<div class="md:col-span-3 flex flex-col gap-4 group cursor-pointer">
+<div class="relative overflow-hidden rounded-lg aspect-[2/3]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Detailed charcoal study of draped fabric" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCz8226eh1KB3Avrk9T2du7JAlMvwRmIJVKpMtJtfGKe5NhwoCmqw4akp6CD-Hbj050o8DY4qDB84fDlW9q6Q6G9otZNO2TIqS9J3NXKBjmpiK1GpGgNU8T6PW684Qla9PcWCoelNzyNuCHyWAP_BPjacWK0NXdEblCoQTgG3CLFAw7KPrhrUE_uI2SncZ7Gd1jr1uPK31XNBAlAGKAiuVR6BFNuinQjmFhr1IMx6z76W1UiwEl79NJJdKmct2IqwbZb7os1o2L6wXK");'>
+</div>
+</div>
+<div class="flex justify-between items-baseline border-t border-primary/10 pt-3">
+<div>
+<h3 class="text-lg font-medium">Draped Fabric</h3>
+<p class="text-neutral-taupe text-xs font-sans mt-1">Charcoal study</p>
+</div>
+<span class="text-primary/40 font-display italic">05</span>
+</div>
+</div>
+<!-- Item 6: Medium Landscape -->
+<div class="md:col-span-5 flex flex-col gap-4 group cursor-pointer md:pt-32">
+<div class="relative overflow-hidden rounded-lg aspect-[5/4]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Mixed media portrait with high contrast" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCvL2m9kYNFGSGsfi6WJ1HuVeLafdq-m8k3Y3jkPvzOWMCSekAaQuE2oY-R6rmHZbbE2oLFqbK9BtjwihYcBi-2eUiTFXGErRdHEtaIsJSI5IBYgs1ePnaG7EJRuwdqigOeWziUjw1uNoalh4D_bQR0bLckshu4F4Hy8hJr4_hLMZ2gZ97-UZOpsDy0X5i0hPB1V-qayEOMPbsRfKheNBFIqd6RQsusXIGZSdPmGF9ycLjzjAhuV1-9jMVjmL7YjHSZj8W4JeuXbk-C");'>
+</div>
+</div>
+<div class="flex justify-between items-baseline border-t border-primary/10 pt-3">
+<div>
+<h3 class="text-xl font-medium">High Contrast</h3>
+<p class="text-neutral-taupe text-sm font-sans mt-1">Mixed media</p>
+</div>
+<span class="text-primary/40 font-display italic">06</span>
+</div>
+</div>
+<!-- Item 7: Vertical Tall -->
+<div class="md:col-span-4 flex flex-col gap-4 group cursor-pointer md:-mt-12">
+<div class="relative overflow-hidden rounded-lg aspect-[9/16]">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Full body fashion illustration sketch" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDcooX94_4qnzguMbhKoLVY-czzS8tJrjRb_DjYwDyRvUqK8e5DoRVG52GafcMjL5_DaNlQqXoDirt9Eo7Kllg1Io9dtB-MI_Ra5MCmXfrMueya4JYarY9HpVZ20gca1sMlpNU_XdAcRHwi4UL-_6B1i1bxtgDRYtuY1dewWN1jyU0_JxC0kSLcOWnPxZoZ6MIqKnsGZKuowTAuUCs81p3jF-XZ0I0Hw1uOYsQh9PvvEyqSTZLQAbRSKF9bPns15kFoB-AiRLs5p0W2");'>
+</div>
+</div>
+<div class="flex justify-between items-baseline border-t border-primary/10 pt-3">
+<div>
+<h3 class="text-xl font-medium">Runway Motion</h3>
+<p class="text-neutral-taupe text-sm font-sans mt-1">Quick gesture sketch</p>
+</div>
+<span class="text-primary/40 font-display italic">07</span>
+</div>
+</div>
+</div>
+<!-- Pagination / Next -->
+<div class="mt-32 flex justify-between items-center border-t border-primary/20 pt-8">
+<a class="flex items-center gap-2 text-neutral-taupe hover:text-primary transition-colors font-sans text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+                        Previous Collection
+                    </a>
+<div class="hidden md:flex gap-2">
+<span class="size-2 rounded-full bg-primary"></span>
+<span class="size-2 rounded-full bg-primary/20"></span>
+<span class="size-2 rounded-full bg-primary/20"></span>
+</div>
+<a class="flex items-center gap-2 text-slate-900 dark:text-slate-100 hover:text-primary transition-colors font-sans text-sm font-bold" href="#">
+                        Digital Works
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</a>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-primary/10 bg-neutral-sand/20 dark:bg-background-dark py-16">
+<div class="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-start gap-12">
+<div class="flex flex-col gap-4 max-w-sm">
+<h2 class="text-2xl font-bold font-display italic">Stay in the loop</h2>
+<p class="text-neutral-taupe font-sans text-sm">Subscribe to receive updates on new collections, workshops, and exhibitions.</p>
+<div class="flex gap-2 mt-2">
+<input class="bg-transparent border-b border-neutral-taupe/50 focus:border-primary outline-none px-0 py-2 w-full text-sm placeholder:text-neutral-taupe/50 font-sans" placeholder="Email address" type="email"/>
+<button class="text-xs uppercase font-bold tracking-widest text-primary hover:text-primary/80 transition-colors">Submit</button>
+</div>
+</div>
+<div class="flex flex-col md:items-end gap-6">
+<div class="flex gap-6">
+<a class="size-10 flex items-center justify-center rounded-full border border-primary/20 text-slate-900 dark:text-slate-100 hover:bg-primary hover:text-white hover:border-transparent transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-lg">public</span> <!-- generic web/social icon -->
+</a>
+<a class="size-10 flex items-center justify-center rounded-full border border-primary/20 text-slate-900 dark:text-slate-100 hover:bg-primary hover:text-white hover:border-transparent transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-lg">mail</span>
+</a>
+<a class="size-10 flex items-center justify-center rounded-full border border-primary/20 text-slate-900 dark:text-slate-100 hover:bg-primary hover:text-white hover:border-transparent transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-lg">brush</span> <!-- art related icon -->
+</a>
+</div>
+<div class="flex gap-8 text-sm font-sans text-neutral-taupe">
+<a class="hover:text-primary transition-colors" href="#">Terms</a>
+<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+<span>© 2024 Portfolio</span>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

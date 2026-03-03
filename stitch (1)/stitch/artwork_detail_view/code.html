@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Curated Collections - Maison Noir</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#cabba0",
+                        "background-light": "#f7f7f6",
+                        "background-dark": "#1c1a16",
+                        "neutral-soft": "#E8DCCB", 
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"],
+                        "didone": ["Cormorant Garamond", "serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                    backgroundImage: {
+                        'soft-gradient': 'linear-gradient(to bottom, #ffffff, #fdfbf7, #f4eee5)',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-soft-gradient dark:bg-background-dark font-display antialiased transition-colors duration-300 min-h-screen flex flex-col">
+<header class="w-full py-8 px-6 md:px-12 flex justify-between items-center z-10 relative bg-transparent">
+<a class="text-2xl font-normal italic tracking-wide text-slate-900 dark:text-slate-100 hover:text-primary transition-colors" href="#">
+            Maison <span class="text-primary">Noir</span>
+</a>
+<nav class="hidden md:flex space-x-12">
+<a class="text-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Portfolio</a>
+<a class="text-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">About</a>
+<a class="text-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Contact</a>
+</nav>
+<button class="md:hidden text-slate-900 dark:text-slate-100">
+<span class="material-icons">menu</span>
+</button>
+</header>
+<main class="flex-grow flex flex-col justify-center items-center w-full px-4 md:px-12 py-8 md:py-16 relative">
+<div class="text-center mb-16 space-y-4">
+<span class="text-xs tracking-[0.3em] uppercase text-primary font-semibold">Select a Portfolio</span>
+<h1 class="text-4xl md:text-5xl font-light italic text-slate-900 dark:text-slate-100">Curated Collections</h1>
+</div>
+<div class="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-stretch">
+<a class="group relative block h-[600px] overflow-hidden rounded-sm shadow-sm hover:shadow-xl transition-all duration-700" href="#">
+<div class="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors duration-700 z-10"></div>
+<div class="absolute inset-0 bg-neutral-soft/30 dark:bg-primary/5">
+<img alt="Traditional pencil sketch of a classic gown" class="w-full h-full object-cover object-top transition-transform duration-1000 ease-out group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOwHOV_kQZNb0MGaLlkviy2lX-GChdysK4bdRumg4xwAmuiTHVaH53yIdsKJXRvCruA98Ga6i2oo372eo609yFCa1LdFrzMnI7zqzBHxBU3ETLpSoPcFd3sKIE-FE5KDwnpuLSiswZSKC1Lzjw7pBaAydmyjWa570ANspTR3kFYaW1hevLfcENNHVA6-zig3sTf1lGqKPs1RH4M7RlD0owaAWFiz-6x3DvoWe5wdVxOYDF35lqbbowNbk-VtpU8TKur0pc27P0rVG9"/>
+</div>
+<div class="absolute bottom-0 left-0 w-full p-8 z-20 bg-gradient-to-t from-white/90 via-white/50 to-transparent dark:from-black/80 dark:via-black/40 pt-24 transition-all duration-500 group-hover:pt-32">
+<div class="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+<span class="block text-xs uppercase tracking-[0.2em] text-slate-600 dark:text-slate-300 mb-2 opacity-0 group-hover:opacity-100 transition-opacity delay-100 duration-500">Classic Atelier</span>
+<h2 class="text-5xl font-didone font-medium text-slate-900 dark:text-white">Traditional</h2>
+<div class="h-px w-0 group-hover:w-16 bg-slate-900 dark:bg-white mt-4 transition-all duration-700 delay-100"></div>
+</div>
+</div>
+</a>
+<a class="group relative block h-[600px] overflow-hidden rounded-sm shadow-sm hover:shadow-xl transition-all duration-700 lg:-mt-12" href="#">
+<div class="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors duration-700 z-10"></div>
+<div class="absolute inset-0 bg-neutral-soft/30 dark:bg-primary/5">
+<img alt="Avant-garde digital fashion illustration with geometric shapes" class="w-full h-full object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMGctaavGVqXpCrQMxHAM5a2PMgya2WNCxsNcfpQlyCfk5kTdUdZNxCn7oHyTWIHZLpweQVwyuVyPsnrIwJE31Q57NZsCGHv8Ay9LB-MiLrd61zKHAGD7nGLNhL9rGrQNaxCnoiKLaGz23kQTlYCYHW_8E_6l4Ag6ZaCfIONwOBBRkWOkFi2wL4XJLEeKo55qwWInywtK6vV_6XkVMd1KDmkbG7y-mkJRkv5IleVoo8PaJ6D6LLgc2V8QCM37rBJ4KEB9hMpjGIUbn"/>
+</div>
+<div class="absolute bottom-0 left-0 w-full p-8 z-20 bg-gradient-to-t from-white/90 via-white/50 to-transparent dark:from-black/80 dark:via-black/40 pt-24 transition-all duration-500 group-hover:pt-32">
+<div class="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+<span class="block text-xs uppercase tracking-[0.2em] text-slate-600 dark:text-slate-300 mb-2 opacity-0 group-hover:opacity-100 transition-opacity delay-100 duration-500">Contemporary Digital</span>
+<h2 class="text-5xl font-didone font-medium text-slate-900 dark:text-white">Modern</h2>
+<div class="h-px w-0 group-hover:w-16 bg-slate-900 dark:bg-white mt-4 transition-all duration-700 delay-100"></div>
+</div>
+</div>
+</a>
+<a class="group relative block h-[600px] overflow-hidden rounded-sm shadow-sm hover:shadow-xl transition-all duration-700" href="#">
+<div class="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/0 transition-colors duration-700 z-10"></div>
+<div class="absolute inset-0 bg-neutral-soft/30 dark:bg-primary/5">
+<img alt="Thematic fashion illustration featuring floral motifs" class="w-full h-full object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGyP6Cc3IXB9QFZFB_atzgGoegs_vg1YhweJUgDO0SawwaUkOVgp3gvE9_K3Z3l4II0ww7uSJdwVPpIqZvhaWV05gUnQglOxz6b65T8SQrxVCDnCATWWDFkqPG-ABcaRE3FaQzvzkiPJ14rMmzpyqiZ-grC23lmFs5-XaCHDl7jsEu7DS8vmbe6OzT0JcnWJQ7KA-uSgFO9Qs3ggDefAYMOwGP1z2qmTaBulZCQcIxF59V9P5JvCXGxK8dyubRhgLgCu1MwZkuO49z"/>
+</div>
+<div class="absolute bottom-0 left-0 w-full p-8 z-20 bg-gradient-to-t from-white/90 via-white/50 to-transparent dark:from-black/80 dark:via-black/40 pt-24 transition-all duration-500 group-hover:pt-32">
+<div class="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+<span class="block text-xs uppercase tracking-[0.2em] text-slate-600 dark:text-slate-300 mb-2 opacity-0 group-hover:opacity-100 transition-opacity delay-100 duration-500">Seasonal Concepts</span>
+<h2 class="text-5xl font-didone font-medium text-slate-900 dark:text-white">Themed</h2>
+<div class="h-px w-0 group-hover:w-16 bg-slate-900 dark:bg-white mt-4 transition-all duration-700 delay-100"></div>
+</div>
+</div>
+</a>
+</div>
+<div class="mt-16 flex items-center gap-2 group cursor-pointer opacity-60 hover:opacity-100 transition-opacity">
+<span class="uppercase text-xs tracking-[0.2em] text-slate-500 group-hover:text-primary transition-colors">View Full Archive</span>
+<span class="material-icons text-sm text-slate-400 group-hover:text-primary transition-colors">south</span>
+</div>
+</main>
+<section class="border-t border-primary/10 bg-white/50 dark:bg-background-dark py-16 px-6 md:px-12 backdrop-blur-sm">
+<div class="max-w-7xl mx-auto">
+<div class="flex justify-between items-end mb-10">
+<h2 class="text-2xl italic text-slate-800 dark:text-slate-200">Recent Additions</h2>
+<a class="text-sm uppercase tracking-widest text-primary hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">Explore Gallery</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<a class="group block cursor-pointer" href="#">
+<div class="relative overflow-hidden aspect-[4/5] mb-4 bg-neutral-soft/20 dark:bg-primary/5 rounded">
+<img alt="Fashion sketch of oversized coat" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGyP6Cc3IXB9QFZFB_atzgGoegs_vg1YhweJUgDO0SawwaUkOVgp3gvE9_K3Z3l4II0ww7uSJdwVPpIqZvhaWV05gUnQglOxz6b65T8SQrxVCDnCATWWDFkqPG-ABcaRE3FaQzvzkiPJ14rMmzpyqiZ-grC23lmFs5-XaCHDl7jsEu7DS8vmbe6OzT0JcnWJQ7KA-uSgFO9Qs3ggDefAYMOwGP1z2qmTaBulZCQcIxF59V9P5JvCXGxK8dyubRhgLgCu1MwZkuO49z"/>
+</div>
+<div class="flex justify-between items-baseline">
+<h3 class="text-lg text-slate-800 dark:text-slate-200 group-hover:text-primary transition-colors">Autumn Layering</h3>
+<span class="text-xs text-slate-400 italic">2023</span>
+</div>
+</a>
+<a class="group block cursor-pointer" href="#">
+<div class="relative overflow-hidden aspect-[4/5] mb-4 bg-neutral-soft/20 dark:bg-primary/5 rounded">
+<img alt="Portrait sketch with bold red lips" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMGctaavGVqXpCrQMxHAM5a2PMgya2WNCxsNcfpQlyCfk5kTdUdZNxCn7oHyTWIHZLpweQVwyuVyPsnrIwJE31Q57NZsCGHv8Ay9LB-MiLrd61zKHAGD7nGLNhL9rGrQNaxCnoiKLaGz23kQTlYCYHW_8E_6l4Ag6ZaCfIONwOBBRkWOkFi2wL4XJLEeKo55qwWInywtK6vV_6XkVMd1KDmkbG7y-mkJRkv5IleVoo8PaJ6D6LLgc2V8QCM37rBJ4KEB9hMpjGIUbn"/>
+</div>
+<div class="flex justify-between items-baseline">
+<h3 class="text-lg text-slate-800 dark:text-slate-200 group-hover:text-primary transition-colors">Rouge Study</h3>
+<span class="text-xs text-slate-400 italic">2023</span>
+</div>
+</a>
+<a class="group block cursor-pointer" href="#">
+<div class="relative overflow-hidden aspect-[4/5] mb-4 bg-neutral-soft/20 dark:bg-primary/5 rounded">
+<img alt="Detailed sketch of silk texture dress" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-90 group-hover:opacity-100" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKw8XvHjQmYeci-dB5dchJJQDuvVGE4QyVi5otjVgZtAvZnjETrGYp-k8kFt4FPldkw8IZ8HPfYCoOlCOr_ziqfOmWLpyYCd5CgutNNwenIMPX14tUVqTB8Gcmc8VgDF7P86_bHoeEn_HhCT-w9y_tWTeAC63bcfYMdp3OhHoY4dZFxxaZcPutoEzqN8oFMQSnB7f90Ed_vJSjck0HOTTADfrHq4i7ijQ902Rc-bQix1I-LIURkIBUxIf6dbalR-sH9WGJ8DYb9WK1"/>
+</div>
+<div class="flex justify-between items-baseline">
+<h3 class="text-lg text-slate-800 dark:text-slate-200 group-hover:text-primary transition-colors">Silk &amp; Motion</h3>
+<span class="text-xs text-slate-400 italic">2022</span>
+</div>
+</a>
+</div>
+</div>
+</section>
+<footer class="bg-background-light dark:bg-background-dark py-12 text-center border-t border-primary/10">
+<p class="text-slate-500 dark:text-slate-500 text-sm">© 2024 Maison Noir. All rights reserved.</p>
+</footer>
+
+</body></html>

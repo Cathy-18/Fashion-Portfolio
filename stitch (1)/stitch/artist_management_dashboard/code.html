@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Artist Management Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#e8dbca",
+                        "primary-dark": "#d4c5b0",
+                        "background-light": "#f8f5f0", 
+                        "background-dark": "#1d1a15",
+                        "text-main": "#181511",
+                        "text-secondary": "#857560",
+                        "accent-green": "#078810",
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"],
+                        "sans": ["Newsreader", "serif"] // Overriding sans to enforce the requested font everywhere
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px", // Sharp edges requested
+                        "sm": "0px",
+                        "md": "0px", 
+                        "lg": "0px",
+                        "xl": "0px",
+                        "2xl": "0px",
+                        "full": "9999px" // Keep full for avatars
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Newsreader', serif;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-gray-100 font-display transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-row overflow-hidden">
+<!-- Sidebar -->
+<aside class="w-64 flex-shrink-0 border-r border-[#e6e1da] bg-[#f8f5f0] flex flex-col justify-between p-6 h-screen sticky top-0">
+<div class="flex flex-col gap-8">
+<!-- User Profile -->
+<div class="flex gap-4 items-center">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-12 w-12 border border-[#e6e1da]" data-alt="Profile portrait of a fashion illustrator" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuASn_3HG1zUkxUSPLcrfwIcYIOo83Co_9eSEfG_-_FtEwjtxt1Jbo-oPBVQxFrC0pmMhixADlVLuACS0FFXOCsKrNFiWDCLtMAKSWmsiXHFhQpxfIPm1hLaArOSY7AbAsrYQkyBkNCLYM85l8q-gkF5phlArxZT_UPbBT5WXP-56USW9wt3LA_iIwfcV-DDSzB96GxNDuNCSjLRHVlu7mAHITv-d5DoayReQlEe-Vz_pF8h4I4dD4iioyABSbdFh_Wtr1YYYvlWAdiE");'>
+</div>
+<div class="flex flex-col">
+<h1 class="text-text-main text-lg font-medium leading-tight">Artist Dashboard</h1>
+<p class="text-text-secondary text-sm font-normal">Isabella V.</p>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded bg-[#efebe4] text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-base font-medium">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-text-secondary hover:text-text-main hover:bg-[#efebe4] transition-colors rounded" href="#">
+<span class="material-symbols-outlined text-[20px]">image</span>
+<span class="text-base font-medium">Portfolio</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-text-secondary hover:text-text-main hover:bg-[#efebe4] transition-colors rounded" href="#">
+<span class="material-symbols-outlined text-[20px]">chat_bubble</span>
+<span class="text-base font-medium">Messages</span>
+<span class="ml-auto bg-primary text-xs px-2 py-0.5 rounded-full text-text-main">3</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-text-secondary hover:text-text-main hover:bg-[#efebe4] transition-colors rounded" href="#">
+<span class="material-symbols-outlined text-[20px]">trending_up</span>
+<span class="text-base font-medium">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-text-secondary hover:text-text-main hover:bg-[#efebe4] transition-colors rounded" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-base font-medium">Settings</span>
+</a>
+</nav>
+</div>
+<button class="flex w-full cursor-pointer items-center justify-center h-12 px-4 bg-primary hover:bg-primary-dark transition-colors text-text-main text-sm font-bold tracking-wide uppercase border border-primary-dark">
+                New Project
+            </button>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-screen overflow-y-auto bg-background-light dark:bg-background-dark">
+<div class="flex-1 w-full max-w-7xl mx-auto p-8 lg:p-12 flex flex-col gap-8">
+<!-- Header Section -->
+<header class="flex flex-wrap justify-between items-end gap-6 border-b border-[#e6e1da] pb-8">
+<div class="flex flex-col gap-2 max-w-2xl">
+<h2 class="text-text-main text-4xl lg:text-5xl font-light tracking-tight">Dashboard Overview</h2>
+<p class="text-text-secondary text-lg font-light italic">Welcome back, Isabella. Here is your recent activity summary.</p>
+</div>
+<button class="flex min-w-[140px] cursor-pointer items-center justify-center h-12 px-6 bg-[#f0eeea] hover:bg-[#e6e1da] border border-[#e1dcd6] text-text-main text-sm font-bold tracking-wide uppercase transition-colors">
+                        Quick Upload
+                    </button>
+</header>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Stat Card 1 -->
+<div class="flex flex-col justify-between gap-4 p-6 bg-white border border-[#e6e1da] shadow-sm hover:shadow-md transition-shadow h-48">
+<div class="flex justify-between items-start">
+<p class="text-text-secondary text-sm font-medium tracking-widest uppercase">Total Artworks</p>
+<span class="material-symbols-outlined text-text-secondary">palette</span>
+</div>
+<div>
+<p class="text-text-main text-5xl font-light">142</p>
+<div class="flex items-center gap-1 mt-2">
+<span class="material-symbols-outlined text-accent-green text-sm">arrow_upward</span>
+<p class="text-accent-green text-sm font-medium">+2% this month</p>
+</div>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="flex flex-col justify-between gap-4 p-6 bg-white border border-[#e6e1da] shadow-sm hover:shadow-md transition-shadow h-48">
+<div class="flex justify-between items-start">
+<p class="text-text-secondary text-sm font-medium tracking-widest uppercase">Total Views</p>
+<span class="material-symbols-outlined text-text-secondary">visibility</span>
+</div>
+<div>
+<p class="text-text-main text-5xl font-light">8.5k</p>
+<div class="flex items-center gap-1 mt-2">
+<span class="material-symbols-outlined text-accent-green text-sm">arrow_upward</span>
+<p class="text-accent-green text-sm font-medium">+15% vs last week</p>
+</div>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="flex flex-col justify-between gap-4 p-6 bg-white border border-[#e6e1da] shadow-sm hover:shadow-md transition-shadow h-48">
+<div class="flex justify-between items-start">
+<p class="text-text-secondary text-sm font-medium tracking-widest uppercase">New Messages</p>
+<span class="material-symbols-outlined text-text-secondary">mail</span>
+</div>
+<div>
+<p class="text-text-main text-5xl font-light">12</p>
+<div class="flex items-center gap-1 mt-2">
+<span class="material-symbols-outlined text-accent-green text-sm">arrow_upward</span>
+<p class="text-accent-green text-sm font-medium">5 unread</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity Section -->
+<div class="flex flex-col gap-6 mt-4">
+<div class="flex justify-between items-end border-b border-[#e6e1da] pb-2">
+<h3 class="text-text-main text-2xl font-normal tracking-tight">Recent Activity</h3>
+<a class="text-text-secondary text-sm font-medium hover:text-text-main transition-colors mb-1" href="#">View All</a>
+</div>
+<div class="w-full overflow-x-auto border border-[#e6e1da] bg-white">
+<table class="w-full min-w-[800px] text-left border-collapse">
+<thead>
+<tr class="bg-[#faf9f7] border-b border-[#e6e1da]">
+<th class="px-6 py-4 text-text-secondary text-xs font-bold uppercase tracking-widest w-1/3">Artwork Name</th>
+<th class="px-6 py-4 text-text-secondary text-xs font-bold uppercase tracking-widest">Date</th>
+<th class="px-6 py-4 text-text-secondary text-xs font-bold uppercase tracking-widest">Views</th>
+<th class="px-6 py-4 text-text-secondary text-xs font-bold uppercase tracking-widest w-40">Status</th>
+<th class="px-6 py-4 text-text-secondary text-xs font-bold uppercase tracking-widest w-20"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#e6e1da]">
+<tr class="group hover:bg-[#faf9f7] transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 bg-gray-200 bg-cover bg-center border border-[#e6e1da]" data-alt="Abstract watercolor splash in pink and beige" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBOBICSggwrqgryrTU1L8nfv_Hfma44UKTZANoe8Gf67Nkn05u9__-HmsjZGieSot6DOMjHoU30WDCrpzexmvy1_jmNEoD2eNX1XawNyc6rzx4e0BqxjyySSyF1qKQSBLLJOf7Rt-lPnKIUhRTfMl2lmBVLbo08baD6qMk_2wGOtpP340eIqNysjMOdVxvS_SabE-9bge5JIKTmWmUK5SxI8JtBG2kvvzjICRzTOjSkyhHemjXY7hWOvD8ipW7sxnTNlpH-mja1DjaQ')"></div>
+<div>
+<p class="text-text-main font-medium text-lg leading-none mb-1">Summer Collection '24</p>
+<p class="text-text-secondary text-xs">Illustration</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-text-secondary font-medium">Oct 24, 2024</td>
+<td class="px-6 py-4 text-text-secondary font-medium">1,204</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center justify-center px-3 py-1 bg-[#e8f5e9] text-[#1b5e20] text-xs font-bold uppercase tracking-wide border border-[#c8e6c9]">
+                                            Published
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-text-secondary hover:text-text-main">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-[#faf9f7] transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 bg-gray-200 bg-cover bg-center border border-[#e6e1da]" data-alt="Fashion sketch of a woman in a dress" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCeBs6cnymgihio4teCWVnykC51-ccm0n-B8llynQgIcXus7Q0nzj8LybM5O2TBJe3AP2KWbHriZgsHXUm4GogtD8A11crGVqPDgBpiFjZIe5oVZ77-GfuRrx5HstKHoQbuCvKtfGXCXYo7wU2CH1c5YlQKBTN_We-GvtzPK-4c95yjx16CSoR8TZp-bYiGJmFRFrit8N0eP-i5xj_4rvWTZKMP2CXwVS5OYUkHfP3Ma959_GhD5xYMHVas3QZVdsDYYRyBQIJ2GdCn')"></div>
+<div>
+<p class="text-text-main font-medium text-lg leading-none mb-1">Vogue Draft</p>
+<p class="text-text-secondary text-xs">Sketch</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-text-secondary font-medium">Oct 22, 2024</td>
+<td class="px-6 py-4 text-text-secondary font-medium">—</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center justify-center px-3 py-1 bg-[#fff3e0] text-[#e65100] text-xs font-bold uppercase tracking-wide border border-[#ffe0b2]">
+                                            Draft
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-text-secondary hover:text-text-main">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-[#faf9f7] transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 bg-gray-200 bg-cover bg-center border border-[#e6e1da]" data-alt="High fashion runway model illustration" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBxbAJ_lycvWNTyuUbbjVW2HJ2oULKnwtTIEEHE261eCEL4DwK_wAaJJY7q4Azv2n0gKfXbfIvRUuJYYx4oA1_gIeI4FZLcddocTjXFWUbzagnoSSpCqNl2KTM2pglwR6HgQo2MElkrkKipjeIhQ9BighVf0gDt6-f7Dam8fGydvARglkJ1Z65I177BfmWoW7iRwGTL913hyWu8vaRPDeQpnJVNCpTObfCum58wsh1UKmkrTfcIoVunuMI_IjNYNz_26g9vGDkn-eDt')"></div>
+<div>
+<p class="text-text-main font-medium text-lg leading-none mb-1">Paris Fashion Week</p>
+<p class="text-text-secondary text-xs">Event Coverage</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-text-secondary font-medium">Oct 18, 2024</td>
+<td class="px-6 py-4 text-text-secondary font-medium">3,400</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center justify-center px-3 py-1 bg-[#e8f5e9] text-[#1b5e20] text-xs font-bold uppercase tracking-wide border border-[#c8e6c9]">
+                                            Published
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-text-secondary hover:text-text-main">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-[#faf9f7] transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 bg-gray-200 bg-cover bg-center border border-[#e6e1da]" data-alt="Minimalist line art sketch" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAYNCMwID0HgbtX84u6m1qtGG7qubIcbaqNIcje-aXk13s3NROb6Vg8KabDUoFyL-dSj-j8BoUtLjsuzULsTujHAP0tRDqt7HwyoRc5KY8DJysdcIrnAMpJIK_-qOHLO5R65bnSWikSWZ4ZZe41QYUdzRdc7ix7HTm3TmxYp4suTliEcNe0Yo3rtOBrOCzhUiLsPi-gpM4RWAxB73DFM3WILcvYMvRpeolBTm1y5cXgIj-snCUuqwbcpViLQhBWy_IRqpYy1Qkvy7BN')"></div>
+<div>
+<p class="text-text-main font-medium text-lg leading-none mb-1">Sketch #402</p>
+<p class="text-text-secondary text-xs">Study</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-text-secondary font-medium">Oct 15, 2024</td>
+<td class="px-6 py-4 text-text-secondary font-medium">—</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center justify-center px-3 py-1 bg-[#eeeeee] text-[#616161] text-xs font-bold uppercase tracking-wide border border-[#e0e0e0]">
+                                            Archived
+                                        </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-text-secondary hover:text-text-main">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Bottom Grid (Calendar / Notices) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
+<!-- Mini Calendar/Tasks -->
+<div class="bg-white p-6 border border-[#e6e1da] flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<h4 class="text-text-main text-lg font-normal">Upcoming Deadlines</h4>
+<span class="material-symbols-outlined text-text-secondary cursor-pointer">calendar_month</span>
+</div>
+<ul class="flex flex-col gap-3">
+<li class="flex items-center gap-3 p-3 bg-[#fbfaf9] border border-[#e6e1da]">
+<div class="w-10 h-10 flex items-center justify-center bg-primary/20 text-text-main font-bold text-xs border border-primary/40">
+                                     28
+                                 </div>
+<div class="flex flex-col">
+<span class="text-text-main font-medium text-sm">Vogue Fall Issue Submission</span>
+<span class="text-text-secondary text-xs">Due in 2 days</span>
+</div>
+</li>
+<li class="flex items-center gap-3 p-3 bg-[#fbfaf9] border border-[#e6e1da]">
+<div class="w-10 h-10 flex items-center justify-center bg-[#f0f0f0] text-text-secondary font-bold text-xs border border-[#e0e0e0]">
+                                    02
+                                </div>
+<div class="flex flex-col">
+<span class="text-text-main font-medium text-sm">Client Meeting: Chanel</span>
+<span class="text-text-secondary text-xs">Nov 2nd, 10:00 AM</span>
+</div>
+</li>
+</ul>
+</div>
+<!-- Quick Note -->
+<div class="bg-primary/10 p-6 border border-primary/20 flex flex-col gap-4">
+<h4 class="text-text-main text-lg font-normal">Editor's Note</h4>
+<p class="text-text-secondary text-sm leading-relaxed italic">
+                             "Remember to focus on the texture details for the upcoming scarf collection. The client requested more emphasis on the silk drape effect."
+                         </p>
+<div class="mt-auto flex justify-end">
+<button class="text-text-main text-xs font-bold uppercase tracking-widest border-b border-text-main pb-0.5 hover:opacity-70 transition-opacity">
+                                 Read Full Brief
+                             </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

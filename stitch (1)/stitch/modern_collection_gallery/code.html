@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Modern Collection Gallery</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1152d4",
+                        "background-light": "#F8F5F0", /* Overriding to match user request for warm ivory */
+                        "background-dark": "#101622",
+                        "stone": {
+                            50: '#fafaf9',
+                            100: '#f5f5f4', 
+                            200: '#e7e5e4',
+                            300: '#d6d3d1',
+                            400: '#a8a29e',
+                            500: '#78716c',
+                            600: '#57534e',
+                            700: '#44403c',
+                            800: '#292524',
+                            900: '#1c1917',
+                        }
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-stone-900 dark:text-stone-100 font-display transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header -->
+<header class="sticky top-0 z-50 w-full bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-sm border-b border-primary/10 px-6 py-4 md:px-12">
+<div class="mx-auto flex max-w-7xl items-center justify-between">
+<!-- Logo Area -->
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-8 rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-xl">brush</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-stone-900 dark:text-white uppercase">Illustrator</h2>
+</div>
+<!-- Navigation Desktop -->
+<nav class="hidden md:flex flex-1 justify-center gap-8">
+<a class="text-stone-600 dark:text-stone-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Portfolio</a>
+<a class="text-stone-600 dark:text-stone-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">About</a>
+<a class="text-stone-600 dark:text-stone-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Contact</a>
+<a class="text-stone-600 dark:text-stone-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Shop</a>
+</nav>
+<!-- Action Button -->
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex items-center justify-center h-10 px-6 bg-primary hover:bg-primary/90 text-white text-sm font-bold rounded-full transition-all shadow-md hover:shadow-lg">
+                        Hire Me
+                    </button>
+<button class="md:hidden p-2 text-stone-900 dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full px-6 py-12 md:px-12 md:py-16">
+<div class="mx-auto max-w-7xl flex flex-col gap-12">
+<!-- Hero Section -->
+<div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between border-b border-primary/10 pb-12">
+<div class="max-w-2xl">
+<span class="text-primary font-medium tracking-widest text-xs uppercase mb-2 block">Curated Collection</span>
+<h1 class="text-5xl md:text-7xl font-black leading-tight tracking-tight text-stone-900 dark:text-white mb-6">
+                            MODERN<br/><span class="text-stone-400 italic font-light">AESTHETICS</span>
+</h1>
+<p class="text-stone-600 dark:text-stone-300 text-lg md:text-xl max-w-lg leading-relaxed">
+                            A refined selection of digital and contemporary fashion illustrations showcasing modern lines, bold silhouettes, and avant-garde concepts.
+                        </p>
+</div>
+<div class="flex gap-4">
+<button class="size-12 rounded-full border border-primary/20 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-all group">
+<span class="material-symbols-outlined rotate-180 group-hover:-translate-x-1 transition-transform">arrow_right_alt</span>
+</button>
+<button class="size-12 rounded-full border border-primary/20 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-all group">
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
+</button>
+</div>
+</div>
+<!-- Asymmetrical Masonry Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-[minmax(100px,auto)]">
+<!-- Item 1: Large Feature -->
+<div class="group cursor-pointer flex flex-col gap-4 sm:row-span-2">
+<div class="relative w-full h-full min-h-[400px] overflow-hidden rounded-xl bg-stone-200 dark:bg-stone-800">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Avant garde fashion illustration with bold geometric shapes" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC4pXOiP1MZcx-WamX9ROVy12dYGdVH8bHmeSYyt6pEIqc4kZXRlDhphcnpxQXGCjc3OZztVmT3H_1JZEh0h625f8jDvi5xdGYBW7yHFeHJX0maUj084gF57lo2iAU0DNFN8hMSeR6cPhnhU9haJFK7oop0auOxc7xxpLIYqsHSzLi_rGTvU94nVjilGb11emGRc03DA9cwqhdePGzwqCIGRPwKR9hab5l_aRLCTnx6NCDLJeV9WgJeEEeQgGo--R8Ygp8-4aQt9WZX");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<div class="absolute bottom-4 left-4 text-white translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+<span class="material-symbols-outlined">visibility</span>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold text-stone-900 dark:text-white group-hover:text-primary transition-colors">Avant Garde Spring</h3>
+<p class="text-stone-500 dark:text-stone-400 text-sm">Editorial 2023</p>
+</div>
+<span class="text-xs font-bold border border-stone-300 dark:border-stone-700 px-2 py-1 rounded text-stone-500 dark:text-stone-400">01</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group cursor-pointer flex flex-col gap-4">
+<div class="relative w-full aspect-[4/5] overflow-hidden rounded-xl bg-stone-200 dark:bg-stone-800">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Minimalist portrait illustration with soft pastel colors" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAwDN2qgsBtG7iF7yyoIq7vA4jeRLrCYpA16t5zuzFnnRfMpDzcTAOa2TbLrmuGrpRbpsui0916lJlOP4Bj8GnR5D4ZSrsuX99D0RE1VZOur1daKv5mWIA-ZXjPINy0lfAgaTV8OJZRtHWAbFSLq68qTp8iTZJH7c3lTBShXWkyjEGaNc9IOyeb8p4Ss14yJaSV-tzIKIqKe8WJC0dSh6zmbWaoDWS10Xl4c56Ed4n1T_wP6Rq6MWaw_PSfCVykOZ75ZlO5jAIujjGr");'></div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-primary transition-colors">Urban Minimalist</h3>
+<p class="text-stone-500 dark:text-stone-400 text-sm">Personal Project</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="group cursor-pointer flex flex-col gap-4 lg:pt-16">
+<div class="relative w-full aspect-[3/4] overflow-hidden rounded-xl bg-stone-200 dark:bg-stone-800">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="High fashion digital couture sketch in red" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDUid2YZW1wnfrDRDD0UoePxucuQ5TZ3tDO2czvreScNap16UaHuUv9qAO3eDpZiMk5Z0kM6FTyrfs1krjQDqdNdf0geonfFRBNAa1XiJcTD2DR5CkKeXUFYHdEQgCaGNxOxIMOL0PahQSowj7xjO-SeigCac_5IfiCjp6tmHBGzFz7QbHVnnlzQXRBqh_wSmZNVta8v-8gyfSfV1YsoxRYrOzSLeEEl8S6w8yVaxyHE7zO9BbR3zbzLdbmIwCGJ6to6uMGM9SEuJRR");'></div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-primary transition-colors">Digital Couture</h3>
+<p class="text-stone-500 dark:text-stone-400 text-sm">Vogue Italia</p>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="group cursor-pointer flex flex-col gap-4 sm:pt-12">
+<div class="relative w-full aspect-[3/4] overflow-hidden rounded-xl bg-stone-200 dark:bg-stone-800">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Abstract fashion forms with fluid lines" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAAN0_JIol3PxU04ZsbaOMAjNYeGsPf9GmSEFMY0JoN2Mw3A_plHZLiaElrAvNORuykD_kijMqt2c_LmsQZYAjHVAFF_W65gTLCWdeQlTAhJ4TVkcqMNJlFfslRH0fMPdqZj4aJLTbzCwEDGV4Qzx5b6Gb3CZEsApi3JXl59WUoU9vBiT1T73W3OCR_IyR9skpbZ5rnmncRT2GpCh4UIPRwK4EfwiKK2ZGHO_GHDChhrJF7QQj43GdEd9dQN8wJylT5yOfE-alS_dPe");'></div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-primary transition-colors">Abstract Forms</h3>
+<p class="text-stone-500 dark:text-stone-400 text-sm">Concept Art</p>
+</div>
+</div>
+<!-- Item 5: Tall Span -->
+<div class="group cursor-pointer flex flex-col gap-4 sm:row-span-2">
+<div class="relative w-full h-full min-h-[500px] overflow-hidden rounded-xl bg-stone-200 dark:bg-stone-800">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Pastel dreamscape fashion illustration with soft lighting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBuzeRvS6M0cCbS4sZ2u70tPWoUPpFtA3aCH6VJGzlecmhOWjZHNmt5jn8Jh5BB4phuXGvdGkFOD03fssOIw85OZWwx3lboNYCvYZuXUWsegNC77Nq149cDQXcI9bn8dpMXQu-XK71GEC8PdNutW9OGW7CB3UuUVUaO2gjAFdOPYWdQ4Znk3Gp6hQpocnMkh5fAgAlQIGAMQz-PgU7_0wb695NVGOxR7aAy6ieS6gJbRBV5fcbip-DGFvjBVc2nFprm3TemF20t24oG");'></div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="text-xl font-bold text-stone-900 dark:text-white group-hover:text-primary transition-colors">Pastel Dreams</h3>
+<p class="text-stone-500 dark:text-stone-400 text-sm">Fashion Week</p>
+</div>
+<span class="text-xs font-bold border border-stone-300 dark:border-stone-700 px-2 py-1 rounded text-stone-500 dark:text-stone-400">05</span>
+</div>
+</div>
+<!-- Item 6 -->
+<div class="group cursor-pointer flex flex-col gap-4">
+<div class="relative w-full aspect-square overflow-hidden rounded-xl bg-stone-200 dark:bg-stone-800">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Structured coat illustration with sharp tailoring" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDjFMfVP5b6aRKDb-t0kP_IKLP4oMQOHSFvbCcFUeerIh2p1j1TNWPoKI60qpx3M3m36x_TehMYDztJlhJHWnfqMU_Xe4UaTmemtwml3UvLE57pGaSDaeEWRT6AZE-peaUUDci2MugA_ZxuUNPqnDWUNjFRftyL50aQ2ik2io9Tnz3bpShh9AZ6BoqXUJLoadmNptiBPxWn2v7Hp-NqWLfiriP_8yWQzONUgtqPfjZErlE3-KGAOinSmBuEkU3c7lLkkG5_opqN2BWW");'></div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-primary transition-colors">Structured Coats</h3>
+<p class="text-stone-500 dark:text-stone-400 text-sm">Fall Collection</p>
+</div>
+</div>
+<!-- Item 7 -->
+<div class="group cursor-pointer flex flex-col gap-4">
+<div class="relative w-full aspect-[4/3] overflow-hidden rounded-xl bg-stone-200 dark:bg-stone-800">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Floral pattern textile design close up" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD0GDlXGI9-LzFwuNCtE2K28bEDWvIQCg87diemC4bBktzFTg7Lfn3NIhJ1XZfVZtbHXnnZac0vi-2D3REpixKwN8-t-UkBda4H5lU3YD3IIJbIqPWj8t3SK9J8l5n8qwjD83rMdcjlJJpnwWn751UMo8wMyh333ddRv-R4B-N2zpTl0nezTZTcF4GKPLLnXRxKC91xLVaBcf_rOezWoGgdbLCYT14iNYokze2hoAFqmWrnDwimlzFE3Au0JRkMpa2tz9Eq51oyZRx_");'></div>
+</div>
+<div>
+<h3 class="text-lg font-bold text-stone-900 dark:text-white group-hover:text-primary transition-colors">Botanical Study</h3>
+<p class="text-stone-500 dark:text-stone-400 text-sm">Textile Design</p>
+</div>
+</div>
+</div>
+<!-- Load More -->
+<div class="flex justify-center py-8">
+<button class="px-8 py-3 border border-primary/30 text-primary font-bold text-sm uppercase tracking-wider hover:bg-primary hover:text-white transition-all rounded-lg">
+                        View All Works
+                    </button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-auto border-t border-primary/10 bg-white dark:bg-background-dark py-12 px-6">
+<div class="mx-auto max-w-7xl flex flex-col gap-8 md:flex-row md:justify-between md:items-center">
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">brush</span>
+<span class="font-bold text-stone-900 dark:text-white tracking-tight">ILLUSTRATOR</span>
+</div>
+<p class="text-stone-500 dark:text-stone-400 text-sm max-w-xs">
+                        Capturing the essence of modern fashion through digital artistry and creative expression.
+                    </p>
+</div>
+<div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start md:items-center">
+<div class="flex gap-6 text-sm font-medium text-stone-600 dark:text-stone-300">
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Licensing</a>
+</div>
+<div class="flex gap-4">
+<a class="size-10 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-300 hover:bg-primary hover:text-white transition-all" href="#">
+<!-- Replaced custom SVG with FontAwesome/Material equivalent representation or generic social icon for now as per instruction to use material symbols where possible, but for social logos usually SVG is better. Keeping it simple with Material Symbols for 'social' concept or generic link. Actually, instructions said replace data-icon with Material Symbols. Social icons are specific brands. I will use generic link symbols or keep SVGs if critical. The prompt said "Replace all the icons in the code that have data-icon attribute with the Material Symbols". I will use generic 'link' or similar for social if specific brand icons aren't available in Material Symbols, but typically designers prefer brand icons. I will try to find close matches or just use a generic 'public' icon for social media representation if needed, but since the original had SVG paths, I will stick to the instruction and use Material Symbols where data-icon was present. Wait, social media logos don't exist in Material Symbols. I will use a generic 'share' or 'link' icon to represent social links to follow the strict instruction, or use a generic globe. Let's use 'public' for social presence. -->
+<span class="material-symbols-outlined text-xl">public</span>
+</a>
+<a class="size-10 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-300 hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-xl">image</span>
+</a>
+<a class="size-10 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-300 hover:bg-primary hover:text-white transition-all" href="#">
+<span class="material-symbols-outlined text-xl">mail</span>
+</a>
+</div>
+</div>
+</div>
+<div class="mx-auto max-w-7xl mt-8 pt-8 border-t border-stone-100 dark:border-stone-800 text-center md:text-left">
+<p class="text-stone-400 dark:text-stone-600 text-xs">© 2024 Fashion Illustrator Portfolio. All rights reserved.</p>
+</div>
+</footer>
+</div>
+</body></html>

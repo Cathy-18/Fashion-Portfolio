@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Login - Fashion Illustrator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#cabba0",
+                        "background-light": "#f7f7f6",
+                        "background-dark": "#1c1a16",
+                        "stone-custom": "#E8DCCB",
+                    },
+                    fontFamily: {
+                        "display": ["Newsreader", "serif"],
+                        "sans": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-stone-900 dark:text-stone-100 min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-stone-200 dark:border-stone-800 px-10 py-4 bg-background-light dark:bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-4 text-stone-900 dark:text-stone-100">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined !text-2xl">brush</span>
+</div>
+<h2 class="text-stone-900 dark:text-stone-100 text-xl font-bold leading-tight tracking-[-0.015em]">Fashion Illustrator</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8 items-center">
+<nav class="flex items-center gap-9">
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 text-sm font-medium leading-normal transition-colors" href="#">Portfolio</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 text-sm font-medium leading-normal transition-colors" href="#">About</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 text-sm font-medium leading-normal transition-colors" href="#">Contact</a>
+</nav>
+<a class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-6 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 text-sm font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity" href="#">
+<span>View Site</span>
+</a>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow flex items-center justify-center p-6 relative overflow-hidden">
+<!-- Abstract Background Decoration -->
+<div class="absolute -top-20 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-stone-200/40 dark:bg-stone-800/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="w-full max-w-md bg-white dark:bg-stone-900 border border-stone-100 dark:border-stone-800 shadow-xl shadow-stone-200/50 dark:shadow-none rounded-xl p-8 md:p-12 relative z-10">
+<div class="flex flex-col items-center mb-8">
+<div class="size-12 bg-primary/20 rounded-full flex items-center justify-center mb-4 text-primary">
+<span class="material-symbols-outlined !text-2xl">lock</span>
+</div>
+<h1 class="text-3xl md:text-4xl font-bold text-stone-900 dark:text-white tracking-tight text-center mb-2">Admin Login</h1>
+<p class="text-stone-500 dark:text-stone-400 text-center text-sm font-sans">Enter your credentials to access the dashboard</p>
+</div>
+<form class="space-y-6">
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="block text-sm font-medium text-stone-700 dark:text-stone-300 font-sans" for="email">Email Address</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+<span class="material-symbols-outlined !text-xl">mail</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-3 border border-stone-custom rounded-lg bg-stone-50 dark:bg-stone-800/50 text-stone-900 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all font-sans sm:text-sm" id="email" placeholder="you@example.com" type="email" value=""/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<div class="flex items-center justify-between">
+<label class="block text-sm font-medium text-stone-700 dark:text-stone-300 font-sans" for="password">Password</label>
+<a class="text-xs font-medium text-primary hover:text-primary/80 transition-colors font-sans" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+<span class="material-symbols-outlined !text-xl">key</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-3 border border-stone-custom rounded-lg bg-stone-50 dark:bg-stone-800/50 text-stone-900 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all font-sans sm:text-sm" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-stone-900 bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-200 mt-2" type="button">
+                    Sign In
+                </button>
+</form>
+<div class="mt-8 pt-6 border-t border-stone-100 dark:border-stone-800 text-center">
+<p class="text-xs text-stone-500 dark:text-stone-400 font-sans">
+                    Secure access for authorized personnel only.
+                </p>
+</div>
+</div>
+</main>
+</body></html>

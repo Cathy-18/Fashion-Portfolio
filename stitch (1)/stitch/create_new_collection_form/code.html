@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create New Collection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Noto+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#e3dcce",
+                        "background-light": "#f7f7f6",
+                        "background-dark": "#1c1a16",
+                        "text-main": "#171512",
+                        "text-sub": "#7f7766",
+                        "border-sub": "#efeeeb",
+                    },
+                    fontFamily: {
+                        display: ["Newsreader", "serif"],
+                        sans: ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "9999px",
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main font-sans antialiased min-h-screen flex flex-col overflow-hidden">
+<div class="flex h-screen w-full bg-background-light">
+<!-- Sidebar -->
+<aside class="w-64 flex-shrink-0 border-r border-border-sub bg-[#fbfaf9] flex flex-col">
+<div class="h-16 flex items-center px-6 border-b border-border-sub">
+<div class="flex items-center gap-2 text-text-main">
+<div class="size-6 bg-text-main text-white flex items-center justify-center rounded-full">
+<span class="material-symbols-outlined text-sm">brush</span>
+</div>
+<h2 class="text-lg font-bold font-display tracking-tight">Illustrator Admin</h2>
+</div>
+</div>
+<div class="p-4 flex flex-col gap-6 overflow-y-auto flex-1">
+<!-- User Profile Snippet -->
+<div class="flex items-center gap-3 pb-4 border-b border-border-sub">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 bg-gray-200" data-alt="User profile avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB1liPL-p7cMwHNJHNRzgsMFvZnReLAnzcQeGEbfnC5e66l0vUyAps-jYKPkAO165VA5ccYgjL5m94VKJ0lEe2wt0MGFAsebBtOEq8KYweyrmCRVIQr9etfb37z5DXdb8r7RbWfpZm7wQVivKBD37d6S_D-xVv7NwKqcj9hcGGQQG4Il3xf0HThfin9w3yZ4ARbJ4sHB3yuOkv7lluDF1bH_zcPUP-UeWvtyM5s9sLhlRdECQKxmkh2CDcH9buNq4ndVnzKtq7AlvYU");'></div>
+<div class="flex flex-col">
+<span class="text-sm font-semibold font-display">Isabella V.</span>
+<span class="text-xs text-text-sub">Portfolio Manager</span>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-text-sub hover:bg-primary/20 hover:text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded bg-primary text-text-main font-medium" href="#">
+<span class="material-symbols-outlined text-xl font-variation-settings-fill">folder</span>
+<span class="text-sm">Collections</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-text-sub hover:bg-primary/20 hover:text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">image</span>
+<span class="text-sm font-medium">Illustrations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded text-text-sub hover:bg-primary/20 hover:text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">attach_money</span>
+<span class="text-sm font-medium">Commissions</span>
+</a>
+</nav>
+<div class="mt-auto">
+<a class="flex items-center gap-3 px-3 py-2 rounded text-text-sub hover:bg-primary/20 hover:text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-white">
+<!-- Header -->
+<header class="h-16 flex items-center justify-between px-8 border-b border-border-sub bg-white">
+<div class="flex items-center flex-1 max-w-xl">
+<div class="relative w-full">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-text-sub">
+<span class="material-symbols-outlined text-xl">search</span>
+</span>
+<input class="w-full py-2 pl-10 pr-4 text-sm bg-background-light border-none rounded-lg focus:ring-1 focus:ring-primary/50 placeholder-text-sub/70 text-text-main" placeholder="Search collections..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4 ml-4">
+<button class="p-2 text-text-main hover:bg-background-light rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-xl">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border border-white"></span>
+</button>
+<button class="p-2 text-text-main hover:bg-background-light rounded-full transition-colors">
+<span class="material-symbols-outlined text-xl">help</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto p-8 lg:p-12">
+<div class="max-w-5xl mx-auto">
+<!-- Page Title -->
+<div class="flex items-end justify-between mb-10">
+<div>
+<h1 class="text-4xl font-display font-medium text-text-main mb-2">Create New Collection</h1>
+<p class="text-text-sub font-display italic text-lg">Curate a new set of illustrations for your editorial portfolio.</p>
+</div>
+<div class="hidden sm:flex gap-3">
+<button class="px-6 py-2.5 rounded border border-border-sub text-text-sub hover:text-text-main hover:border-text-sub transition-colors font-medium text-sm">
+                                Cancel
+                            </button>
+<button class="px-6 py-2.5 rounded bg-primary text-text-main font-semibold hover:bg-[#dcd3c3] transition-colors shadow-sm text-sm">
+                                Create Collection
+                            </button>
+</div>
+</div>
+<!-- Form Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+<!-- Left Column: Image Upload -->
+<div class="lg:col-span-5 flex flex-col gap-2">
+<label class="block text-sm font-semibold text-text-main mb-1">Cover Image</label>
+<div class="group relative flex flex-col items-center justify-center w-full aspect-[3/4] rounded-lg border-2 border-dashed border-[#CBBBA0] bg-[#fbfaf9] hover:bg-[#f4f2ef] transition-colors cursor-pointer">
+<div class="flex flex-col items-center justify-center pt-5 pb-6 text-center px-4">
+<div class="mb-4 p-3 bg-white rounded-full shadow-sm">
+<span class="material-symbols-outlined text-3xl text-[#CBBBA0]">add_photo_alternate</span>
+</div>
+<p class="mb-2 text-sm text-text-main font-medium"><span class="font-bold underline decoration-primary decoration-2 underline-offset-2">Click to upload</span> or drag and drop</p>
+<p class="text-xs text-text-sub">SVG, PNG, JPG or GIF (MAX. 800x1200px)</p>
+</div>
+<input class="hidden" id="dropzone-file" type="file"/>
+</div>
+<p class="text-xs text-text-sub mt-2">This image will appear as the thumbnail in your portfolio grid.</p>
+</div>
+<!-- Right Column: Details -->
+<div class="lg:col-span-7 flex flex-col gap-8">
+<!-- Collection Name -->
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-text-main" for="collection-name">Collection Name</label>
+<input class="block w-full rounded border-border-sub bg-background-light px-4 py-3 text-text-main shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-display" id="collection-name" placeholder="e.g. Autumn Couture '24" type="text"/>
+</div>
+<!-- Editorial Description -->
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-text-main" for="description">Editorial Description</label>
+<textarea class="block w-full rounded border-border-sub bg-background-light px-4 py-3 text-text-main shadow-sm focus:border-primary focus:ring-primary sm:text-sm resize-none font-sans" id="description" placeholder="Describe the narrative behind this collection..." rows="5"></textarea>
+<div class="flex justify-end">
+<span class="text-xs text-text-sub">0/500 characters</span>
+</div>
+</div>
+<!-- Layout Grid & Theme -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Category -->
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-text-main" for="category">Category</label>
+<div class="relative">
+<select class="block w-full appearance-none rounded border-border-sub bg-background-light px-4 py-3 pr-10 text-text-main shadow-sm focus:border-primary focus:ring-primary sm:text-sm" id="category">
+<option>Editorial</option>
+<option>Sketchbook</option>
+<option>Commercial</option>
+<option>Personal Project</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-text-sub">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Theme Color -->
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-text-main">Theme Color</label>
+<div class="flex gap-3">
+<label class="relative cursor-pointer">
+<input checked="" class="peer sr-only" name="theme-color" type="radio"/>
+<div class="size-10 rounded-full border border-border-sub bg-white ring-2 ring-transparent peer-checked:ring-text-main peer-checked:ring-offset-2 transition-all shadow-sm"></div>
+</label>
+<label class="relative cursor-pointer">
+<input class="peer sr-only" name="theme-color" type="radio"/>
+<div class="size-10 rounded-full border border-border-sub bg-[#fbfaf8] ring-2 ring-transparent peer-checked:ring-text-main peer-checked:ring-offset-2 transition-all shadow-sm"></div>
+</label>
+<label class="relative cursor-pointer">
+<input class="peer sr-only" name="theme-color" type="radio"/>
+<div class="size-10 rounded-full border border-border-sub bg-[#e8e4dc] ring-2 ring-transparent peer-checked:ring-text-main peer-checked:ring-offset-2 transition-all shadow-sm"></div>
+</label>
+</div>
+</div>
+</div>
+<!-- Toggle Options -->
+<div class="pt-4 border-t border-border-sub space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-sm font-semibold text-text-main">Make Public</span>
+<span class="text-xs text-text-sub">Collection will be visible on your portfolio immediately.</span>
+</div>
+<button aria-checked="true" class="bg-text-main relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2" role="switch" type="button">
+<span aria-hidden="true" class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Mobile Action Buttons -->
+<div class="mt-10 sm:hidden flex flex-col gap-3">
+<button class="w-full px-6 py-3 rounded bg-primary text-text-main font-semibold shadow-sm text-sm">
+                            Create Collection
+                        </button>
+<button class="w-full px-6 py-3 rounded border border-border-sub text-text-sub font-medium text-sm">
+                            Cancel
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
