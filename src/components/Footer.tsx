@@ -3,7 +3,7 @@ import { Instagram, Mail } from 'lucide-react';
 
 export default function Footer() {
   const location = useLocation();
-  const isLightPage = ['/', '/atelier', '/collections', '/contact', '/login', '/admin'].includes(location.pathname);
+  const isLightPage = ['/', '/atelier', '/collections', '/contact', '/login', '/admin'].includes(location.pathname) || location.pathname.startsWith('/collections/');
 
   return (
     <footer className={`border-t py-8 ${isLightPage ? 'bg-cream border-ink/10' : 'bg-luxury-dark border-white/5'}`}>

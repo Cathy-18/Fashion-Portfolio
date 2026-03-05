@@ -9,7 +9,7 @@ export default function Contact() {
   ];
 
   return (
-    <div className="min-h-screen bg-off-white text-ink pt-24 pb-20">
+    <div className="min-h-screen bg-off-white text-ink pt-32 pb-20">
       <div className="max-w-2xl mx-auto px-6">
         {/* Inquiries Section */}
         <section className="text-center mb-16">

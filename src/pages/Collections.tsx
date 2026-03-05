@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Loader2, ChevronDown } from 'lucide-react';
+import ImagePlaceholder from '../components/ImagePlaceholder';
 
 interface CloudinaryImage {
   publicId: string;
@@ -74,7 +75,7 @@ export default function Collections() {
   }
 
   return (
-    <div className="min-h-screen bg-off-white text-ink pt-24 pb-20">
+    <div className="min-h-screen bg-off-white text-ink pt-32 pb-20">
       <div className="max-w-6xl mx-auto px-6">
         {/* Curated Collections Section */}
         <section className="mb-24">
@@ -100,9 +101,7 @@ export default function Collections() {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-beige to-beige-dark">
-                      <span className="text-ink/20 font-serif text-2xl tracking-[0.5em] uppercase">CN</span>
-                    </div>
+                    <ImagePlaceholder size="md" />
                   )}
                 </div>
                 <h3 className="text-ink font-sans text-base font-medium">
@@ -154,9 +153,7 @@ export default function Collections() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-beige to-beige-dark">
-                        <span className="text-ink/20 font-serif text-2xl tracking-[0.5em] uppercase">CN</span>
-                      </div>
+                      <ImagePlaceholder size="md" />
                     )}
                   </div>
                   <div className="flex justify-between items-baseline">

@@ -71,13 +71,15 @@ async function startServer() {
         type: 'upload',
         prefix: 'luxury-portfolio/',
         max_results: 100,
-        tags: true
+        tags: true,
+        context: true
       });
 
       const images = result.resources.map((resource: any) => ({
         publicId: resource.public_id,
         url: resource.secure_url,
         tags: resource.tags || [],
+        context: resource.context?.custom || {},
         createdAt: resource.created_at
       }));
 
@@ -121,6 +123,24 @@ async function startServer() {
     } catch (error) {
       console.error('Error classifying image:', error);
       res.status(500).json({ error: 'Failed to classify image' });
+    }
+  });
+
+  // Update Image Context (Caption/Name)
+  app.patch('/api/images/context', async (req, res) => {
+    const { publicId, caption } = req.body;
+    if (!publicId) return res.status(400).json({ error: 'Public ID is required' });
+
+    try {
+      // Use Admin API to update context (custom metadata)
+      const result = await cloudinary.api.update(publicId, {
+        context: { caption: caption || '' }
+      });
+
+      res.json({ message: 'Context updated', result });
+    } catch (error) {
+      console.error('Error updating context:', error);
+      res.status(500).json({ error: 'Failed to update context' });
     }
   });
 

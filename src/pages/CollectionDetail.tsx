@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Grid, Loader2, Palette, Mail } from 'lucide-react';
+import ImagePlaceholder from '../components/ImagePlaceholder';
 
 interface CloudinaryImage {
   publicId: string;
   url: string;
   tags: string[];
+  context: { caption?: string };
 }
 
 export default function CollectionDetail() {
@@ -54,18 +56,14 @@ export default function CollectionDetail() {
   }
 
   if (isThemed) {
-    const featuredImage = images[0]?.url || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=1200';
-    const conceptImage = images[1]?.url || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=800';
-    const textureImage = images[2]?.url || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80&w=1200';
-    const etherealImage = images[3]?.url || 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=800';
-    const lineageImage = images[4]?.url || conceptImage;
-    const popImage = images[5]?.url || conceptImage;
-    const springImage = images[6]?.url || featuredImage;
+    const etherealImage = images[0] || null;
+    const lineageImage = images[1] || null;
+    const popImage = images[2] || null;
 
     return (
       <div className="min-h-screen bg-[#F8F6F3] text-[#1A1915]">
         {/* Header Section */}
-        <header className="pt-32 pb-20 px-6 md:px-12 max-w-[1400px] mx-auto">
+        <header className="pt-32 pb-20 px-6 md:px-12 max-w-[1400px] mx-auto border-b border-[#1A1915]/5 mb-20">
           <div className="flex flex-col md:flex-row justify-between items-start gap-12">
             <div className="max-w-xl animate-luxury-fade">
               <p className="text-[#1A1915]/40 text-[10px] tracking-[0.4em] uppercase font-bold mb-6">
@@ -85,72 +83,8 @@ export default function CollectionDetail() {
           </div>
         </header>
 
-        {/* Featured Gallery Section */}
+        {/* Commissioned Series Section (Only Grid Kept) */}
         <section className="px-6 md:px-12 pb-32 max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-            {/* Main Featured Card */}
-            <div className="md:col-span-8 group relative aspect-[4/3] overflow-hidden rounded-lg shadow-xl animate-luxury-fade">
-              <img
-                src={featuredImage}
-                alt="Seasonal Shifts"
-                className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              <div className="absolute bottom-8 left-8 text-white">
-                <p className="text-[10px] tracking-[0.3em] uppercase font-bold mb-2 opacity-80">Autumn / Winter 2024</p>
-                <h2 className="font-serif text-4xl mb-4">Seasonal Shifts</h2>
-                <button className="text-[10px] tracking-[0.2em] uppercase font-bold border-b border-white/40 pb-1 hover:border-white transition-colors">
-                  View Collection &rarr;
-                </button>
-              </div>
-            </div>
-
-            {/* Right Stack */}
-            <div className="md:col-span-4 flex flex-col gap-8">
-              {/* Top stack item */}
-              <div className="flex-1 bg-white rounded-lg p-8 shadow-md flex flex-col justify-between animate-luxury-fade [animation-delay:150ms] group cursor-pointer hover:shadow-lg transition-shadow">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="text-[10px] tracking-[0.3em] uppercase font-bold mb-2 opacity-40">01 &mdash; CONCEPT</p>
-                    <h3 className="font-serif text-2xl font-bold mb-3">Avant-Garde Dreams</h3>
-                    <p className="text-xs text-[#1A1915]/60 leading-relaxed max-w-[200px]">Experimental silhouettes challenging the boundaries of traditional wear.</p>
-                  </div>
-                  <div className="text-xl rotate-45 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">&rarr;</div>
-                </div>
-                <div className="mt-6 aspect-square max-w-[150px] mx-auto">
-                  <img src={conceptImage} alt="Concept" className="w-full h-full object-contain mix-blend-multiply" />
-                </div>
-              </div>
-
-              {/* Bottom stack item */}
-              <div className="h-[200px] bg-[#8E8A82] rounded-lg p-8 shadow-md relative overflow-hidden animate-luxury-fade [animation-delay:300ms] group cursor-pointer">
-                <img src={textureImage} alt="Textures" className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:scale-110 transition-transform duration-[2s]" />
-                <div className="relative z-10 text-white h-full flex flex-col justify-between">
-                  <div>
-                    <p className="text-[10px] tracking-[0.3em] uppercase font-bold mb-2 opacity-80">NEW RELEASE</p>
-                    <h3 className="font-serif text-2xl font-bold">Urban Textures</h3>
-                  </div>
-                  <div className="flex justify-between items-end">
-                    <p className="text-[10px] leading-relaxed max-w-[150px] opacity-80">A study of concrete, glass, and street style in harmony.</p>
-                    <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
-                      <Palette size={14} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Commissioned Series Section */}
-        <section className="px-6 md:px-12 pb-32 max-w-[1400px] mx-auto border-t border-[#1A1915]/5 pt-20">
-          <div className="mb-16">
-            <h2 className="font-serif text-3xl font-bold mb-4 italic">Commissioned Series</h2>
-            <p className="text-sm text-[#1A1915]/60 max-w-2xl leading-relaxed">
-              Bespoke illustrations created for luxury brands and independent designers. Each series is a collaborative journey from sketch to final render.
-            </p>
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {[
               { title: 'Ethereal Forms', desc: 'Watercolor & Ink', img: etherealImage, bg: 'bg-[#FDECEC]/30' },
@@ -159,45 +93,171 @@ export default function CollectionDetail() {
             ].map((item, i) => (
               <div key={i} className="animate-luxury-fade" style={{ animationDelay: `${i * 150 + 400}ms` }}>
                 <div className={`aspect-[4/5] ${item.bg} mb-6 rounded overflow-hidden group`}>
-                  <img src={item.img} alt={item.title} className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
+                  {item.img ? (
+                    <img src={item.img.url} alt={item.title} className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
+                  ) : (
+                    <ImagePlaceholder size="lg" />
+                  )}
                 </div>
-                <h3 className="font-serif text-xl font-bold mb-1">{item.title}</h3>
-                <p className="text-[10px] tracking-[0.2em] uppercase opacity-40 italic">{item.desc}</p>
+                {item.img?.context?.caption && (
+                  <h3 className="font-serif text-xl font-bold mt-4">{item.img.context.caption}</h3>
+                )}
               </div>
             ))}
           </div>
         </section>
 
-        {/* Spring Edit / Bottom CTA */}
-        <section className="px-6 md:px-12 pb-40 max-w-[1400px] mx-auto">
-          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-[#1A1915]/5 flex flex-col lg:flex-row items-center gap-12 animate-luxury-fade [animation-delay:800ms]">
-            <div className="w-full lg:w-1/2 aspect-video overflow-hidden rounded-xl">
-              <img src={springImage} alt="Spring Edit" className="w-full h-full object-cover" />
-            </div>
-            <div className="w-full lg:w-1/2">
-              <span className="inline-block px-3 py-1 bg-[#F8F6F3] rounded-full text-[8px] tracking-[0.3em] font-bold uppercase mb-6 border border-[#1A1915]/5 text-[#1A1915]/40">Editor&apos;s Pick</span>
-              <h2 className="font-serif text-4xl mb-6">The Spring Edit:<br />Floral Motifs &amp; Soft Drapery</h2>
-              <p className="text-sm text-[#1A1915]/60 mb-10 max-w-md leading-relaxed">
-                A closer look at the intricate details defining this season's aesthetic. Discover the process behind the petal-inspired ruffles and the muted color palettes.
+
+      </div>
+    );
+  }
+
+  const isModern = id?.toLowerCase() === 'modern';
+
+  if (isModern) {
+    const modernImages = {
+      avantGarde: images[0] || null,
+      urbanMinimalist: images[1] || null,
+      digitalCouture: images[2] || null,
+      abstractForms: images[3] || null,
+      pastelDreams: images[4] || null,
+      structuredCoats: images[5] || null,
+      botanicalStudy: images[6] || null,
+    };
+
+    return (
+      <div className="min-h-screen bg-[#FBFBF8] text-[#1A1915]">
+        {/* Modern Header */}
+        <header className="pt-32 pb-16 px-6 md:px-12 max-w-[1400px] mx-auto">
+          <div className="flex justify-between items-end mb-12">
+            <div className="animate-luxury-fade">
+              <p className="text-[#1A1915]/40 text-[10px] tracking-[0.4em] uppercase font-bold mb-6">
+                Curated Collection
               </p>
-              <button className="bg-[#1A1915] text-white px-10 py-4 rounded-full text-[10px] tracking-[0.2em] font-bold uppercase flex items-center gap-4 hover:bg-black transition-colors group">
-                Read the Story
-                <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
-              </button>
+              <h1 className="font-serif text-[clamp(3rem,10vw,6rem)] leading-[0.9] tracking-tight uppercase">
+                Modern
+                <br />
+                <span className="italic font-light opacity-30">Aesthetics</span>
+              </h1>
             </div>
+          </div>
+          <p className="font-sans text-sm md:text-base leading-relaxed text-[#1A1915]/60 max-w-xl animate-luxury-fade [animation-delay:200ms]">
+            A refined selection of digital and contemporary fashion illustrations showcasing modern lines, bold silhouettes, and avant-garde concepts.
+          </p>
+        </header>
+
+        {/* Modern Masonry Grid */}
+        <section className="px-6 md:px-12 pb-32 max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {/* Column 1 */}
+            <div className="flex flex-col gap-12">
+              <div className="group animate-luxury-fade">
+                <div className="relative aspect-[3/5] overflow-hidden rounded-sm bg-beige mb-6">
+                  {modernImages.avantGarde ? (
+                    <img src={modernImages.avantGarde.url} alt="Avant Garde Spring" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                  ) : (
+                    <ImagePlaceholder size="lg" />
+                  )}
+                  <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur px-2 py-1 text-[8px] font-bold tracking-widest border border-ink/5">01</div>
+                </div>
+                {modernImages.avantGarde?.context?.caption && (
+                  <h3 className="font-serif text-lg font-bold mt-4 uppercase">{modernImages.avantGarde.context.caption}</h3>
+                )}
+              </div>
+
+              <div className="group animate-luxury-fade [animation-delay:400ms]">
+                <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-black mb-6">
+                  {modernImages.structuredCoats ? (
+                    <img src={modernImages.structuredCoats.url} alt="Structured Coats" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                  ) : (
+                    <ImagePlaceholder size="lg" />
+                  )}
+                </div>
+                {modernImages.structuredCoats?.context?.caption && (
+                  <h3 className="font-serif text-lg font-bold mt-4 uppercase">{modernImages.structuredCoats.context.caption}</h3>
+                )}
+              </div>
+            </div>
+
+            {/* Column 2 */}
+            <div className="flex flex-col gap-12 md:pt-24">
+              <div className="group animate-luxury-fade [animation-delay:150ms]">
+                <div className="relative aspect-square overflow-hidden rounded-sm bg-[#FDF0E5] mb-6">
+                  {modernImages.urbanMinimalist ? (
+                    <img src={modernImages.urbanMinimalist.url} alt="Urban Minimalist" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                  ) : (
+                    <ImagePlaceholder size="lg" />
+                  )}
+                </div>
+                {modernImages.urbanMinimalist?.context?.caption && (
+                  <h3 className="font-serif text-lg font-bold mt-4 uppercase">{modernImages.urbanMinimalist.context.caption}</h3>
+                )}
+              </div>
+
+              <div className="group animate-luxury-fade [animation-delay:500ms]">
+                <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-[#E8D9CE] mb-6">
+                  {modernImages.abstractForms ? (
+                    <img src={modernImages.abstractForms.url} alt="Abstract Forms" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                  ) : (
+                    <ImagePlaceholder size="lg" />
+                  )}
+                </div>
+                {modernImages.abstractForms?.context?.caption && (
+                  <h3 className="font-serif text-lg font-bold mt-4 uppercase">{modernImages.abstractForms.context.caption}</h3>
+                )}
+              </div>
+
+              <div className="group animate-luxury-fade [animation-delay:700ms]">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-sm bg-[#D9D1C1] mb-6">
+                  {modernImages.botanicalStudy ? (
+                    <img src={modernImages.botanicalStudy.url} alt="Botanical Study" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                  ) : (
+                    <ImagePlaceholder size="md" />
+                  )}
+                </div>
+                {modernImages.botanicalStudy?.context?.caption && (
+                  <h3 className="font-serif text-lg font-bold mt-4 uppercase">{modernImages.botanicalStudy.context.caption}</h3>
+                )}
+              </div>
+            </div>
+
+            {/* Column 3 */}
+            <div className="flex flex-col gap-12">
+              <div className="group animate-luxury-fade [animation-delay:300ms]">
+                <div className="relative aspect-square overflow-hidden rounded-sm bg-[#C41E3A] mb-6">
+                  {modernImages.digitalCouture ? (
+                    <img src={modernImages.digitalCouture.url} alt="Digital Couture" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                  ) : (
+                    <ImagePlaceholder size="lg" />
+                  )}
+                </div>
+                {modernImages.digitalCouture?.context?.caption && (
+                  <h3 className="font-serif text-lg font-bold mt-4 uppercase">{modernImages.digitalCouture.context.caption}</h3>
+                )}
+              </div>
+
+              <div className="group animate-luxury-fade [animation-delay:600ms]">
+                <div className="relative aspect-[5/9] overflow-hidden rounded-sm bg-white mb-6">
+                  {modernImages.pastelDreams ? (
+                    <img src={modernImages.pastelDreams.url} alt="Pastel Dreams" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                  ) : (
+                    <ImagePlaceholder size="lg" />
+                  )}
+                  <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur px-2 py-1 text-[8px] font-bold tracking-widest border border-ink/5">05</div>
+                </div>
+                {modernImages.pastelDreams?.context?.caption && (
+                  <h3 className="font-serif text-lg font-bold mt-4 uppercase">{modernImages.pastelDreams.context.caption}</h3>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-24 text-center">
+            <button className="px-12 py-4 border border-[#1A1915] text-[10px] tracking-[0.4em] uppercase font-bold hover:bg-[#1A1915] hover:text-white transition-all duration-500">
+              View All Works
+            </button>
           </div>
         </section>
-
-        {/* Minimal Footer for Themed */}
-        <footer className="px-12 py-12 border-t border-[#1A1915]/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[#1A1915]/60">
-          <div className="font-serif text-xl font-bold italic">Illustra</div>
-          <div className="text-[10px] tracking-widest uppercase opacity-40">&copy; 2024 Illustra Portfolio. All rights reserved.</div>
-          <div className="flex gap-6">
-            <Mail size={16} />
-            <Grid size={16} />
-            <div className="w-4 h-4 border border-[#1A1915]/60 rounded-full flex items-center justify-center text-[8px] font-bold">W</div>
-          </div>
-        </footer>
       </div>
     );
   }
@@ -206,7 +266,7 @@ export default function CollectionDetail() {
   return (
     <div className={`min-h-screen ${isTraditional ? 'bg-[#FBFBF8] text-[#1A1915]' : 'bg-luxury-black text-white'}`}>
       {/* Header Section */}
-      <header className="pt-24 pb-12 px-6 md:px-12 max-w-[1400px] mx-auto">
+      <header className="pt-32 pb-12 px-6 md:px-12 max-w-[1400px] mx-auto">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-12">
           <div className="animate-luxury-fade">
             <p className="text-[#3A9E5C] text-[10px] tracking-[0.4em] uppercase font-bold mb-8">
@@ -272,24 +332,11 @@ export default function CollectionDetail() {
                   </div>
                   <div className="flex justify-between items-baseline border-b border-[#1A1915]/5 pb-4">
                     <div>
-                      <h3 className="font-serif text-lg md:text-xl font-medium mb-1">
-                        {index === 0 ? 'Autumn Silhouette' :
-                          index === 1 ? 'Vintage Couture' :
-                            index === 2 ? 'Sketchbook Study No. 4' :
-                              index === 3 ? 'Parisian Morning' :
-                                index === 4 ? 'Draped Fabric' :
-                                  index === 5 ? 'High Contrast' :
-                                    index === 6 ? 'Runway Motion' : `${currentCategory} Study`}
-                      </h3>
-                      <p className="text-[10px] tracking-widest uppercase opacity-40 italic">
-                        {index === 0 ? 'Watercolor on cold press' :
-                          index === 1 ? 'Graphite and charcoal' :
-                            index === 2 ? 'Pencil sketch' :
-                              index === 3 ? 'Ink and wash' :
-                                index === 4 ? 'Charcoal study' :
-                                  index === 5 ? 'Mixed media' :
-                                    index === 6 ? 'Quick gesture sketch' : 'Form & Texture Study'}
-                      </p>
+                      {img.context?.caption && (
+                        <h3 className="font-serif text-lg md:text-xl font-medium mb-1">
+                          {img.context.caption}
+                        </h3>
+                      )}
                     </div>
                     <div className="text-[10px] tracking-widest font-bold opacity-10">
                       {(index + 1).toString().padStart(2, '0')}

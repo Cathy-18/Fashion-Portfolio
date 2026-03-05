@@ -6,7 +6,9 @@ export default function Navbar() {
   const location = useLocation();
   const { user } = useAuth();
   const isLightPage = ['/', '/atelier', '/collections', '/contact', '/login', '/admin'].includes(location.pathname) ||
-    location.pathname === '/collections/traditional';
+    location.pathname.startsWith('/collections/themed') ||
+    location.pathname.startsWith('/collections/traditional') ||
+    location.pathname.startsWith('/collections/modern');
 
   const navLinks = [
     { name: 'COLLECTIONS', path: '/collections' },

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
+import ImagePlaceholder from '../components/ImagePlaceholder';
 
 interface CloudinaryImage {
   publicId: string;
@@ -71,8 +72,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-cream text-ink">
       {/* Hero Section - 60/40 split */}
-      <section className="relative min-h-[85vh] flex items-center">
-        <div className="max-w-7xl mx-auto w-full px-6 py-20 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+      <section className="relative min-h-[85vh] flex items-center pt-32 pb-20">
+        <div className="max-w-7xl mx-auto w-full px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
           {/* Left column - text (60%) */}
           <div className="flex-1 lg:flex-[6] max-w-2xl">
             <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-tight text-ink mb-8">
@@ -99,9 +100,7 @@ export default function Home() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-beige to-beige-dark">
-                  <span className="text-ink/20 font-serif text-4xl tracking-[0.5em] uppercase">CN</span>
-                </div>
+                <ImagePlaceholder size="lg" />
               )}
             </div>
           </div>
@@ -140,9 +139,7 @@ export default function Home() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-b from-beige to-beige-dark">
-                        <span className="text-ink/20 font-serif text-3xl tracking-[0.5em] uppercase">CN</span>
-                      </div>
+                      <ImagePlaceholder size="md" />
                     )}
                   </div>
                   <h3 className="text-ink font-serif text-lg font-semibold mb-1">
