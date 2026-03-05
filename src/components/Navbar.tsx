@@ -5,7 +5,8 @@ import { useAuth } from '../context/AuthContext';
 export default function Navbar() {
   const location = useLocation();
   const { user } = useAuth();
-  const isLightPage = ['/', '/atelier', '/collections', '/contact', '/login', '/admin'].includes(location.pathname);
+  const isLightPage = ['/', '/atelier', '/collections', '/contact', '/login', '/admin'].includes(location.pathname) ||
+    location.pathname === '/collections/traditional';
 
   const navLinks = [
     { name: 'COLLECTIONS', path: '/collections' },
