@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, Grid, Loader2, Palette, Mail } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Grid, Loader2, Palette, Mail, X } from 'lucide-react';
 import ImagePlaceholder from '../components/ImagePlaceholder';
 
 interface CloudinaryImage {
@@ -14,6 +14,7 @@ export default function CollectionDetail() {
   const { id } = useParams();
   const [images, setImages] = useState<CloudinaryImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   const categoryLabels: Record<string, string> = {
     'traditional': 'Traditional',
@@ -92,9 +93,12 @@ export default function CollectionDetail() {
               { title: 'Pop & Posh', desc: 'Mixed Media', img: popImage, bg: 'bg-[#FFB703]/10' }
             ].map((item, i) => (
               <div key={i} className="animate-luxury-fade" style={{ animationDelay: `${i * 150 + 400}ms` }}>
-                <div className={`aspect-[4/5] ${item.bg} mb-6 rounded overflow-hidden group`}>
+                <div
+                  className={`aspect-[4/5] ${item.bg} mb-6 rounded overflow-hidden group cursor-pointer`}
+                  onClick={() => item.img && setLightboxImage(item.img.url)}
+                >
                   {item.img ? (
-                    <img src={item.img.url} alt={item.title} className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
+                    <img src={item.img.url} alt={item.title} className="w-full h-full object-cover object-top grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
                   ) : (
                     <ImagePlaceholder size="lg" />
                   )}
@@ -107,6 +111,26 @@ export default function CollectionDetail() {
           </div>
         </section>
 
+        {/* Lightbox */}
+        {lightboxImage && (
+          <div
+            className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
+            onClick={() => setLightboxImage(null)}
+          >
+            <button
+              className="absolute top-6 right-6 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-colors"
+              onClick={() => setLightboxImage(null)}
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <img
+              src={lightboxImage}
+              alt="Full view"
+              className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        )}
 
       </div>
     );
@@ -151,10 +175,10 @@ export default function CollectionDetail() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* Column 1 */}
             <div className="flex flex-col gap-12">
-              <div className="group animate-luxury-fade">
+              <div className="group animate-luxury-fade cursor-pointer" onClick={() => modernImages.avantGarde && setLightboxImage(modernImages.avantGarde.url)}>
                 <div className="relative aspect-[3/5] overflow-hidden rounded-sm bg-beige mb-6">
                   {modernImages.avantGarde ? (
-                    <img src={modernImages.avantGarde.url} alt="Avant Garde Spring" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                    <img src={modernImages.avantGarde.url} alt="Avant Garde Spring" className="w-full h-full object-cover object-top transition-transform duration-[1.5s] group-hover:scale-105" />
                   ) : (
                     <ImagePlaceholder size="lg" />
                   )}
@@ -165,10 +189,10 @@ export default function CollectionDetail() {
                 )}
               </div>
 
-              <div className="group animate-luxury-fade [animation-delay:400ms]">
+              <div className="group animate-luxury-fade [animation-delay:400ms] cursor-pointer" onClick={() => modernImages.structuredCoats && setLightboxImage(modernImages.structuredCoats.url)}>
                 <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-black mb-6">
                   {modernImages.structuredCoats ? (
-                    <img src={modernImages.structuredCoats.url} alt="Structured Coats" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                    <img src={modernImages.structuredCoats.url} alt="Structured Coats" className="w-full h-full object-cover object-top transition-transform duration-[1.5s] group-hover:scale-105" />
                   ) : (
                     <ImagePlaceholder size="lg" />
                   )}
@@ -181,10 +205,10 @@ export default function CollectionDetail() {
 
             {/* Column 2 */}
             <div className="flex flex-col gap-12 md:pt-24">
-              <div className="group animate-luxury-fade [animation-delay:150ms]">
+              <div className="group animate-luxury-fade [animation-delay:150ms] cursor-pointer" onClick={() => modernImages.urbanMinimalist && setLightboxImage(modernImages.urbanMinimalist.url)}>
                 <div className="relative aspect-square overflow-hidden rounded-sm bg-[#FDF0E5] mb-6">
                   {modernImages.urbanMinimalist ? (
-                    <img src={modernImages.urbanMinimalist.url} alt="Urban Minimalist" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                    <img src={modernImages.urbanMinimalist.url} alt="Urban Minimalist" className="w-full h-full object-cover object-top transition-transform duration-[1.5s] group-hover:scale-105" />
                   ) : (
                     <ImagePlaceholder size="lg" />
                   )}
@@ -194,10 +218,10 @@ export default function CollectionDetail() {
                 )}
               </div>
 
-              <div className="group animate-luxury-fade [animation-delay:500ms]">
+              <div className="group animate-luxury-fade [animation-delay:500ms] cursor-pointer" onClick={() => modernImages.abstractForms && setLightboxImage(modernImages.abstractForms.url)}>
                 <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-[#E8D9CE] mb-6">
                   {modernImages.abstractForms ? (
-                    <img src={modernImages.abstractForms.url} alt="Abstract Forms" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                    <img src={modernImages.abstractForms.url} alt="Abstract Forms" className="w-full h-full object-cover object-top transition-transform duration-[1.5s] group-hover:scale-105" />
                   ) : (
                     <ImagePlaceholder size="lg" />
                   )}
@@ -207,10 +231,10 @@ export default function CollectionDetail() {
                 )}
               </div>
 
-              <div className="group animate-luxury-fade [animation-delay:700ms]">
+              <div className="group animate-luxury-fade [animation-delay:700ms] cursor-pointer" onClick={() => modernImages.botanicalStudy && setLightboxImage(modernImages.botanicalStudy.url)}>
                 <div className="relative aspect-[16/10] overflow-hidden rounded-sm bg-[#D9D1C1] mb-6">
                   {modernImages.botanicalStudy ? (
-                    <img src={modernImages.botanicalStudy.url} alt="Botanical Study" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                    <img src={modernImages.botanicalStudy.url} alt="Botanical Study" className="w-full h-full object-cover object-top transition-transform duration-[1.5s] group-hover:scale-105" />
                   ) : (
                     <ImagePlaceholder size="md" />
                   )}
@@ -223,10 +247,10 @@ export default function CollectionDetail() {
 
             {/* Column 3 */}
             <div className="flex flex-col gap-12">
-              <div className="group animate-luxury-fade [animation-delay:300ms]">
+              <div className="group animate-luxury-fade [animation-delay:300ms] cursor-pointer" onClick={() => modernImages.digitalCouture && setLightboxImage(modernImages.digitalCouture.url)}>
                 <div className="relative aspect-square overflow-hidden rounded-sm bg-[#C41E3A] mb-6">
                   {modernImages.digitalCouture ? (
-                    <img src={modernImages.digitalCouture.url} alt="Digital Couture" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                    <img src={modernImages.digitalCouture.url} alt="Digital Couture" className="w-full h-full object-cover object-top transition-transform duration-[1.5s] group-hover:scale-105" />
                   ) : (
                     <ImagePlaceholder size="lg" />
                   )}
@@ -236,10 +260,10 @@ export default function CollectionDetail() {
                 )}
               </div>
 
-              <div className="group animate-luxury-fade [animation-delay:600ms]">
+              <div className="group animate-luxury-fade [animation-delay:600ms] cursor-pointer" onClick={() => modernImages.pastelDreams && setLightboxImage(modernImages.pastelDreams.url)}>
                 <div className="relative aspect-[5/9] overflow-hidden rounded-sm bg-white mb-6">
                   {modernImages.pastelDreams ? (
-                    <img src={modernImages.pastelDreams.url} alt="Pastel Dreams" className="w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
+                    <img src={modernImages.pastelDreams.url} alt="Pastel Dreams" className="w-full h-full object-cover object-top transition-transform duration-[1.5s] group-hover:scale-105" />
                   ) : (
                     <ImagePlaceholder size="lg" />
                   )}
@@ -253,11 +277,32 @@ export default function CollectionDetail() {
           </div>
 
           <div className="mt-24 text-center">
-            <button className="px-12 py-4 border border-[#1A1915] text-[10px] tracking-[0.4em] uppercase font-bold hover:bg-[#1A1915] hover:text-white transition-all duration-500">
+            <Link to="/collections" className="inline-block px-12 py-4 border border-[#1A1915] text-[10px] tracking-[0.4em] uppercase font-bold hover:bg-[#1A1915] hover:text-white transition-all duration-500">
               View All Works
-            </button>
+            </Link>
           </div>
         </section>
+
+        {/* Lightbox */}
+        {lightboxImage && (
+          <div
+            className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
+            onClick={() => setLightboxImage(null)}
+          >
+            <button
+              className="absolute top-6 right-6 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-colors"
+              onClick={() => setLightboxImage(null)}
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <img
+              src={lightboxImage}
+              alt="Full view"
+              className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        )}
       </div>
     );
   }
@@ -317,14 +362,15 @@ export default function CollectionDetail() {
               return (
                 <div
                   key={img.publicId}
-                  className={`${gridClasses} group animate-luxury-fade`}
+                  className={`${gridClasses} group animate-luxury-fade cursor-pointer`}
                   style={{ animationDelay: `${index * 150}ms` }}
+                  onClick={() => setLightboxImage(img.url)}
                 >
                   <div className={`relative overflow-hidden bg-[#F0F0EB] mb-6 ${isHorizontal ? 'aspect-[16/10]' : 'aspect-[3/4]'}`}>
                     <img
                       src={img.url}
                       alt={`Artwork ${index + 1}`}
-                      className="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-[1.5s] group-hover:scale-105"
+                      className="w-full h-full object-cover object-top grayscale-[0.2] hover:grayscale-0 transition-all duration-[1.5s] group-hover:scale-105"
                     />
                     <div className="absolute top-4 right-4 text-[10px] tracking-[0.2em] font-medium opacity-40">
                       {(index + 1).toString().padStart(2, '0')}
@@ -358,6 +404,27 @@ export default function CollectionDetail() {
           </div>
         )}
       </section>
+
+      {/* Lightbox */}
+      {lightboxImage && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
+          onClick={() => setLightboxImage(null)}
+        >
+          <button
+            className="absolute top-6 right-6 text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded-full p-2 transition-colors"
+            onClick={() => setLightboxImage(null)}
+          >
+            <X className="w-6 h-6" />
+          </button>
+          <img
+            src={lightboxImage}
+            alt="Full view"
+            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
 
       {/* Pagination / Navigation */}
       <nav className="border-y border-[#1A1915]/5 px-6 md:px-12 py-12 max-w-[1400px] mx-auto flex justify-between items-center text-[10px] tracking-[0.3em] font-bold uppercase">

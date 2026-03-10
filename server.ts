@@ -20,16 +20,33 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Configure Multer Storage
+// Configure Multer Storage — Collections
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: {
-    folder: 'luxury-portfolio',
-    allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
-  } as any,
+  params: async (req, _file) => {
+    const tag = req.query.tag ? String(req.query.tag) : 'modern';
+    return {
+      folder: 'luxury-portfolio',
+      allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+      tags: [tag],
+    };
+  },
+});
+
+// Configure Multer Storage — Profile / Portrait
+const portraitStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: async (_req, _file) => {
+    return {
+      folder: 'luxury-portfolio/profile',
+      allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+      tags: ['portrait'],
+    };
+  },
 });
 
 const upload = multer({ storage: storage });
+const uploadPortrait = multer({ storage: portraitStorage });
 
 async function startServer() {
   const app = express();
@@ -64,7 +81,7 @@ async function startServer() {
     return res.status(401).json({ success: false, error: 'Unauthorized credentials.' });
   });
 
-  // Get All Images
+  // Get All Collection Images (excludes profile subfolder)
   app.get('/api/images', async (req, res) => {
     try {
       const result = await cloudinary.api.resources({
@@ -75,18 +92,55 @@ async function startServer() {
         context: true
       });
 
-      const images = result.resources.map((resource: any) => ({
-        publicId: resource.public_id,
-        url: resource.secure_url,
-        tags: resource.tags || [],
-        context: resource.context?.custom || {},
-        createdAt: resource.created_at
-      }));
+      // Exclude anything inside the profile subfolder
+      const images = result.resources
+        .filter((r: any) => !r.public_id.startsWith('luxury-portfolio/profile/'))
+        .map((resource: any) => ({
+          publicId: resource.public_id,
+          url: resource.secure_url,
+          tags: resource.tags || [],
+          context: resource.context?.custom || {},
+          createdAt: resource.created_at
+        }));
 
       res.json(images);
     } catch (error) {
       console.error('Error fetching images:', error);
       res.status(500).json({ error: 'Failed to fetch images' });
+    }
+  });
+
+  // Get Portrait Image (from profile subfolder only)
+  app.get('/api/portrait', async (req, res) => {
+    try {
+      const result = await cloudinary.api.resources({
+        type: 'upload',
+        prefix: 'luxury-portfolio/profile/',
+        max_results: 10,
+        tags: true,
+        context: true
+      });
+
+      if (!result.resources.length) {
+        return res.status(404).json({ error: 'No portrait found' });
+      }
+
+      // Return the most recently uploaded portrait
+      const sorted = result.resources.sort((a: any, b: any) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+      const resource = sorted[0];
+
+      res.json({
+        publicId: resource.public_id,
+        url: resource.secure_url,
+        tags: resource.tags || [],
+        context: resource.context?.custom || {},
+        createdAt: resource.created_at
+      });
+    } catch (error) {
+      console.error('Error fetching portrait:', error);
+      res.status(500).json({ error: 'Failed to fetch portrait' });
     }
   });
 
@@ -110,11 +164,10 @@ async function startServer() {
 
   // Update Image Classification (Tags)
   app.patch('/api/images/classify', async (req, res) => {
-    const { publicId, tag } = req.body; // tag should be Traditional, Modern, or Themed
+    const { publicId, tag } = req.body;
     if (!publicId || !tag) return res.status(400).json({ error: 'Public ID and tag are required' });
 
     try {
-      // Use Admin API to update tags. This replaces existing tags with the new category.
       const result = await cloudinary.api.update(publicId, {
         tags: [tag]
       });
@@ -126,15 +179,15 @@ async function startServer() {
     }
   });
 
-  // Update Image Context (Caption/Name)
+  // Update Image Context (Caption/Name/Custom Data)
   app.patch('/api/images/context', async (req, res) => {
-    const { publicId, caption } = req.body;
+    const { publicId, caption, contextObj } = req.body;
     if (!publicId) return res.status(400).json({ error: 'Public ID is required' });
 
     try {
-      // Use Admin API to update context (custom metadata)
+      const contextToUpdate = contextObj || { caption: caption || '' };
       const result = await cloudinary.api.update(publicId, {
-        context: { caption: caption || '' }
+        context: contextToUpdate
       });
 
       res.json({ message: 'Context updated', result });
@@ -144,7 +197,7 @@ async function startServer() {
     }
   });
 
-  // Image Upload Route
+  // Image Upload Route — Collections
   app.post('/api/upload', upload.single('image'), (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
@@ -153,8 +206,23 @@ async function startServer() {
     res.json({
       message: 'Image uploaded successfully',
       imageUrl: req.file.path,
+      publicId: req.file.filename,
     });
   });
+
+  // Portrait Upload Route — Uploads to luxury-portfolio/profile
+  app.post('/api/upload/portrait', uploadPortrait.single('image'), (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    res.json({
+      message: 'Portrait uploaded successfully',
+      imageUrl: req.file.path,
+      publicId: req.file.filename,
+    });
+  });
+
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== 'production') {

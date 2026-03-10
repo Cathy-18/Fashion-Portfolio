@@ -98,7 +98,7 @@ export default function Collections() {
                     <img
                       src={collection.image}
                       alt={collection.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover object-top"
                     />
                   ) : (
                     <ImagePlaceholder size="md" />
@@ -150,7 +150,7 @@ export default function Collections() {
                       <img
                         src={image}
                         alt={item.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-top"
                       />
                     ) : (
                       <ImagePlaceholder size="md" />

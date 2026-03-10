@@ -12,21 +12,29 @@ interface CloudinaryImage {
   publicId: string;
   url: string;
   tags: string[];
-  context: { caption?: string };
+  context: { caption?: string; title?: string; subtitle?: string; bio?: string };
   createdAt: string;
 }
 
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
   const [images, setImages] = useState<CloudinaryImage[]>([]);
+  const [portraitImage, setPortraitImage] = useState<CloudinaryImage | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadMessage, setUploadMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [activeTab, setActiveTab] = useState('Overview');
   const [showAllImages, setShowAllImages] = useState(false);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [isSavingAbout, setIsSavingAbout] = useState(false);
+  const [aboutForm, setAboutForm] = useState({
+    title: 'Catherine Nixon',
+    subtitle: 'Visionary Couturier & Creative Director',
+    bio: 'Catherine Nixon is a contemporary fashion illustrator who transforms garments into visual poetry. Her work navigates the dialogue between architectural precision and flowing movement, revealing the quiet power within modern femininity. Through deliberate line, texture, and shadow, she presents fashion not merely as clothing, but as atmosphere — refined, evocative, and distinctly modern.',
+  });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const portraitFileInputRef = useRef<HTMLInputElement>(null);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -39,6 +47,7 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchImages();
+    fetchPortrait();
   }, []);
 
   const fetchImages = async () => {
@@ -56,6 +65,26 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchPortrait = async () => {
+    try {
+      const response = await fetch('/api/portrait');
+      if (response.ok) {
+        const data = await response.json();
+        setPortraitImage(data);
+        // Populate about form from portrait context
+        if (data.context) {
+          setAboutForm(prev => ({
+            title: data.context.title || prev.title,
+            subtitle: data.context.subtitle || prev.subtitle,
+            bio: data.context.bio || prev.bio,
+          }));
+        }
+      }
+    } catch (error) {
+      // 404 = no portrait yet, that's fine
+    }
+  };
+
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -65,14 +94,29 @@ export default function AdminDashboard() {
     formData.append('image', file);
 
     try {
-      const response = await fetch('/api/upload', {
+      const response = await fetch('/api/upload?tag=modern', {
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
+        const data = await response.json();
+
+        // Optimistic injection
+        const newImage: CloudinaryImage = {
+          publicId: data.publicId,
+          url: data.imageUrl,
+          tags: ['modern'],
+          context: {},
+          createdAt: new Date().toISOString()
+        };
+        setImages(prev => [newImage, ...prev]);
+
+        if (data.publicId) {
+          handleClassify(data.publicId, 'modern');
+        }
+
         setUploadMessage({ type: 'success', text: 'Masterpiece uploaded successfully.' });
-        fetchImages();
       } else {
         setUploadMessage({ type: 'error', text: 'Upload failed. Please try again.' });
       }
@@ -82,6 +126,84 @@ export default function AdminDashboard() {
       setIsUploading(false);
       setTimeout(() => setUploadMessage(null), 3000);
       if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const handlePortraitUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const response = await fetch('/api/upload/portrait', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        // Optimistic update — display the portrait immediately
+        const newPortrait: CloudinaryImage = {
+          publicId: data.publicId,
+          url: data.imageUrl,
+          tags: ['portrait'],
+          context: {},
+          createdAt: new Date().toISOString()
+        };
+        setPortraitImage(newPortrait);
+
+        setUploadMessage({ type: 'success', text: 'Portrait uploaded successfully.' });
+      } else {
+        setUploadMessage({ type: 'error', text: 'Upload failed. Please try again.' });
+      }
+    } catch (error) {
+      setUploadMessage({ type: 'error', text: 'An unexpected error occurred.' });
+    } finally {
+      setIsUploading(false);
+      setTimeout(() => setUploadMessage(null), 3000);
+      if (portraitFileInputRef.current) portraitFileInputRef.current.value = '';
+    }
+  };
+
+  const handleSaveAboutInfo = async () => {
+    setIsSavingAbout(true);
+    if (!portraitImage) {
+      setUploadMessage({ type: 'error', text: 'Upload a portrait image first.' });
+      setIsSavingAbout(false);
+      setTimeout(() => setUploadMessage(null), 3000);
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/images/context', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          publicId: portraitImage.publicId,
+          contextObj: {
+            caption: portraitImage.context?.caption || '',
+            title: aboutForm.title,
+            subtitle: aboutForm.subtitle,
+            bio: aboutForm.bio,
+          }
+        }),
+      });
+
+      if (response.ok) {
+        setUploadMessage({ type: 'success', text: 'About details updated successfully.' });
+        fetchPortrait();
+      } else {
+        setUploadMessage({ type: 'error', text: 'Failed to save, please try again.' });
+      }
+    } catch (error) {
+      setUploadMessage({ type: 'error', text: 'Failed to update about details.' });
+    } finally {
+      setIsSavingAbout(false);
+      setTimeout(() => setUploadMessage(null), 3000);
     }
   };
 
@@ -121,14 +243,19 @@ export default function AdminDashboard() {
 
   const handleClassify = async (publicId: string, tag: string) => {
     try {
+      // Optimistic update
+      setImages(prev => prev.map(img =>
+        img.publicId === publicId ? { ...img, tags: [tag] } : img
+      ));
+
       const response = await fetch('/api/images/classify', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ publicId, tag }),
       });
 
-      if (response.ok) {
-        fetchImages();
+      if (!response.ok) {
+        fetchImages(); // Revert on failure
       }
     } catch (error) {
       console.error('Classification error:', error);
@@ -145,7 +272,7 @@ export default function AdminDashboard() {
   const sidebarItems = [
     { id: 'Overview', name: 'Overview', icon: Home },
     { id: 'Portfolio', name: 'Portfolio', icon: FolderOpen },
-    { id: 'Settings', name: 'Settings', icon: Settings },
+    { id: 'Messages', name: 'Messages', icon: MessageCircle },
   ];
 
   const statusBadge = (img: CloudinaryImage) => {
@@ -193,10 +320,11 @@ export default function AdminDashboard() {
 
         <button
           onClick={() => fileInputRef.current?.click()}
-          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-beige border border-ink/10 rounded-lg text-ink text-sm font-semibold hover:bg-beige-dark transition-colors mb-4"
+          disabled={isUploading}
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-beige border border-ink/10 rounded-lg text-ink text-sm font-semibold hover:bg-beige-dark transition-colors mb-4 disabled:opacity-50"
         >
-          <Plus className="w-4 h-4" />
-          New Project
+          {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+          {isUploading ? 'Uploading...' : 'New Project'}
         </button>
         <input
           type="file"
@@ -217,28 +345,16 @@ export default function AdminDashboard() {
 
       {/* Main Content */}
       <main className="flex-1 ml-64 pt-24 px-8 pb-8">
-        {(activeTab === 'Overview' || activeTab === 'Portfolio') && (
+        {activeTab === 'Overview' && (
           <>
             {/* Header */}
             <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-10">
               <div>
-                <h1 className="text-2xl font-bold text-ink mb-1">
-                  {activeTab === 'Overview' ? 'Dashboard Overview' : 'Portfolio'}
-                </h1>
+                <h1 className="text-2xl font-bold text-ink mb-1">Dashboard Overview</h1>
                 <p className="text-ink/70 text-sm">
-                  {activeTab === 'Overview'
-                    ? `Welcome back, ${formattedName} Here is your recent activity summary.`
-                    : 'Manage your portfolio items and collections.'}
+                  Welcome back, {formattedName} Here is your recent activity summary.
                 </p>
               </div>
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                disabled={isUploading}
-                className="flex items-center gap-2 px-5 py-3 bg-beige border border-ink/10 rounded-lg text-ink text-xs font-semibold uppercase tracking-wider hover:bg-beige-dark transition-colors shrink-0 disabled:opacity-50"
-              >
-                {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Upload className="w-4 h-4" />}
-                Quick Upload
-              </button>
             </header>
 
             {/* Stats Cards */}
@@ -282,7 +398,7 @@ export default function AdminDashboard() {
             </div>
 
             {/* Recent Activity Table */}
-            <div className="bg-white border border-ink/10 rounded-xl shadow-sm overflow-hidden mb-10">
+            <div className="bg-white border border-ink/10 rounded-xl shadow-sm mb-10">
               <div className="p-6 border-b border-ink/10 flex justify-between items-center">
                 <h2 className="font-semibold text-ink">Recent Activity</h2>
                 {images.length > 5 && (
@@ -294,7 +410,7 @@ export default function AdminDashboard() {
                   </button>
                 )}
               </div>
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto overflow-y-visible">
                 <table className="w-full">
                   <thead>
                     <tr className="text-[10px] tracking-wider uppercase text-ink/60 font-semibold bg-ink/[0.02] text-left">
@@ -319,7 +435,10 @@ export default function AdminDashboard() {
                         </td>
                       </tr>
                     ) : (
-                      (showAllImages ? images : images.slice(0, 5)).map((img) => (
+                      (showAllImages
+                        ? images.filter(img => !img.tags.includes('portrait'))
+                        : images.filter(img => !img.tags.includes('portrait')).slice(0, 5)
+                      ).map((img) => (
                         <tr key={img.publicId} className="group hover:bg-ink/[0.02] transition-colors">
                           <td className="px-6 py-4">
                             <div className="flex items-center gap-4">
@@ -327,7 +446,7 @@ export default function AdminDashboard() {
                                 <img
                                   src={img.url}
                                   alt="Work"
-                                  className="w-full h-full object-cover"
+                                  className="w-full h-full object-cover object-top"
                                 />
                               </div>
                               <div>
@@ -363,40 +482,20 @@ export default function AdminDashboard() {
                           </td>
                           <td className="px-6 py-4">{statusBadge(img)}</td>
                           <td className="px-6 py-4 text-right">
-                            <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity relative">
+                            <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <Link
+                                to={img.tags[0] ? `/collections/${img.tags[0]}` : '/collections'}
+                                className="px-3 py-1.5 text-xs font-medium text-ink border border-ink/20 rounded-lg hover:bg-beige transition-colors"
+                              >
+                                View on site
+                              </Link>
                               <button
                                 onClick={() => handleDelete(img.publicId)}
-                                className="p-2 hover:bg-red-50 rounded-lg text-ink/50 hover:text-red-600 transition-colors"
+                                className="p-1.5 hover:bg-red-50 rounded-lg text-ink/50 hover:text-red-600 transition-colors"
                                 title="Delete"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
-                              <div className="relative">
-                                <button
-                                  onClick={(e) => { e.stopPropagation(); setOpenMenuId(openMenuId === img.publicId ? null : img.publicId); }}
-                                  className="p-2 hover:bg-ink/5 rounded-lg text-ink/50 hover:text-ink transition-colors"
-                                  title="More actions"
-                                >
-                                  <MoreHorizontal className="w-4 h-4" />
-                                </button>
-                                {openMenuId === img.publicId && (
-                                  <div className="absolute right-0 top-full mt-1 py-1 bg-white border border-ink/10 rounded-lg shadow-lg z-50 min-w-[140px]">
-                                    <Link
-                                      to={img.tags[0] ? `/collections/${img.tags[0]}` : '/collections'}
-                                      className="block px-4 py-2 text-sm text-ink hover:bg-ink/5"
-                                      onClick={() => setOpenMenuId(null)}
-                                    >
-                                      View on site
-                                    </Link>
-                                    <button
-                                      onClick={(e) => { e.stopPropagation(); handleDelete(img.publicId); setOpenMenuId(null); }}
-                                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
-                                    >
-                                      Delete
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
                             </div>
                           </td>
                         </tr>
@@ -424,6 +523,92 @@ export default function AdminDashboard() {
               </div>
             </div>
           </>
+        )}
+
+        {activeTab === 'Portfolio' && (
+          <div className="space-y-8 max-w-5xl">
+            <header>
+              <h1 className="text-2xl font-bold text-ink mb-1">About Page & Portfolio</h1>
+              <p className="text-ink/70 text-sm">Manage your biography, title, and portrait image.</p>
+            </header>
+
+            <div className="bg-white border border-ink/10 rounded-xl p-8 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-12">
+              {/* Portrait Image Column */}
+              <div className="lg:col-span-5 flex flex-col items-center lg:items-start">
+                <h3 className="text-sm font-semibold text-ink uppercase tracking-wider mb-4 text-center lg:text-left w-full">Portrait Display</h3>
+                <div className="relative aspect-[3/4] w-full max-w-[320px] rounded-lg overflow-hidden bg-beige border border-ink/10 mb-6 shadow-sm">
+                  {portraitImage ? (
+                    <img
+                      src={portraitImage.url}
+                      alt="Portrait"
+                      className="w-full h-full object-cover object-top"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center text-ink/40">
+                      <Palette className="w-12 h-12 mb-4 opacity-30" />
+                      <span className="text-xs uppercase tracking-[0.2em] font-bold">No Portrait Found</span>
+                    </div>
+                  )}
+                </div>
+                <p className="text-xs text-ink/50 leading-relaxed max-w-[320px]">
+                  This image is fetched from your Cloudinary <code className="bg-beige px-1 rounded">luxury-portfolio/profile</code> folder.
+                </p>
+              </div>
+
+              {/* Text Content Column */}
+              <div className="lg:col-span-7 flex flex-col gap-8">
+                <div className="border-b border-ink/5 pb-4">
+                  <h3 className="text-sm font-semibold text-ink uppercase tracking-wider">Biography Details</h3>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-[10px] font-bold text-ink/50 uppercase tracking-[0.2em] mb-3">Name / Title</label>
+                    <input
+                      type="text"
+                      value={aboutForm.title}
+                      onChange={(e) => setAboutForm(prev => ({ ...prev, title: e.target.value }))}
+                      className="w-full bg-[#FBFBF8] border border-ink/10 rounded-lg px-4 py-3.5 text-sm text-ink outline-none focus:border-ink/40 transition-colors font-serif shadow-inner"
+                      placeholder="E.g. Catherine Nixon"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold text-ink/50 uppercase tracking-[0.2em] mb-3">Subtitle / Role</label>
+                    <input
+                      type="text"
+                      value={aboutForm.subtitle}
+                      onChange={(e) => setAboutForm(prev => ({ ...prev, subtitle: e.target.value }))}
+                      className="w-full bg-[#FBFBF8] border border-ink/10 rounded-lg px-4 py-3.5 text-sm text-ink outline-none focus:border-ink/40 transition-colors shadow-inner"
+                      placeholder="E.g. Visionary Couturier"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold text-ink/50 uppercase tracking-[0.2em] mb-3">Biography Text</label>
+                  <textarea
+                    value={aboutForm.bio}
+                    onChange={(e) => setAboutForm(prev => ({ ...prev, bio: e.target.value }))}
+                    className="w-full bg-[#FBFBF8] border border-ink/10 rounded-lg px-4 py-4 text-sm text-ink outline-none focus:border-ink/40 transition-colors min-h-[240px] resize-y leading-relaxed shadow-inner"
+                    placeholder="Enter your biography here..."
+                  />
+                  <p className="text-right text-[10px] text-ink/40 mt-2 font-medium">Auto-formats line breaks on display.</p>
+                </div>
+
+                <div className="mt-4 flex justify-end">
+                  <button
+                    onClick={handleSaveAboutInfo}
+                    disabled={isSavingAbout}
+                    className="px-10 py-4 bg-[#1A1915] text-white text-[10px] uppercase tracking-[0.3em] font-bold rounded-lg hover:bg-black transition-colors flex items-center gap-3 disabled:opacity-50 shadow-md"
+                  >
+                    {isSavingAbout ? <Loader2 className="w-4 h-4 animate-spin" /> : <Edit3 className="w-4 h-4" />}
+                    {isSavingAbout ? 'Saving...' : 'Save Changes'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
 
         {activeTab === 'Messages' && (

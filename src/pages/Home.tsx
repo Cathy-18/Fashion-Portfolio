@@ -97,7 +97,7 @@ export default function Home() {
                 <img
                   src={heroImage}
                   alt="Hero"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-top"
                 />
               ) : (
                 <ImagePlaceholder size="lg" />
@@ -136,7 +136,7 @@ export default function Home() {
                       <img
                         src={collection.image}
                         alt={collection.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-top"
                       />
                     ) : (
                       <ImagePlaceholder size="md" />
