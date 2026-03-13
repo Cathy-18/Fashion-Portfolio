@@ -94,7 +94,7 @@ export default function AdminDashboard() {
     formData.append('image', file);
 
     try {
-      const response = await fetch('/api/upload?tag=modern', {
+      const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -106,15 +106,11 @@ export default function AdminDashboard() {
         const newImage: CloudinaryImage = {
           publicId: data.publicId,
           url: data.imageUrl,
-          tags: ['modern'],
+          tags: [],
           context: {},
           createdAt: new Date().toISOString()
         };
         setImages(prev => [newImage, ...prev]);
-
-        if (data.publicId) {
-          handleClassify(data.publicId, 'modern');
-        }
 
         setUploadMessage({ type: 'success', text: 'Masterpiece uploaded successfully.' });
       } else {
@@ -401,7 +397,7 @@ export default function AdminDashboard() {
             <div className="bg-white border border-ink/10 rounded-xl shadow-sm mb-10">
               <div className="p-6 border-b border-ink/10 flex justify-between items-center">
                 <h2 className="font-semibold text-ink">Recent Activity</h2>
-                {images.length > 5 && (
+                {images.filter(img => !img.tags.includes('portrait')).length > 3 && (
                   <button
                     onClick={() => setShowAllImages(!showAllImages)}
                     className="text-ink/60 hover:text-ink text-xs font-medium transition-colors"
@@ -437,7 +433,7 @@ export default function AdminDashboard() {
                     ) : (
                       (showAllImages
                         ? images.filter(img => !img.tags.includes('portrait'))
-                        : images.filter(img => !img.tags.includes('portrait')).slice(0, 5)
+                        : images.filter(img => !img.tags.includes('portrait')).slice(0, 3)
                       ).map((img) => (
                         <tr key={img.publicId} className="group hover:bg-ink/[0.02] transition-colors">
                           <td className="px-6 py-4">

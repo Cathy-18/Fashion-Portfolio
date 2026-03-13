@@ -25,7 +25,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (_req, _file) => {
     return {
-      folder: 'luxury-portfolio',
+      folder: 'luxury-portfolio/works',
       allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
     };
   },

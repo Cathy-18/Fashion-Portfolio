@@ -12,7 +12,7 @@ export default function Footer() {
         </div>
         <div className="flex gap-6">
           <a href="https://www.instagram.com/busy._.reading_?igsh=MTYzaXprZTB5aHM4Zg==" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] text-[11px] font-sans hover:text-[#E9A825] transition-colors uppercase tracking-widest">Instagram</a>
-          <a href="#" className="text-[#1A1A1A] text-[11px] font-sans hover:text-[#E9A825] transition-colors uppercase tracking-widest">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/catherine-nixon-588a1928b" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] text-[11px] font-sans hover:text-[#E9A825] transition-colors uppercase tracking-widest">LinkedIn</a>
         </div>
       </div>
     </footer>
