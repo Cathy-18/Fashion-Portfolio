@@ -15,9 +15,9 @@ interface PortraitData {
 export default function About() {
   const [portraitContent, setPortraitContent] = useState({
     url: null as string | null,
-    title: 'Catherine\nNixon',
-    subtitle: 'Visionary Couturier & Creative Director',
-    bio: 'Catherine Nixon is a contemporary fashion illustrator who transforms garments into visual poetry. Her work navigates the dialogue between architectural precision and flowing movement, revealing the quiet power within modern femininity. Through deliberate line, texture, and shadow, she presents fashion not merely as clothing, but as atmosphere — refined, evocative, and distinctly modern.',
+    title: 'About Me',
+    subtitle: "Fashion is the most powerful art there is. It's movement, design, and architecture all in one.",
+    bio: 'Founded by visionaries dedicated to the intersection of classic couture and modern aesthetics, Atelier Luxe has spent a decade refining the silhouette of the modern individual. Our process is rooted in sustainable sourcing and meticulous attention to detail.\n\nEvery piece is a dialogue between the fabric and the wearer, designed to transcend seasons and create a lasting impression of refined grace.',
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,7 +29,7 @@ export default function About() {
           const data: PortraitData = await response.json();
           setPortraitContent(prev => ({
             url: data.url,
-            title: data.context?.title || prev.title,
+            title: prev.title, // keeping "About Me" fixed as requested
             subtitle: data.context?.subtitle || prev.subtitle,
             bio: data.context?.bio || prev.bio,
           }));
@@ -44,40 +44,50 @@ export default function About() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-cream text-ink pt-32 pb-20">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Hero Section */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
-          <div className="relative aspect-square max-w-xl overflow-hidden rounded-sm bg-beige shadow-sm">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1A1A1A] pt-[150px] pb-32 relative">
+      {/* Background Texture Area */}
+      <div className="absolute top-0 left-0 w-full h-[600px] sm:h-[850px] z-0 pointer-events-none">
+        <div className="w-full h-full bg-[url('/collections-bg.png')] bg-cover bg-center opacity-40 mix-blend-multiply filter blur-[1px]"></div>
+        {/* Gradient fade out to pure bg color */}
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-[#FAF8F5]"></div>
+      </div>
+
+      <div className="max-w-[1200px] mx-auto px-6 relative z-10">
+        
+        <div className="bg-white p-10 md:p-16 lg:p-20 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.05)] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+          
+          {/* Text Content */}
+          <div className="max-w-lg">
+            <h1 className="font-serif text-[38px] md:text-[44px] text-[#1A1A1A] mb-8">
+              {portraitContent.title}
+            </h1>
+            
+            <p className="font-sans font-medium italic text-[15px] leading-relaxed text-[#1A1A1A] mb-8">
+              "{portraitContent.subtitle}"
+            </p>
+            
+            <div className="space-y-6 text-[#6B6B6B] text-[13px] leading-[1.8] font-sans whitespace-pre-line">
+              {portraitContent.bio}
+            </div>
+          </div>
+
+          {/* Portrait Image */}
+          <div className="w-full aspect-square bg-[#E8E6E1] overflow-hidden flex items-center justify-center">
             {isLoading ? (
-              <div className="w-full h-full flex items-center justify-center">
-                <Loader2 className="w-10 h-10 text-ink/30 animate-spin" />
-              </div>
+              <Loader2 className="w-10 h-10 text-[#E9A825] animate-spin" />
             ) : portraitContent.url ? (
               <img
                 src={portraitContent.url}
-                alt={portraitContent.title.replace('\n', ' ')}
-                className="w-full h-full object-cover object-top"
+                alt="Portrait"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
               />
             ) : (
               <ImagePlaceholder size="xl" />
             )}
           </div>
-          <div>
-            <p className="text-ink/60 text-xs tracking-[0.3em] uppercase font-medium mb-6">
-              About the Designer
-            </p>
-            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-none mb-6 uppercase tracking-tight whitespace-pre-line">
-              {portraitContent.title}
-            </h1>
-            <p className="text-ink/70 italic text-base tracking-widest mb-8">
-              {portraitContent.subtitle}
-            </p>
-            <p className="text-ink/80 text-base md:text-lg leading-relaxed whitespace-pre-line">
-              {portraitContent.bio}
-            </p>
-          </div>
-        </section>
+          
+        </div>
+
       </div>
     </div>
   );

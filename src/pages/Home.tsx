@@ -18,19 +18,19 @@ export default function Home() {
     {
       id: 'traditional',
       title: 'Traditional',
-      subtitle: 'Heritage & Craft',
+      subtitle: 'LEGACY & CRAFT',
       image: null,
     },
     {
       id: 'modern',
       title: 'Modern',
-      subtitle: 'Minimalist Form',
+      subtitle: 'STRUCTURAL AVANT-GARDE',
       image: null,
     },
     {
       id: 'themed',
       title: 'Themed',
-      subtitle: 'Conceptual Series',
+      subtitle: 'CONCEPT NARRATIVE',
       image: null,
     },
   ];
@@ -45,7 +45,19 @@ export default function Home() {
           const heroAsset = allImages.find(img =>
             img.tags.some(tag => tag.toLowerCase() === 'hero')
           );
-          if (heroAsset) setHeroImage(heroAsset.url);
+          if (heroAsset) {
+            setHeroImage(heroAsset.url);
+          } else {
+            try {
+              const portraitRes = await fetch('/api/portrait');
+              if (portraitRes.ok) {
+                const portrait = await portraitRes.json();
+                if (portrait?.url) setHeroImage(portrait.url);
+              }
+            } catch {
+                // fallthrough
+            }
+          }
 
           const dynamicFeatured = defaultFeatured.map(item => {
             const seasonImage = allImages.find(img =>
@@ -70,130 +82,103 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-cream text-ink">
-      {/* Hero Section - 60/40 split */}
-      <section className="relative min-h-[85vh] flex items-center pt-32 pb-20">
-        <div className="max-w-7xl mx-auto w-full px-6 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-          {/* Left column - text (60%) */}
-          <div className="flex-1 lg:flex-[6] max-w-2xl">
-            <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl leading-tight text-ink mb-8">
-              Catherine Nixon
-            </h1>
-            <p className="text-ink/80 text-base md:text-lg leading-relaxed mb-10 max-w-lg">
-              Defining modern luxury through meticulous craftsmanship and sustainable innovation. Every stitch tells a story of elegance and architectural fluidity.
-            </p>
-            <Link
-              to="/collections"
-              className="inline-block px-10 py-3 bg-beige border border-beige-dark rounded-full text-ink text-xs tracking-[0.3em] uppercase font-semibold hover:bg-beige-dark transition-colors"
-            >
-              View Collections
-            </Link>
+    <div className="min-h-screen bg-white text-[#1A1A1A] pt-[120px] relative">
+      {/* Background Texture Area */}
+      <div className="absolute top-0 left-0 w-full h-[600px] sm:h-[850px] z-0 pointer-events-none">
+        <div className="w-full h-full bg-[url('/collections-bg.png')] bg-cover bg-center opacity-40 mix-blend-multiply filter blur-[1px]"></div>
+        {/* Gradient fade out to pure bg color */}
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-white"></div>
+      </div>
+      
+      {/* Hero Section */}
+      <section className="px-6 pb-20 max-w-[1400px] mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 h-[700px] gap-6">
+          {/* Left Block */}
+          <div className="relative h-full w-full bg-[#E5D8C5] overflow-hidden flex items-center justify-center p-8 lg:p-16">
+            <div className="absolute inset-0">
+               <div className="w-full h-full bg-[url('/collections-bg.png')] bg-cover bg-center opacity-40 mix-blend-multiply filter blur-[2px]"></div>
+            </div>
+            
+            {/* Text Card over Left Block */}
+            <div className="relative z-10 w-[85%] max-w-md bg-[#EFE8DE]/95 backdrop-blur-sm p-12 md:p-14 text-center flex flex-col items-center">
+              <h1 className="font-serif text-[42px] md:text-[50px] leading-[1.1] mb-6 text-[#1A1A1A]">
+                The Art of <br />
+                <span className="italic">Modern Elegance</span>
+              </h1>
+              <p className="text-[#6B6B6B] text-[13px] leading-[1.8] mb-10 font-sans">
+                Defining luxury through a lens of timeless craftsmanship and contemporary silhouettes. Explore a curated collection of fashion-forward narratives.
+              </p>
+              <Link 
+                to="/collections" 
+                className="inline-block border border-[#1A1A1A]/30 text-[#1A1A1A] text-[10px] font-bold uppercase tracking-[0.2em] px-8 py-3.5 hover:bg-[#1A1A1A] hover:text-white transition-colors"
+              >
+                VIEW COLLECTIONS
+              </Link>
+            </div>
           </div>
-
-          {/* Right column - hero image (40%) */}
-          <div className="flex-1 lg:flex-[4] w-full max-w-xl">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-sm shadow-sm bg-beige">
-              {heroImage ? (
+          
+          {/* Right Block */}
+          <div className="relative h-full w-full bg-[#E5DFD5] overflow-hidden flex items-center justify-center">
+             {heroImage ? (
                 <img
                   src={heroImage}
                   alt="Hero"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover"
                 />
-              ) : (
-                <ImagePlaceholder size="lg" />
-              )}
-            </div>
+             ) : (
+               <div className="absolute inset-0 opacity-40 mix-blend-multiply flex items-center justify-center">
+                  <svg viewBox="0 0 800 800" className="w-[150%] h-[150%] text-[#C9BAA3]" fill="currentColor">
+                    <path d="M400,200 C500,100 700,300 800,200 L800,800 L0,800 L0,200 C100,300 300,100 400,200 Z" opacity="0.5"/>
+                    <path d="M400,300 C600,200 700,400 800,300 L800,800 L0,800 L0,300 C200,400 300,200 400,300 Z" opacity="0.3"/>
+                  </svg>
+               </div>
+             )}
           </div>
         </div>
       </section>
 
       {/* Selected Works */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-ink text-sm tracking-[0.3em] uppercase font-semibold mb-2">
-              Selected Works
-            </h2>
-            <p className="text-ink/60 text-xs tracking-[0.2em] uppercase">
-              Latest Editorial
-            </p>
-          </div>
+      <section className="py-20 px-6 relative max-w-[1400px] mx-auto">
+        <div className="text-center mb-16 relative">
+          <h2 className="font-serif text-[38px] text-[#1A1A1A] relative z-10 inline-block bg-white px-8">Selected Works</h2>
+          <div className="absolute top-1/2 left-0 w-full h-px bg-black/10 -z-10"></div>
+        </div>
 
-          {isLoading ? (
-            <div className="flex justify-center py-24">
-              <Loader2 className="w-10 h-10 text-ink/40 animate-spin" />
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
-              {featuredCollections.map((collection) => (
-                <Link
-                  key={collection.id}
-                  to={`/collections/${collection.id}`}
-                  className="group"
-                >
-                  <div className="relative aspect-square overflow-hidden bg-beige rounded-sm mb-4 group-hover:opacity-95 transition-opacity">
-                    {collection.image ? (
-                      <img
-                        src={collection.image}
-                        alt={collection.title}
-                        className="w-full h-full object-cover object-top"
+        {isLoading ? (
+          <div className="flex justify-center py-20">
+            <Loader2 className="w-10 h-10 text-[#E9A825] animate-spin" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-14 px-0 md:px-12">
+            {featuredCollections.map((col, i) => (
+              <Link to={`/collections/${col.id}`} key={col.id} className="group relative block pb-10">
+                {/* Card Image */}
+                <div className="w-full aspect-[3/4] overflow-hidden bg-[#F5F2EA]">
+                  {col.image ? (
+                      <img 
+                        src={col.image} 
+                        alt={col.title} 
+                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                       />
-                    ) : (
-                      <ImagePlaceholder size="md" />
-                    )}
-                  </div>
-                  <h3 className="text-ink font-serif text-lg font-semibold mb-1">
-                    {collection.title}
-                  </h3>
-                  <p className="text-ink/60 text-xs tracking-[0.2em] uppercase">
-                    {collection.subtitle}
-                  </p>
-                </Link>
-              ))}
-            </div>
-          )}
-
-          <div className="text-center mt-12">
-            <Link
-              to="/collections"
-              className="text-ink text-xs tracking-[0.3em] uppercase font-medium border-b border-ink/30 hover:border-ink transition-colors"
-            >
-              View Complete Archive
-            </Link>
+                  ) : (
+                      <div className="h-full w-full flex items-center justify-center">
+                         <ImagePlaceholder size="md" />
+                      </div>
+                  )}
+                </div>
+                
+                {/* Overlapping Text Box */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[85%] bg-white py-6 px-4 text-center shadow-[0_15px_30px_-15px_rgba(0,0,0,0.08)] group-hover:-translate-y-2 transition-transform duration-500">
+                  <h3 className="font-serif text-[20px] text-[#1A1A1A] mb-2">{col.title}</h3>
+                  <p className="text-[#9A9A9A] text-[9px] font-bold uppercase tracking-[0.2em] font-sans">{col.subtitle}</p>
+                </div>
+              </Link>
+            ))}
           </div>
-        </div>
+        )}
       </section>
 
-      {/* Quote Section */}
-      <section className="py-24 px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <blockquote className="font-serif text-2xl md:text-3xl lg:text-4xl italic text-ink leading-relaxed mb-6">
-            An artist captures the time in which he lives. All the great fashion illustrators did this.
-          </blockquote>
-          <cite className="text-ink/70 text-sm tracking-[0.2em] not-italic">
-            — David Downton
-          </cite>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-beige rounded-sm p-12 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10">
-            <div className="flex-1 max-w-xl flex items-center">
-              <h2 className="font-serif text-3xl md:text-4xl font-semibold text-ink">
-                Let&apos;s Create Something Beautiful
-              </h2>
-            </div>
-            <Link
-              to="/contact"
-              className="shrink-0 px-10 py-3 bg-beige-dark border border-ink/10 rounded-full text-ink text-xs tracking-[0.3em] uppercase font-semibold hover:bg-ink/10 transition-colors"
-            >
-              Get in Touch
-            </Link>
-          </div>
-        </div>
-      </section>
+      <div className="h-20"></div>
     </div>
   );
 }

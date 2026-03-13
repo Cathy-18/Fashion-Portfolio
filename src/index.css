@@ -1,87 +1,81 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Cormorant Garamond", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 
+  /* New amber/cream palette */
+  --color-amber: #E9A825;
+  --color-amber-dark: #C98D18;
+  --color-amber-light: #FBF0D9;
+
+  /* Backgrounds */
+  --color-cream: #F5F0E8;
+  --color-off-white: #FAF8F5;
+  --color-warm-white: #FFFFFF;
+  --color-beige: #EDE8DF;
+  --color-beige-dark: #D9D3C8;
+
+  /* Text */
+  --color-ink: #1A1A1A;
+  --color-ink-muted: #6B6B6B;
+  --color-ink-light: #9A9A9A;
+
+  /* Dark section */
+  --color-dark-panel: #1E1C1A;
+
+  /* Legacy aliases — kept so CollectionDetail still compiles */
   --color-luxury-black: #1A1915;
-  --color-luxury-gold: #CAA65F;
-  --color-luxury-dark: #12110E;
+  --color-luxury-gold: #E9A825;
+  --color-luxury-dark: #1E1C1A;
   --color-luxury-gray: #2A2824;
   --color-luxury-text: #EAE8E4;
   --color-luxury-muted: #8E8A82;
-  /* Light theme */
-  --color-cream: #F8F6F3;
-  --color-off-white: #FBFBF8;
-  --color-beige: #E8E4DC;
-  --color-beige-dark: #D8D4CC;
-  --color-ink: #2A2824;
 }
 
 body {
-  background-color: var(--color-luxury-black);
-  color: var(--color-luxury-text);
+  background-color: var(--color-off-white);
+  color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
 }
 
-.luxury-border {
-  border: 1px solid rgba(202, 166, 95, 0.2);
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #F5F0E8; }
+::-webkit-scrollbar-thumb { background: #D9D3C8; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #E9A825; }
 
-.luxury-glass {
-  background: rgba(26, 25, 21, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+/* Amber button */
+.btn-amber {
+  background-color: var(--color-amber);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 0.75rem 2rem;
+  transition: background-color 0.2s;
 }
-
-.text-gold-glow {
-  text-shadow: 0 0 20px rgba(202, 166, 95, 0.3);
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-luxury-dark);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-luxury-gray);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-luxury-gold);
-}
+.btn-amber:hover { background-color: var(--color-amber-dark); }
 
 /* Animations */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-luxury-fade {
+  animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-luxury-fade {
-  animation: fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Legacy helpers */
+.luxury-border { border: 1px solid rgba(233, 168, 37, 0.2); }
+.luxury-glass {
+  background: rgba(26, 25, 21, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.06);
 }

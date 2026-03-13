@@ -6,14 +6,15 @@ export default function ProtectedRoute() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-luxury-black flex items-center justify-center">
-                <div className="w-8 h-8 border-t-2 border-luxury-gold rounded-full animate-spin"></div>
+            <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center">
+                <div className="w-8 h-8 border-t-2 border-[#E9A825] rounded-full animate-spin"></div>
             </div>
         );
     }
 
     if (!user || user.role !== 'admin') {
-        return <Navigate to="/login" replace />;
+        // Use replace to prevent back-button loops
+        return <Navigate to="/admin" replace />;
     }
 
     return <Outlet />;

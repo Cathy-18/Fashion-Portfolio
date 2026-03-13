@@ -1,143 +1,84 @@
-import { ChevronDown, ArrowRight } from 'lucide-react';
-
 export default function Contact() {
-  const subjects = [
-    'General Inquiry',
-    'Custom Commission',
-    'Private Appointment',
-    'Wholesale'
-  ];
-
   return (
-    <div className="min-h-screen bg-off-white text-ink pt-32 pb-20">
-      <div className="max-w-2xl mx-auto px-6">
-        {/* Inquiries Section */}
-        <section className="text-center mb-16">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold text-ink mb-6">
-            Inquiries
-          </h1>
-          <p className="text-ink/70 font-serif text-base md:text-lg leading-relaxed">
-            For commissions, collaborations, or just to say hello. Please fill out the form below and I&apos;ll get back to you shortly.
-          </p>
-        </section>
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1A1A1A] pt-[150px] pb-32 relative">
+      {/* Background Texture Area */}
+      <div className="absolute top-0 left-0 w-full h-[600px] sm:h-[850px] z-0 pointer-events-none">
+        <div className="w-full h-full bg-[url('/collections-bg.png')] bg-cover bg-center opacity-40 mix-blend-multiply filter blur-[1px]"></div>
+        {/* Gradient fade out to pure bg color */}
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-[#FAF8F5]"></div>
+      </div>
 
-        {/* Contact Form */}
-        <section className="bg-beige/80 border border-ink/10 rounded-sm p-8 md:p-12 mb-24">
-          <form className="space-y-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+      <div className="max-w-2xl mx-auto px-6 relative z-10">
+        <div className="bg-white p-12 md:p-16 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.05)] w-full relative">
+          <div className="text-center mb-12">
+            <h1 className="font-serif text-[38px] text-[#1A1A1A] mb-3">Inquiries</h1>
+            <p className="text-[#9A9A9A] text-[9px] font-bold uppercase tracking-[0.2em] font-sans">
+              AVAILABLE FOR BESPOKE CONSULTATIONS
+            </p>
+          </div>
+          
+          <form className="space-y-8" onSubmit={e => e.preventDefault()}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-3">
-                <label className="text-ink/70 text-[10px] tracking-[0.2em] uppercase font-semibold block">
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Jane"
-                  className="w-full bg-transparent border border-ink/20 rounded px-4 py-3 text-ink placeholder:text-ink/40 text-sm outline-none focus:border-ink/50 transition-colors"
+                <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#1A1A1A] block font-sans">FIRST NAME</label>
+                <input 
+                  type="text" 
+                  placeholder="John" 
+                  className="w-full bg-transparent border-b border-gray-200 pb-3 text-[14px] font-sans outline-none focus:border-[#1A1A1A] transition-colors placeholder:text-gray-400"
                 />
               </div>
               <div className="space-y-3">
-                <label className="text-ink/70 text-[10px] tracking-[0.2em] uppercase font-semibold block">
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Doe"
-                  className="w-full bg-transparent border border-ink/20 rounded px-4 py-3 text-ink placeholder:text-ink/40 text-sm outline-none focus:border-ink/50 transition-colors"
+                <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#1A1A1A] block font-sans">LAST NAME</label>
+                <input 
+                  type="text" 
+                  placeholder="Doe" 
+                  className="w-full bg-transparent border-b border-gray-200 pb-3 text-[14px] font-sans outline-none focus:border-[#1A1A1A] transition-colors placeholder:text-gray-400"
                 />
               </div>
             </div>
 
             <div className="space-y-3">
-              <label className="text-ink/70 text-[10px] tracking-[0.2em] uppercase font-semibold block">
-                Email Address
-              </label>
-              <input
-                type="email"
-                placeholder="jane@example.com"
-                className="w-full bg-transparent border border-ink/20 rounded px-4 py-3 text-ink placeholder:text-ink/40 text-sm outline-none focus:border-ink/50 transition-colors"
+              <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#1A1A1A] block font-sans">EMAIL ADDRESS</label>
+              <input 
+                type="email" 
+                placeholder="john@example.com" 
+                className="w-full bg-transparent border-b border-gray-200 pb-3 text-[14px] font-sans outline-none focus:border-[#1A1A1A] transition-colors placeholder:text-gray-400"
               />
             </div>
 
-            <div className="space-y-3">
-              <label className="text-ink/70 text-[10px] tracking-[0.2em] uppercase font-semibold block">
-                Subject
-              </label>
-              <div className="relative">
-                <select
-                  className="w-full bg-transparent border border-ink/20 rounded px-4 py-3 text-ink text-sm appearance-none cursor-pointer outline-none focus:border-ink/50 transition-colors"
-                  defaultValue=""
-                >
-                  <option value="" disabled>
-                    Select a subject...
-                  </option>
-                  {subjects.map(s => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </select>
-                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-ink/50 pointer-events-none" />
+            <div className="space-y-3 relative">
+              <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#1A1A1A] block font-sans">SUBJECT</label>
+              <select className="w-full bg-transparent border-b border-gray-200 pb-3 text-[14px] font-sans outline-none focus:border-[#1A1A1A] transition-colors text-[#1A1A1A] appearance-none cursor-pointer">
+                <option>General Inquiry</option>
+                <option>Bespoke Commission</option>
+                <option>Editorial Styling</option>
+                <option>Other</option>
+              </select>
+              <div className="absolute right-0 bottom-4 pointer-events-none">
+                 <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L5 5L9 1" stroke="#1A1A1A" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                 </svg>
               </div>
             </div>
 
             <div className="space-y-3">
-              <label className="text-ink/70 text-[10px] tracking-[0.2em] uppercase font-semibold block">
-                Message
-              </label>
-              <textarea
-                rows={6}
-                placeholder="Tell me about your project..."
-                className="w-full bg-transparent border border-ink/20 rounded px-4 py-3 text-ink placeholder:text-ink/40 text-sm outline-none focus:border-ink/50 transition-colors resize-none"
-              />
+              <label className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#1A1A1A] block font-sans">MESSAGE</label>
+              <textarea 
+                rows={4}
+                placeholder="Your message..." 
+                className="w-full bg-transparent border-b border-gray-200 pb-3 text-[14px] font-sans outline-none focus:border-[#1A1A1A] transition-colors placeholder:text-gray-400 resize-none mt-2"
+              ></textarea>
             </div>
 
-            <div className="flex justify-end">
-              <button
-                type="submit"
-                className="inline-flex items-center gap-2 px-8 py-3 bg-beige border border-ink/10 rounded text-ink text-xs tracking-[0.2em] uppercase font-semibold hover:bg-beige-dark transition-colors"
+            <div className="pt-6 flex justify-center">
+              <button 
+                type="submit" 
+                className="bg-[#1A1A1A] text-white text-[11px] font-bold uppercase tracking-[0.2em] px-12 py-4 hover:bg-black transition-colors"
               >
-                Send Message
-                <ArrowRight className="w-4 h-4" />
+                SEND MESSAGE
               </button>
             </div>
           </form>
-        </section>
-
-        {/* Footer - Direct Contact & Socials */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 py-12 border-t border-ink/10">
-          <div>
-            <h4 className="text-ink text-[10px] tracking-[0.2em] uppercase font-semibold mb-4">
-              Direct Contact
-            </h4>
-            <ul className="text-ink/70 text-sm space-y-2">
-              <li>
-                <a href="mailto:info@catherinenixon.com" className="hover:text-ink transition-colors">
-                  info@catherinenixon.com
-                </a>
-              </li>
-              <li>+33 1 23 45 67 89</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-ink text-[10px] tracking-[0.2em] uppercase font-semibold mb-4">
-              Socials
-            </h4>
-            <ul className="text-ink/70 text-sm space-y-2">
-              <li>
-                <a href="#" className="hover:text-ink transition-colors tracking-wider">INSTAGRAM</a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-ink transition-colors tracking-wider">PINTEREST</a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-ink transition-colors tracking-wider">BEHANCE</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="text-center pt-8">
-          <p className="text-ink/50 text-[10px] tracking-[0.2em] uppercase">
-            &copy; {new Date().getFullYear()} Catherine Nixon. All rights reserved.
-          </p>
         </div>
       </div>
     </div>

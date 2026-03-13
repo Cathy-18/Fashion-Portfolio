@@ -1,31 +1,18 @@
-import { Link, useLocation } from 'react-router-dom';
-import { Instagram, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
-  const location = useLocation();
-  const isLightPage = ['/', '/atelier', '/collections', '/contact', '/login', '/admin'].includes(location.pathname) || location.pathname.startsWith('/collections/');
-
   return (
-    <footer className={`border-t py-8 ${isLightPage ? 'bg-cream border-ink/10' : 'bg-luxury-dark border-white/5'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-        <p className={`text-[10px] tracking-[0.2em] uppercase ${isLightPage ? 'text-ink/60' : 'text-luxury-muted/70'}`}>
-          &copy; {new Date().getFullYear()} Catherine Nixon. All rights reserved.
-        </p>
-        <div className="flex items-center gap-6">
-          <a
-            href="#"
-            className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all hover:border-current ${isLightPage ? 'border-ink/20 text-ink/60 hover:text-ink' : 'border-white/10 text-luxury-muted hover:text-luxury-gold hover:border-luxury-gold'}`}
-            aria-label="Instagram"
-          >
-            <Instagram className="w-4 h-4" />
-          </a>
-          <Link
-            to="/contact"
-            className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all hover:border-current ${isLightPage ? 'border-ink/20 text-ink/60 hover:text-ink' : 'border-white/10 text-luxury-muted hover:text-luxury-gold hover:border-luxury-gold'}`}
-            aria-label="Contact"
-          >
-            <Mail className="w-4 h-4" />
-          </Link>
+    <footer className="bg-[#FAF8F5] pt-12 pb-12 mt-auto">
+      <div className="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="font-serif font-bold text-[14px] tracking-widest uppercase text-[#1A1A1A]">
+          Catherine Nixon
+        </div>
+        <div className="text-[#9A9A9A] text-[10px] tracking-[0.1em] uppercase font-sans">
+          &copy; 2026 CATHERINE NIXON PORTFOLIO. ALL RIGHTS RESERVED.
+        </div>
+        <div className="flex gap-6">
+          <a href="https://www.instagram.com/busy._.reading_?igsh=MTYzaXprZTB5aHM4Zg==" target="_blank" rel="noopener noreferrer" className="text-[#1A1A1A] text-[11px] font-sans hover:text-[#E9A825] transition-colors uppercase tracking-widest">Instagram</a>
+          <a href="#" className="text-[#1A1A1A] text-[11px] font-sans hover:text-[#E9A825] transition-colors uppercase tracking-widest">LinkedIn</a>
         </div>
       </div>
     </footer>

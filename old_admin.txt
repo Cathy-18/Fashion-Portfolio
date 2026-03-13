@@ -12,7 +12,7 @@ interface CloudinaryImage {
   publicId: string;
   url: string;
   tags: string[];
-  context: { caption?: string; title?: string; subtitle?: string; bio?: string; description?: string };
+  context: { caption?: string; title?: string; subtitle?: string; bio?: string };
   createdAt: string;
 }
 
@@ -225,19 +225,19 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleUpdateContext = async (publicId: string, contextObj: any) => {
+  const handleUpdateCaption = async (publicId: string, caption: string) => {
     try {
       const response = await fetch('/api/images/context', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ publicId, contextObj }),
+        body: JSON.stringify({ publicId, caption }),
       });
 
       if (response.ok) {
         fetchImages();
       }
     } catch (error) {
-      console.error('Context update error:', error);
+      console.error('Caption update error:', error);
     }
   };
 
@@ -441,30 +441,23 @@ export default function AdminDashboard() {
                       ).map((img) => (
                         <tr key={img.publicId} className="group hover:bg-ink/[0.02] transition-colors">
                           <td className="px-6 py-4">
-                            <div className="flex items-start gap-4">
-                              <div className="w-16 h-20 rounded-lg overflow-hidden border border-ink/10 bg-beige/50 shrink-0 mt-1">
+                            <div className="flex items-center gap-4">
+                              <div className="w-12 h-14 rounded-lg overflow-hidden border border-ink/10 bg-beige/50 shrink-0">
                                 <img
                                   src={img.url}
                                   alt="Work"
                                   className="w-full h-full object-cover object-top"
                                 />
                               </div>
-                              <div className="flex-1">
+                              <div>
                                 <input
                                   type="text"
                                   defaultValue={img.context?.caption || ''}
-                                  onBlur={(e) => handleUpdateContext(img.publicId, { ...img.context, caption: e.target.value })}
+                                  onBlur={(e) => handleUpdateCaption(img.publicId, e.target.value)}
                                   placeholder="Add Name/Caption"
-                                  className="bg-transparent border-b border-ink/10 focus:border-ink/40 outline-none font-medium text-ink text-sm w-full mb-2 pb-1"
+                                  className="bg-transparent border-b border-ink/10 focus:border-ink/40 outline-none font-medium text-ink text-sm w-full"
                                 />
-                                <textarea
-                                  defaultValue={img.context?.description || ''}
-                                  onBlur={(e) => handleUpdateContext(img.publicId, { ...img.context, description: e.target.value })}
-                                  placeholder="Add a small description..."
-                                  className="bg-transparent border-b border-ink/10 focus:border-ink/40 outline-none text-ink/70 text-xs w-full resize-none pb-1"
-                                  rows={2}
-                                />
-                                <p className="text-ink/40 text-[10px] mt-1 uppercase tracking-wider">Ref: #{img.publicId.slice(-8).toUpperCase()}</p>
+                                <p className="text-ink/50 text-xs mt-1">Ref: #{img.publicId.slice(-8).toUpperCase()}</p>
                               </div>
                             </div>
                           </td>

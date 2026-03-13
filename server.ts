@@ -23,12 +23,10 @@ cloudinary.config({
 // Configure Multer Storage — Collections
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: async (req, _file) => {
-    const tag = req.query.tag ? String(req.query.tag) : 'modern';
+  params: async (_req, _file) => {
     return {
       folder: 'luxury-portfolio',
       allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
-      tags: [tag],
     };
   },
 });
