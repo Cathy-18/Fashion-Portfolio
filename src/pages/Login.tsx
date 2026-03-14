@@ -41,9 +41,9 @@ export default function Login() {
       <div className="w-full max-w-[420px] bg-white rounded-[24px] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden relative z-10 flex flex-col">
         {/* Banner Image */}
         <div className="h-[180px] w-full relative bg-[#1A1A1A]">
-          <img 
-            src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800" 
-            alt="Interior" 
+          <img
+            src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800"
+            alt="Interior"
             className="w-full h-full object-cover opacity-80"
           />
         </div>
@@ -126,7 +126,7 @@ export default function Login() {
           </form>
 
           <p className="mt-10 text-center text-gray-400 text-[11px] font-medium font-sans tracking-wide">
-            © 2024 Admin Portal. All rights reserved.
+            © 2026 Admin Portal. All rights reserved.
           </p>
         </div>
       </div>
